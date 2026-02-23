@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Git and GitHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⎇</text></svg>">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        let translations = {};
+        let translationsLoaded = false;
+        const TRANSLATIONS_VERSION = 1;
+        if (typeof window !== 'undefined') window.currentLanguage = window.currentLanguage || 'en';
+
+        const translationsBase = new URL('translations.json', document.baseURI || window.location.href).href;
+        const translationsUrl = translationsBase + (translationsBase.includes('?') ? '&' : '?') + 'v=' + TRANSLATIONS_VERSION;
+        fetch(translationsUrl, { cache: 'no-store' })
+            .then(response => {
+                if (!response.ok) throw new Error(response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                translations = data;
+                translationsLoaded = true;
+                if (window.forceUpdate) window.forceUpdate();
+                window.dispatchEvent(new CustomEvent('translationsLoaded'));
+            })
+            .catch(error => {
+                console.warn('Translations not loaded (run from a server):', error.message);
+                translations = { en: { ui: {} }, fr: { ui: {} } };
+                translationsLoaded = true;
+                window.dispatchEvent(new CustomEvent('translationsLoaded'));
+            });
+
+        function t(key, params = {}) {
+            if (!translationsLoaded) return key;
+            const lang = window.currentLanguage || 'en';
+            const keys = key.split('.');
+            let value = translations[lang];
+            for (const k of keys) {
+                if (value && typeof value === 'object' && k in value) {
+                    value = value[k];
+                } else {
+                    value = translations.en;
+                    for (const k2 of keys) {
+                        if (value && typeof value === 'object' && k2 in value) value = value[k2];
+                        else return key;
+                    }
+                    break;
+                }
+            }
+            if (typeof value !== 'string') return key;
+            return value.replace(/\{(\w+)\}/g, (match, param) => params[param] !== undefined ? params[param] : match);
+        }
+
+        function getTranslatedGlossary(term) {
+            if (!translationsLoaded) return null;
+            const lang = window.currentLanguage || 'en';
+            const glossary = translations[lang]?.glossary || translations.en?.glossary || {};
+            return glossary[term] || glossary[term.toLowerCase()] || null;
+        }
+
+        const categoryMap = {
+            'Version Control': 'versionControl',
+            'Git Basics': 'gitBasics',
+            'Branching': 'branching',
+            'GitHub': 'github',
+            'Collaboration': 'collaboration'
+        };
+
+        function getTranslatedLesson(lesson, langOverride = null) {
+            if (!translationsLoaded) return lesson;
+            const lang = langOverride || window.currentLanguage || 'en';
+            const lessonTranslations = translations[lang]?.lessons?.[lesson.id];
+            const categoryKey = categoryMap[lesson.category] || lesson.category.toLowerCase().replace(/\s+/g, '');
+            const translatedCategory = t(`categories.${categoryKey}`) || lesson.category;
+            if (!lessonTranslations) {
+                const enTranslations = translations.en?.lessons?.[lesson.id];
+                if (enTranslations) {
+                    return { ...lesson, category: translatedCategory, title: enTranslations.title || lesson.title, description: enTranslations.description || lesson.description, whyImportant: enTranslations.whyImportant || lesson.whyImportant, whatToDo: enTranslations.whatToDo || lesson.whatToDo, codeTemplate: enTranslations.codeTemplate || lesson.codeTemplate };
+                }
+                return { ...lesson, category: translatedCategory };
+            }
+            return { ...lesson, category: translatedCategory, title: lessonTranslations.title || lesson.title, description: lessonTranslations.description || lesson.description, whyImportant: lessonTranslations.whyImportant || lesson.whyImportant, whatToDo: lessonTranslations.whatToDo || lesson.whatToDo, codeTemplate: lessonTranslations.codeTemplate || lesson.codeTemplate };
+        }
+
+        const lessons = [
+            { id: 'vc-1', category: 'Version Control', validator: () => true },
+            { id: 'vc-2', category: 'Version Control', validator: () => true },
+            { id: 'git-1', category: 'Git Basics', validator: () => true },
+            { id: 'git-2', category: 'Git Basics', validator: () => true },
+            { id: 'git-3', category: 'Git Basics', validator: () => true },
+            { id: 'git-4', category: 'Git Basics', validator: () => true },
+            { id: 'branch-1', category: 'Branching', validator: () => true },
+            { id: 'branch-2', category: 'Branching', validator: () => true },
+            { id: 'branch-3', category: 'Branching', validator: () => true },
+            { id: 'branch-4', category: 'Branching', validator: () => true },
+            { id: 'gh-1', category: 'GitHub', validator: () => true },
+            { id: 'gh-2', category: 'GitHub', validator: () => true },
+            { id: 'gh-3', category: 'GitHub', validator: () => true },
+            { id: 'gh-4', category: 'GitHub', validator: () => true },
+            { id: 'collab-1', category: 'Collaboration', validator: () => true }
+        ];
+
+        const DEFAULT_AVATAR_URL = 'https://api.dicebear.com/7.x/avataaars/svg?seed=default';
+        const AVATAR_OPTIONS = [
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=1',
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=2',
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=3',
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=4',
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=5',
+            'https://api.dicebear.com/7.x/avataaars/svg?seed=6'
+        ];
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+        const AVATAR_OPTIONS_SHUFFLED = shuffleArray(AVATAR_OPTIONS);
+        const AVATAR_FAILED_STORAGE_KEY = 'learnGitAvatarFailedUrls';
+        function getInitialFailedAvatarUrls() {
+            try {
+                const raw = typeof localStorage !== 'undefined' && localStorage.getItem(AVATAR_FAILED_STORAGE_KEY);
+                return new Set(raw ? JSON.parse(raw) : []);
+            } catch (e) { return new Set(); }
+        }
+
+        function encodeState(state) {
+            try {
+                const compressed = { n: state.name, l: state.lessonIndex, c: state.code, lang: state.language, cl: state.completedLessons, a: state.avatarUrl || null };
+                return btoa(JSON.stringify(compressed)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            } catch (e) { return ''; }
+        }
+        function decodeState(hash) {
+            try {
+                let base64 = hash.replace(/-/g, '+').replace(/_/g, '/');
+                while (base64.length % 4) base64 += '=';
+                const compressed = JSON.parse(atob(base64));
+                if (compressed.name !== undefined) return compressed;
+                return { name: compressed.n, lessonIndex: compressed.l, code: compressed.c, language: compressed.lang, completedLessons: compressed.cl, avatarUrl: compressed.a || null };
+            } catch (e) {
+                try { return JSON.parse(decodeURIComponent(atob(hash))); } catch (e2) { return null; }
+            }
+        }
+        function encodeCertificateState(state) {
+            try {
+                const compressed = { n: state.name, lang: state.language, cl: state.completedLessons, a: state.avatarUrl || null };
+                return btoa(JSON.stringify(compressed)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            } catch (e) { return ''; }
+        }
+
+        // ----- Git simulator (Learn Git Branching–style in-browser simulation) -----
+        function createInitialGitState(lessonId) {
+            const inited = !['vc-1','vc-2','git-1','git-2'].includes(lessonId);
+            const hasFiles = ['git-3','git-4','branch-1','branch-2','branch-3','branch-4'].includes(lessonId) || inited;
+            const isBranchLesson = ['branch-1','branch-2','branch-3','branch-4'].includes(lessonId);
+            let commits = [];
+            let branchHeads = { main: null };
+            if (inited && isBranchLesson) {
+                const firstHash = 'a' + Math.random().toString(36).slice(2, 9);
+                const secondHash = 'b' + Math.random().toString(36).slice(2, 9);
+                const fileContents = { 'readme.txt': 'Hello world' };
+                commits = [
+                    { hash: firstHash, message: 'First commit', files: ['readme.txt'], fileContents, parent: null },
+                    { hash: secondHash, message: 'Second commit', files: ['readme.txt'], fileContents, parent: firstHash }
+                ];
+                branchHeads = { main: secondHash };
+            } else if (inited && (lessonId === 'git-3' || lessonId === 'git-4')) {
+                commits = [];
+            }
+            const workingDir = (lessonId === 'git-4')
+                ? {}
+                : (hasFiles ? { 'readme.txt': 'Hello world' } : {});
+            return {
+                inited,
+                branch: 'main',
+                branchHeads,
+                branchParent: {},
+                commits,
+                staged: [],
+                trackedFiles: isBranchLesson ? ['readme.txt'] : [],
+                workingDir,
+                remotes: {},
+                pushed: false,
+                cloned: false,
+                commandHistory: []
+            };
+        }
+
+        function getCommitByHash(state, hash) {
+            if (!hash) return null;
+            return (state.commits || []).find(c => c.hash === hash) || null;
+        }
+
+        function getBranchHeadCommit(state, branchName) {
+            const heads = state.branchHeads || { main: null };
+            const h = heads[branchName] || (branchName === 'main' ? (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) : null);
+            return getCommitByHash(state, h);
+        }
+
+        function getAncestorList(state, hash) {
+            const list = [];
+            let current = getCommitByHash(state, hash);
+            while (current) {
+                list.push(current.hash);
+                current = current.parent ? getCommitByHash(state, current.parent) : null;
+            }
+            return list;
+        }
+
+        function findLCA(state, hashA, hashB) {
+            const ancestorsA = getAncestorList(state, hashA);
+            const setB = new Set(getAncestorList(state, hashB));
+            for (const h of ancestorsA) { if (setB.has(h)) return h; }
+            return null;
+        }
+
+        function buildBranchGraph(state) {
+            const commits = state.commits || [];
+            const heads = state.branchHeads || {};
+            const curBranch = state.branch || 'main';
+            const getCommit = (h) => commits.find(c => c.hash === h) || null;
+            const headHashes = Object.keys(heads).filter(b => heads[b]).map(b => heads[b]);
+            if (headHashes.length === 0 && commits.length > 0) headHashes.push(commits[commits.length - 1].hash);
+            const reachable = new Set();
+            headHashes.forEach(h => {
+                let c = getCommit(h);
+                while (h && c) {
+                    if (reachable.has(h)) break;
+                    reachable.add(h);
+                    h = c.parent;
+                    c = h ? getCommit(h) : null;
+                }
+            });
+            headHashes.forEach(h => {
+                const stack = [h];
+                while (stack.length) {
+                    const x = stack.pop();
+                    if (!x || reachable.has(x)) continue;
+                    reachable.add(x);
+                    const c = getCommit(x);
+                    if (c) { if (c.parent) stack.push(c.parent); if (c.parent2) stack.push(c.parent2); }
+                }
+            });
+            const childrenOf = {};
+            reachable.forEach(h => { childrenOf[h] = []; });
+            reachable.forEach(h => {
+                const c = getCommit(h);
+                if (c) {
+                    if (c.parent) (childrenOf[c.parent] = childrenOf[c.parent] || []).push(h);
+                    if (c.parent2) (childrenOf[c.parent2] = childrenOf[c.parent2] || []).push(h);
+                }
+            });
+            const topoOrder = [];
+            const added = new Set();
+            while (topoOrder.length < reachable.size) {
+                const next = [...reachable].find(h => {
+                    if (added.has(h)) return false;
+                    const c = getCommit(h);
+                    const p1 = c && c.parent;
+                    const p2 = c && c.parent2;
+                    return (!p1 || !reachable.has(p1) || added.has(p1)) && (!p2 || !reachable.has(p2) || added.has(p2));
+                });
+                if (next == null) break;
+                added.add(next);
+                topoOrder.push(next);
+            }
+            const colByHash = {};
+            topoOrder.forEach((h, i) => { colByHash[h] = i; });
+            const mainHead = heads['main'] || heads[Object.keys(heads)[0]] || topoOrder[topoOrder.length - 1];
+            const mainPath = new Set();
+            let walk = mainHead;
+            while (walk) {
+                mainPath.add(walk);
+                const c = getCommit(walk);
+                walk = c && c.parent ? c.parent : null;
+            }
+            const branchNames = Object.keys(heads).filter(b => b !== 'main').sort();
+            const laneByBranch = { main: 0 };
+            branchNames.forEach((b, i) => { laneByBranch[b] = i + 1; });
+            const laneByHash = {};
+            reachable.forEach(h => {
+                if (mainPath.has(h)) { laneByHash[h] = 0; return; }
+                for (let i = 0; i < branchNames.length; i++) {
+                    const br = branchNames[i];
+                    const tip = heads[br];
+                    if (!tip) continue;
+                    let cur = tip;
+                    const path = new Set();
+                    while (cur) {
+                        path.add(cur);
+                        const c = getCommit(cur);
+                        cur = c && c.parent ? c.parent : null;
+                    }
+                    if (path.has(h)) { laneByHash[h] = i + 1; return; }
+                }
+                laneByHash[h] = 0;
+            });
+            const branchesAt = {};
+            Object.keys(heads).forEach(b => { if (heads[b]) branchesAt[heads[b]] = (branchesAt[heads[b]] || []).concat(b); });
+            const allBranchNames = ['main'].concat(branchNames);
+            const headsForLanes = {};
+            allBranchNames.forEach(b => { if (heads[b]) headsForLanes[b] = heads[b]; });
+            return {
+                currentBranch: curBranch,
+                heads: headsForLanes,
+                nodes: topoOrder.map(hash => {
+                    const c = getCommit(hash);
+                    return {
+                        hash,
+                        shortHash: hash ? hash.slice(0, 7) : '',
+                        message: c ? (c.message || '') : '',
+                        branches: branchesAt[hash] || [],
+                        parent: c && c.parent ? c.parent : null,
+                        parent2: c && c.parent2 ? c.parent2 : null,
+                        isMerge: !!(c && c.parent2),
+                        col: colByHash[hash],
+                        row: laneByHash[hash] != null ? laneByHash[hash] : 0,
+                        numLanes: 1 + branchNames.length
+                    };
+                }),
+                numCols: topoOrder.length,
+                numLanes: 1 + branchNames.length,
+                branchNames: allBranchNames
+            };
+        }
+
+        function runGitCommand(state, rawCommand) {
+            const cmd = rawCommand.trim();
+            const argv = cmd.split(/\s+/).filter(Boolean);
+            const first = argv[0];
+            const second = argv[1];
+
+            if (!cmd) return { output: '', newState: state };
+
+            // git --version
+            if (cmd === 'git --version' || (first === 'git' && second === '--version')) {
+                return { output: 'git version 2.39.0', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git init
+            if (cmd === 'git init' || (first === 'git' && second === 'init')) {
+                if (state.inited) return { output: 'Reinitialized existing Git repository in .git/', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                return {
+                    output: 'Initialized empty Git repository in .git/',
+                    newState: { ...state, inited: true, commits: [], branchHeads: { main: null }, staged: [], trackedFiles: [], workingDir: state.workingDir && Object.keys(state.workingDir).length ? state.workingDir : { 'readme.txt': 'Hello world' }, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git (no subcommand) → usage
+            if (cmd === 'git' || (first === 'git' && !second)) {
+                const usage = 'usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]\n           [<command>] [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change\n   add       Add file contents to the index\n   commit    Record changes to the repository\n\ninspect the history and state\n   status    Show the working tree status\n   log       Show commit logs';
+                return { output: usage, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git --help / git help → same usage (no repo required)
+            if (first === 'git' && (second === '--help' || second === 'help')) {
+                const usage = 'usage: git [--version] [--help] [-C <path>] [-c <name>=<value>]\n           [<command>] [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change\n   add       Add file contents to the index\n   commit    Record changes to the repository\n\ninspect the history and state\n   status    Show the working tree status\n   log       Show commit logs';
+                return { output: usage, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            if (!state.inited && first === 'git' && second) {
+                return { output: 'fatal: not a git repository (or any of the parent directories): .git', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git status
+            if (cmd === 'git status' || (first === 'git' && second === 'status')) {
+                const nextState = { ...state, commandHistory: [...state.commandHistory, cmd] };
+                const staged = nextState.staged || [];
+                const tracked = nextState.trackedFiles || [];
+                const workingDir = nextState.workingDir || {};
+                const allFiles = Object.keys(workingDir);
+                const headCommit = getBranchHeadCommit(nextState, nextState.branch || 'main') || (nextState.commits && nextState.commits.length ? nextState.commits[nextState.commits.length - 1] : null);
+                const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                const modifiedNotStaged = allFiles.filter(f => {
+                    if (!tracked.includes(f) || staged.includes(f)) return false;
+                    return (workingDir[f] || '') !== (headContents[f] || '');
+                });
+                const untracked = allFiles.filter(f => !tracked.includes(f) && !staged.includes(f));
+                const stagedNew = staged.filter(f => !(headContents[f] !== undefined));
+                const stagedModified = staged.filter(f => headContents[f] !== undefined);
+                const RED = '\u001b[31m', GREEN = '\u001b[32m', RESET = '\u001b[0m';
+                let out = 'On branch ' + (nextState.branch || 'main') + '\n\n';
+                if (!headCommit) out += 'No commits yet\n\n';
+                if (modifiedNotStaged.length > 0) {
+                    out += 'Changes not staged for commit:\n  (use "git add <file>..." to update what will be committed)\n';
+                    modifiedNotStaged.forEach(f => out += '\tmodified:   ' + RED + f + RESET + '\n');
+                    out += '\n';
+                }
+                if (untracked.length > 0) {
+                    out += 'Untracked files:\n  (use "git add <file>..." to include in what will be committed)\n';
+                    untracked.forEach(f => out += '\t' + RED + f + RESET + '\n');
+                    out += '\n';
+                }
+                if (staged.length > 0) {
+                    out += 'Changes to be committed:\n  (use "git restore --staged <file>..." to unstage)\n';
+                    stagedNew.forEach(f => out += '\tnew file:   ' + GREEN + f + RESET + '\n');
+                    stagedModified.forEach(f => out += '\tmodified:   ' + GREEN + f + RESET + '\n');
+                    out += '\n';
+                }
+                if (headCommit && modifiedNotStaged.length === 0 && untracked.length === 0 && staged.length === 0) {
+                    out += 'nothing to commit, working tree clean\n';
+                }
+                if (staged.length === 0 && (untracked.length > 0 || modifiedNotStaged.length > 0)) {
+                    out += untracked.length > 0
+                        ? 'nothing added to commit but untracked files present (use "git add" to track)\n'
+                        : 'no changes added to commit (use "git add" and/or "git commit -a")\n';
+                }
+                return { output: out.trim(), newState: nextState };
+            }
+
+            // git add .
+            if (cmd === 'git add .' || (first === 'git' && second === 'add' && argv[2] === '.')) {
+                const files = Object.keys(state.workingDir || {});
+                return {
+                    output: '',
+                    newState: { ...state, staged: [...new Set([...(state.staged || []), ...files])], commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git add <file> [file2 ...]
+            if (first === 'git' && second === 'add' && argv[2]) {
+                const files = argv.slice(2).filter(arg => arg && !arg.startsWith('-'));
+                let newStaged = state.staged || [];
+                let firstError = null;
+                for (const f of files) {
+                    const has = state.workingDir && state.workingDir[f] !== undefined;
+                    if (has) newStaged = [...new Set([...newStaged, f])];
+                    else if (firstError === null) firstError = "fatal: pathspec '" + f + "' did not match any files";
+                }
+                return {
+                    output: firstError || '',
+                    newState: { ...state, staged: newStaged, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git restore --staged <file>  (unstage)
+            if (first === 'git' && second === 'restore' && argv[2] === '--staged' && argv[3]) {
+                const f = argv[3];
+                const staged = state.staged || [];
+                const wasStaged = staged.includes(f);
+                return {
+                    output: '',
+                    newState: {
+                        ...state,
+                        staged: wasStaged ? staged.filter(x => x !== f) : staged,
+                        commandHistory: [...state.commandHistory, cmd]
+                    }
+                };
+            }
+            // git restore --staged .  (unstage all)
+            if (first === 'git' && second === 'restore' && argv[2] === '--staged' && argv[3] === '.') {
+                return {
+                    output: '',
+                    newState: { ...state, staged: [], commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git commit -m "msg"
+            const commitMatch = cmd.match(/git\s+commit\s+-m\s+["']?([^"']*)["']?/);
+            if (commitMatch || (first === 'git' && second === 'commit')) {
+                const msg = commitMatch ? commitMatch[1] : (argv[3] || '');
+                if (!msg && argv[2] !== '-m') return { output: 'error: switch \'m\' requires a value', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const staged = state.staged || [];
+                if (staged.length === 0) return { output: 'nothing added to commit but untracked files present (use "git add" to track)', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const hash = 'a' + Math.random().toString(36).slice(2, 9);
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || { main: state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null };
+                const parentHash = heads[curBranch] || null;
+                const trackedFiles = [...new Set([...(state.trackedFiles || []), ...staged])];
+                const workingDir = state.workingDir || {};
+                const fileContents = {};
+                staged.forEach(path => { fileContents[path] = workingDir[path] !== undefined ? workingDir[path] : ''; });
+                const newCommit = { hash, message: msg || 'update', files: staged, fileContents, parent: parentHash };
+                return {
+                    output: '[' + curBranch + ' ' + hash + '] ' + (msg || 'update') + '\n ' + staged.length + ' file(s) changed, 0 insertions(+), 0 deletions(-)',
+                    newState: {
+                        ...state,
+                        commits: [...state.commits, newCommit],
+                        branchHeads: { ...heads, [curBranch]: hash },
+                        staged: [],
+                        trackedFiles,
+                        commandHistory: [...state.commandHistory, cmd]
+                    }
+                };
+            }
+
+            // git log (current branch only, follow parent chain)
+            if (cmd === 'git log' || cmd === 'git log --oneline' || (first === 'git' && second === 'log')) {
+                const oneline = cmd.includes('--oneline');
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || {};
+                let headHash = heads[curBranch];
+                if (headHash == null && curBranch === 'main' && state.commits && state.commits.length) headHash = state.commits[state.commits.length - 1].hash;
+                const branchCommits = [];
+                let c = getCommitByHash(state, headHash);
+                while (c) { branchCommits.push(c); c = c.parent ? getCommitByHash(state, c.parent) : null; }
+                let out = branchCommits.length === 0 ? '' : branchCommits.map((c, i) => oneline ? c.hash.slice(0,7) + ' ' + c.message : 'commit ' + c.hash + '\nAuthor: You <you@example.com>\nDate:   Now\n\n    ' + c.message).join(oneline ? '\n' : '\n\n');
+                return { output: out || (oneline ? '' : '') , newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git checkout -b <newbranch> (create and switch)
+            if (first === 'git' && second === 'checkout' && argv[2] === '-b' && argv[3]) {
+                const newName = argv[3];
+                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                if (heads[newName] !== undefined) return { output: "fatal: A branch named '" + newName + "' already exists.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const curBranch = state.branch || 'main';
+                const curHead = heads[curBranch] || null;
+                const branchParent = { ...(state.branchParent || {}), [newName]: curBranch };
+                return {
+                    output: 'Switched to a new branch \'' + newName + '\'',
+                    newState: { ...state, branch: newName, branchHeads: { ...heads, [newName]: curHead }, branchParent, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git checkout <branch> (switch branch, update working dir)
+            if (first === 'git' && second === 'checkout' && argv[2] && argv[2] !== '-b') {
+                const targetBranch = argv[2];
+                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                if (heads[targetBranch] === undefined) return { output: "error: pathspec '" + targetBranch + "' did not match any file(s) known to git.\nfatal: no matching branch found.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const headCommit = getCommitByHash(state, heads[targetBranch]);
+                const fileContents = (headCommit && headCommit.fileContents) ? headCommit.fileContents : {};
+                const trackedFiles = Object.keys(fileContents);
+                const workingDir = { ...fileContents };
+                return {
+                    output: "Switched to branch '" + targetBranch + "'",
+                    newState: { ...state, branch: targetBranch, workingDir, trackedFiles, staged: [], commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git remote add origin <url>
+            if (first === 'git' && second === 'remote' && argv[2] === 'add' && argv[3] === 'origin') {
+                const url = argv[4] || '';
+                return {
+                    output: '',
+                    newState: { ...state, remotes: { ...state.remotes, origin: url }, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git remote / git remote -v (list remotes)
+            if (first === 'git' && second === 'remote' && (!argv[2] || argv[2] === '-v')) {
+                const remotes = state.remotes || {};
+                const names = Object.keys(remotes);
+                if (names.length === 0) return { output: '', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const lines = names.sort().flatMap(name => [name + '\t' + (remotes[name] || '') + ' (fetch)', name + '\t' + (remotes[name] || '') + ' (push)']);
+                return { output: lines.join('\n'), newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git branch (list branches); git branch <name> (create branch only, no checkout)
+            if (first === 'git' && second === 'branch') {
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                if (argv[2] && argv[2] !== '-d' && argv[2] !== '-D') {
+                    const newName = argv[2];
+                    if (heads[newName] !== undefined) return { output: "fatal: A branch named '" + newName + "' already exists.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                    const curHead = heads[curBranch] || null;
+                    const branchParent = { ...(state.branchParent || {}), [newName]: curBranch };
+                    return { output: '', newState: { ...state, branchHeads: { ...heads, [newName]: curHead }, branchParent, commandHistory: [...state.commandHistory, cmd] } };
+                }
+                const names = Object.keys(heads).sort();
+                const lines = names.map(b => (b === curBranch ? '* ' : '  ') + b);
+                return { output: lines.length ? lines.join('\n') : '* main', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git diff (recognized; minimal simulation)
+            if (first === 'git' && second === 'diff') {
+                return { output: '', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+
+            // git push (with or without origin/main)
+            if (first === 'git' && second === 'push') {
+                const hasOrigin = state.remotes && state.remotes.origin;
+                if (!hasOrigin) {
+                    return {
+                        output: "fatal: No configured push destination.\nEither specify the URL from the command-line or configure a remote repository using\n\n    git remote add <name> <url>\n\nand then push using the remote name from the command-line.",
+                        newState: { ...state, commandHistory: [...state.commandHistory, cmd] }
+                    };
+                }
+                return {
+                    output: 'Enumerating objects: ' + (state.commits.length || 0) + ', done.\nWriting objects: 100% done, done.',
+                    newState: { ...state, pushed: true, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git clone <url>
+            if (first === 'git' && second === 'clone') {
+                const url = argv[2] || '';
+                return {
+                    output: "Cloning into 'repo'...\ndone.",
+                    newState: { ...state, cloned: true, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git pull
+            if (cmd === 'git pull' || (first === 'git' && second === 'pull')) {
+                const hasOrigin = state.remotes && state.remotes.origin;
+                if (!hasOrigin) {
+                    return {
+                        output: "fatal: No remote repository specified.  Please, specify either a URL or a\nremote name from which new revisions should be fetched.",
+                        newState: { ...state, commandHistory: [...state.commandHistory, cmd] }
+                    };
+                }
+                return {
+                    output: 'Already up to date.',
+                    newState: { ...state, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git merge <branch> and git merge --squash <branch>
+            if (first === 'git' && second === 'merge' && argv[2]) {
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const squash = argv[2] === '--squash';
+                const otherBranch = squash ? (argv[3] || '') : argv[2];
+                if (!otherBranch) return { output: 'fatal: No branch specified for merge.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                if (heads[otherBranch] === undefined) return { output: "fatal: branch '" + otherBranch + "' not found.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                if (otherBranch === curBranch) return { output: "fatal: Cannot merge a branch into itself.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const ourHash = heads[curBranch];
+                const theirHash = heads[otherBranch];
+                const ourCommit = getCommitByHash(state, ourHash);
+                const theirCommit = getCommitByHash(state, theirHash);
+                if (!theirCommit) return { output: "fatal: branch '" + otherBranch + "' not found.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const ourAncestors = new Set(getAncestorList(state, ourHash));
+                if (ourHash === theirHash || ourAncestors.has(theirHash)) return { output: 'Already up to date.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const mergedContents = { ...(ourCommit && ourCommit.fileContents ? ourCommit.fileContents : {}), ...(theirCommit.fileContents || {}) };
+                if (squash) {
+                    return {
+                        output: 'Squash commit -- not updating HEAD. Run "git commit" to complete.',
+                        newState: {
+                            ...state,
+                            workingDir: mergedContents,
+                            staged: Object.keys(mergedContents),
+                            trackedFiles: [...new Set([...(state.trackedFiles || []), ...Object.keys(mergedContents)])],
+                            commandHistory: [...state.commandHistory, cmd]
+                        }
+                    };
+                }
+                if (!ourHash || !ourCommit) {
+                    return {
+                        output: 'Fast-forward (no commit created; use "git merge --no-ff" to create a merge commit when appropriate)',
+                        newState: {
+                            ...state,
+                            branchHeads: { ...heads, [curBranch]: theirHash },
+                            workingDir: mergedContents,
+                            trackedFiles: Object.keys(mergedContents),
+                            staged: [],
+                            commandHistory: [...state.commandHistory, cmd]
+                        }
+                    };
+                }
+                const lca = findLCA(state, ourHash, theirHash);
+                const theirAncestors = new Set(getAncestorList(state, theirHash));
+                const isFastForward = theirAncestors.has(ourHash);
+                if (isFastForward) {
+                    return {
+                        output: 'Fast-forward (no commit created; use "git merge --no-ff" to create a merge commit when appropriate)',
+                        newState: {
+                            ...state,
+                            branchHeads: { ...heads, [curBranch]: theirHash },
+                            workingDir: mergedContents,
+                            trackedFiles: Object.keys(mergedContents),
+                            staged: [],
+                            commandHistory: [...state.commandHistory, cmd]
+                        }
+                    };
+                }
+                const mergeHash = 'a' + Math.random().toString(36).slice(2, 9);
+                const mergeCommit = { hash: mergeHash, message: "Merge branch '" + otherBranch + "'", files: Object.keys(mergedContents), fileContents: mergedContents, parent: ourHash, parent2: theirHash };
+                return {
+                    output: 'Merge made by the \'ort\' strategy.',
+                    newState: {
+                        ...state,
+                        commits: [...state.commits, mergeCommit],
+                        branchHeads: { ...heads, [curBranch]: mergeHash },
+                        workingDir: mergedContents,
+                        trackedFiles: Object.keys(mergedContents),
+                        staged: [],
+                        commandHistory: [...state.commandHistory, cmd]
+                    }
+                };
+            }
+
+            // git rebase <branch>
+            if (first === 'git' && second === 'rebase' && argv[2] && argv[2] !== '--abort' && argv[2] !== '--continue') {
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const ontoBranch = argv[2];
+                if (heads[ontoBranch] === undefined) return { output: "fatal: invalid upstream " + ontoBranch, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const ourHash = heads[curBranch];
+                const ontoHash = heads[ontoBranch];
+                if (ourHash === ontoHash) return { output: 'Current branch ' + curBranch + ' is up to date.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const lca = findLCA(state, ourHash, ontoHash);
+                const ontoAncestors = new Set(getAncestorList(state, ontoHash));
+                if (ontoAncestors.has(ourHash)) return { output: 'Current branch ' + curBranch + ' is up to date.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const ourCommitList = [];
+                let c = getCommitByHash(state, ourHash);
+                while (c && c.hash !== lca) { ourCommitList.push(c); c = c.parent ? getCommitByHash(state, c.parent) : null; }
+                ourCommitList.reverse();
+                if (ourCommitList.length === 0) return { output: 'Current branch ' + curBranch + ' is up to date.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const newCommits = [];
+                let prevHash = ontoHash;
+                const ontoContents = getCommitByHash(state, ontoHash);
+                let baseContents = ontoContents && ontoContents.fileContents ? ontoContents.fileContents : {};
+                for (const oldC of ourCommitList) {
+                    const newHash = 'a' + Math.random().toString(36).slice(2, 9);
+                    const newContents = { ...baseContents, ...(oldC.fileContents || {}) };
+                    const newC = { hash: newHash, message: oldC.message, files: Object.keys(newContents), fileContents: newContents, parent: prevHash };
+                    newCommits.push(newC);
+                    baseContents = newContents;
+                    prevHash = newHash;
+                }
+                const lastNew = newCommits[newCommits.length - 1];
+                return {
+                    output: 'Successfully rebased and updated ' + curBranch + '.',
+                    newState: {
+                        ...state,
+                        commits: [...state.commits, ...newCommits],
+                        branchHeads: { ...heads, [curBranch]: lastNew.hash },
+                        workingDir: lastNew.fileContents || {},
+                        trackedFiles: Object.keys(lastNew.fileContents || {}),
+                        staged: [],
+                        commandHistory: [...state.commandHistory, cmd]
+                    }
+                };
+            }
+
+            if (first === 'git' && second) {
+                return { output: "git: '" + second + "' is not a git command. See 'git --help'.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            }
+            return { output: "git: '" + (second || first) + "' is not a git command. See 'git --help'.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+        }
+
+        const PROJECT_DIR_NAME = 'my-project';
+
+        function runShellCommand(cwd, gitState, rawCommand) {
+            const cmd = rawCommand.trim();
+            const argv = cmd.split(/\s+/).filter(Boolean);
+            const first = (argv[0] || '').toLowerCase();
+            const second = (argv[1] || '').toLowerCase();
+
+            if (!cmd) return { output: '', newCwd: cwd };
+
+            if (first === 'pwd') {
+                const path = cwd === '..' ? '~' : '~/' + PROJECT_DIR_NAME;
+                return { output: path, newCwd: cwd };
+            }
+
+            if (first === 'ls') {
+                const long = second === '-l' || second === '-la' || second === '-al' || argv.some(a => a === '-l' || a === '-la' || a === '-al');
+                if (cwd === '..') {
+                    return { output: long ? 'drwxr-xr-x  2 user  staff  64 Jan  1 12:00 ' + PROJECT_DIR_NAME : PROJECT_DIR_NAME, newCwd: cwd };
+                }
+                const files = Object.keys(gitState.workingDir || {});
+                if (gitState.inited) files.push('.git');
+                files.sort();
+                if (long && files.length > 0) {
+                    const lines = files.map(f => {
+                        const isDir = f === '.git';
+                        return (isDir ? 'drwxr-xr-x' : '-rw-r--r--') + '  1 user  staff  ' + (isDir ? '64' : '11') + ' Jan  1 12:00 ' + f;
+                    });
+                    return { output: lines.join('\n'), newCwd: cwd };
+                }
+                return { output: files.join('\n') || '', newCwd: cwd };
+            }
+
+            if (first === 'cd') {
+                const target = argv[1] || '~';
+                if (target === '..' || target === '../') {
+                    return { output: '', newCwd: cwd === '..' ? cwd : '..' };
+                }
+                if (target === '~' || target === '' || target === PROJECT_DIR_NAME) {
+                    return { output: '', newCwd: '' };
+                }
+                if (cwd === '..' && target === PROJECT_DIR_NAME) {
+                    return { output: '', newCwd: '' };
+                }
+                return { output: "cd: no such file or directory: " + target, newCwd: cwd };
+            }
+
+            return null;
+        }
+
+        function runFileCommand(cwd, gitState, rawCommand) {
+            if (cwd !== '') return null;
+            const cmd = rawCommand.trim();
+            const argv = cmd.split(/\s+/).filter(Boolean);
+            const first = (argv[0] || '').toLowerCase();
+            const workingDir = { ...(gitState.workingDir || {}) };
+
+            if (first === 'touch') {
+                const files = argv.slice(1).filter(Boolean);
+                if (files.length === 0) return { output: 'touch: missing file operand', newState: gitState };
+                files.forEach(f => { workingDir[f] = workingDir[f] ?? ''; });
+                return { output: '', newState: { ...gitState, workingDir } };
+            }
+
+            if (first === 'cat') {
+                const f = argv[1];
+                if (!f) return { output: 'cat: missing operand', newState: { ...gitState } };
+                if (workingDir[f] === undefined) return { output: 'cat: ' + f + ': No such file or directory', newState: gitState };
+                return { output: workingDir[f], newState: gitState };
+            }
+
+            const redirMatch = cmd.match(/\s+(>>?)\s+(\S+)\s*$/);
+            if (redirMatch && /^\s*echo\s+/i.test(cmd)) {
+                const append = redirMatch[1] === '>>';
+                const filename = redirMatch[2].trim();
+                let content = cmd.slice(0, cmd.indexOf(redirMatch[0])).replace(/^\s*echo\s+/i, '').trim();
+                if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
+                    content = content.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
+                }
+                const existing = workingDir[filename] !== undefined ? workingDir[filename] : '';
+                workingDir[filename] = append ? existing + content + (existing && !existing.endsWith('\n') ? '\n' : '') : content;
+                return { output: '', newState: { ...gitState, workingDir } };
+            }
+
+            return null;
+        }
+
+        function checkLessonGoal(lessonId, gitState, commandHistory) {
+            switch (lessonId) {
+                case 'vc-1': case 'vc-2': case 'gh-1': case 'gh-2': case 'collab-1': return null;
+                case 'git-1': return commandHistory.some(c => /git\s+--version/.test(c));
+                case 'git-2': return gitState.inited;
+                case 'git-3': return (gitState.commits || []).length >= 1;
+                case 'git-4': return commandHistory.some(c => /git\s+status/.test(c));
+                case 'branch-1': return commandHistory.some(c => /git\s+checkout\s+-b\s+\S+/.test(c)) || (gitState.branchHeads && Object.keys(gitState.branchHeads).length > 1);
+                case 'branch-2': return commandHistory.some(c => /git\s+merge\s+(?!--squash)\S+/.test(c));
+                case 'branch-3': return commandHistory.some(c => /git\s+merge\s+--squash\s+\S+/.test(c));
+                case 'branch-4': return commandHistory.some(c => /git\s+rebase\s+\S+/.test(c));
+                case 'gh-3': return gitState.pushed || (gitState.remotes && gitState.remotes.origin);
+                case 'gh-4': return gitState.cloned || commandHistory.some(c => /git\s+(clone|pull)/.test(c));
+                default: return null;
+            }
+        }
+
+        function TextWithTooltips({ text }) {
+            if (!text) return null;
+            const lang = window.currentLanguage || 'en';
+            const englishGlossary = translations.en?.glossary || {};
+            const glossaryMap = new Map();
+            Object.keys(englishGlossary).forEach(key => { glossaryMap.set(key.toLowerCase(), getTranslatedGlossary(key)); });
+            let termsToMatch = Object.keys(englishGlossary);
+            if (lang === 'fr' && translations.fr?.glossary) {
+                const frenchTerms = Object.keys(translations.fr.glossary).filter(key => !englishGlossary.hasOwnProperty(key));
+                termsToMatch = [...termsToMatch, ...frenchTerms];
+            }
+            const sortedTerms = termsToMatch.sort((a, b) => b.length - a.length);
+            const parts = [];
+            let remaining = text;
+            let keyCounter = 0;
+            while (remaining.length > 0) {
+                let matched = false;
+                for (const term of sortedTerms) {
+                    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const useWordBoundary = !term.startsWith('<') && !term.includes('>');
+                    const regex = useWordBoundary ? new RegExp(`\\b${escapedTerm}\\b`, 'gi') : new RegExp(escapedTerm, 'gi');
+                    const match = remaining.match(regex);
+                    if (match) {
+                        const matchIndex = remaining.indexOf(match[0]);
+                        const beforeMatch = remaining.substring(0, matchIndex);
+                        const afterMatch = remaining.substring(matchIndex + match[0].length);
+                        let definition = glossaryMap.get(term.toLowerCase()) || (lang === 'fr' && translations.fr?.glossary?.[term]) || getTranslatedGlossary(term);
+                        if (definition) {
+                            if (beforeMatch) parts.push(<React.Fragment key={`t-${keyCounter++}`}>{beforeMatch}</React.Fragment>);
+                            parts.push(<span key={`t-${keyCounter}`} className="tooltip-wrapper" title={definition}>{match[0]}</span>);
+                            keyCounter++;
+                            remaining = afterMatch;
+                            matched = true;
+                            break;
+                        }
+                    }
+                }
+                if (!matched) {
+                    parts.push(<React.Fragment key={`t-${keyCounter++}`}>{remaining}</React.Fragment>);
+                    break;
+                }
+            }
+            return <>{parts}</>;
+        }
+
+        function GlossaryPopup({ open, onClose, language, triggerRef }) {
+            const [searchQuery, setSearchQuery] = useState('');
+            const dialogRef = useRef(null);
+            const searchInputRef = useRef(null);
+            const lang = language || window.currentLanguage || 'en';
+            const allTerms = React.useMemo(() => {
+                const glossary = translations[lang]?.glossary || translations.en?.glossary || {};
+                const enGlossary = translations.en?.glossary || {};
+                const keys = new Set([...Object.keys(enGlossary), ...Object.keys(glossary)]);
+                return Array.from(keys).map(term => ({ term, definition: getTranslatedGlossary(term) || glossary[term] || enGlossary[term] })).filter(e => e.definition).sort((a, b) => a.term.localeCompare(b.term, undefined, { sensitivity: 'base' }));
+            }, [lang]);
+            const filteredTerms = React.useMemo(() => {
+                if (!searchQuery.trim()) return allTerms;
+                const q = searchQuery.toLowerCase().trim();
+                return allTerms.filter(({ term, definition }) => term.toLowerCase().includes(q) || (typeof definition === 'string' && definition.toLowerCase().includes(q)));
+            }, [allTerms, searchQuery]);
+            useEffect(() => {
+                if (open) { setSearchQuery(''); setTimeout(() => searchInputRef.current?.focus(), 50); }
+                else if (triggerRef?.current) triggerRef.current.focus();
+            }, [open]);
+            useEffect(() => {
+                if (!open) return;
+                const handleKeyDown = (e) => {
+                    if (e.key === 'Escape') { e.preventDefault(); onClose(); }
+                };
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [open, onClose]);
+            if (!open) return null;
+            return (
+                <div className="glossary-overlay" onClick={(e) => e.target === e.currentTarget && onClose()} role="presentation">
+                    <div ref={dialogRef} className="glossary-dialog" role="dialog" aria-modal="true" aria-labelledby="glossary-title" onClick={(e) => e.stopPropagation()}>
+                        <div className="glossary-dialog-header">
+                            <h2 id="glossary-title" className="glossary-title">{t('ui.glossaryTitle')}</h2>
+                            <button type="button" className="glossary-close-btn" onClick={onClose} aria-label={t('ui.glossaryClose')}>×</button>
+                        </div>
+                        <div className="glossary-search-wrapper">
+                            <label htmlFor="glossary-search-input" className="sr-only">{t('ui.glossarySearchPlaceholder')}</label>
+                            <input ref={searchInputRef} id="glossary-search-input" type="search" className="glossary-search" placeholder={t('ui.glossarySearchPlaceholder')} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} aria-label={t('ui.glossarySearchPlaceholder')} autoComplete="off" />
+                        </div>
+                        <div className="glossary-list-wrapper" role="region">
+                            {filteredTerms.length === 0 ? <p className="glossary-no-results">{t('ui.glossaryNoResults')}</p> : (
+                                <dl className="glossary-list">
+                                    {filteredTerms.map(({ term, definition }) => (
+                                        <React.Fragment key={term}>
+                                            <dt className="glossary-term">{term}</dt>
+                                            <dd className="glossary-def">{definition}</dd>
+                                        </React.Fragment>
+                                    ))}
+                                </dl>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function AvatarPickerPopup({ open, onClose, avatarUrl, setAvatarUrl, triggerRef, validAvatarOptions, onAvatarFailed }) {
+            const closeButtonRef = useRef(null);
+            useEffect(() => {
+                if (open) setTimeout(() => closeButtonRef.current?.focus(), 50);
+                else if (triggerRef?.current) triggerRef.current.focus();
+            }, [open]);
+            useEffect(() => {
+                if (!open) return;
+                const handleKeyDown = (e) => { if (e.key === 'Escape') { e.preventDefault(); onClose(); } };
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [open, onClose]);
+            if (!open) return null;
+            return (
+                <div className="glossary-overlay" onClick={(e) => e.target === e.currentTarget && onClose()} role="presentation">
+                    <div className="glossary-dialog" role="dialog" aria-modal="true" aria-labelledby="avatar-picker-title" onClick={(e) => e.stopPropagation()}>
+                        <div className="glossary-dialog-header">
+                            <h2 id="avatar-picker-title">{t('ui.chooseAvatar')}</h2>
+                            <button ref={closeButtonRef} type="button" className="glossary-close-btn" onClick={onClose} aria-label={t('ui.glossaryClose')}>×</button>
+                        </div>
+                        <div className="avatar-picker-grid" style={{ padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '12px' }}>
+                            {validAvatarOptions.map((url, index) => (
+                                <button key={url} type="button" className={`avatar-picker-option ${avatarUrl === url ? 'selected' : ''}`} onClick={() => { setAvatarUrl(url); onClose(); }} aria-pressed={avatarUrl === url} aria-label={t('ui.chooseAvatarOption', { number: index + 1, total: validAvatarOptions.length })}>
+                                    <img src={url} alt="" width="80" height="80" onError={() => onAvatarFailed(url)} />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function parseAnsiLine(line) {
+                const parts = [];
+                const re = /\u001b\[([\d;]*)m/g;
+                let lastIndex = 0;
+                let currentClass = null;
+                let match;
+                while ((match = re.exec(line)) !== null) {
+                    const text = line.slice(lastIndex, match.index);
+                    if (text) parts.push(React.createElement(currentClass ? 'span' : React.Fragment, currentClass ? { key: parts.length, className: currentClass } : { key: parts.length }, text));
+                    const code = match[1];
+                    if (code === '0') currentClass = null;
+                    else if (code === '31') currentClass = 'terminal-red';
+                    else if (code === '32') currentClass = 'terminal-green';
+                    lastIndex = re.lastIndex;
+                }
+                const rest = line.slice(lastIndex);
+                if (rest) parts.push(React.createElement(currentClass ? 'span' : React.Fragment, currentClass ? { key: parts.length, className: currentClass } : { key: parts.length }, rest));
+                return parts.length ? parts : ['\u00A0'];
+            }
+
+        function Terminal({ lines, onSubmit, disabled, placeholder, inputRef }) {
+            const [input, setInput] = useState('');
+            const scrollRef = useRef(null);
+            useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [lines]);
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                const cmd = input.trim();
+                if (!cmd || disabled) return;
+                onSubmit(cmd);
+                setInput('');
+            };
+            return (
+                <div className="terminal-container">
+                    <div className="terminal-header">
+                        <span className="terminal-dot red" aria-hidden="true" />
+                        <span className="terminal-dot yellow" aria-hidden="true" />
+                        <span className="terminal-dot green" aria-hidden="true" />
+                        <span className="terminal-title">Terminal — Learn Git</span>
+                    </div>
+                    <div className="terminal-output" ref={scrollRef} role="log" aria-live="polite">
+                        {lines.length === 0 && <div className="terminal-line terminal-prompt"><span className="terminal-prompt-char">$</span> <span className="terminal-placeholder">{placeholder}</span></div>}
+                        {lines.map((line, i) => (
+                            <div key={i} className={'terminal-line ' + (line.type === 'command' ? 'terminal-command' : 'terminal-output-line')}>
+                                {line.type === 'command' ? <><span className="terminal-prompt-char">$</span> {line.text}</> : line.text.split('\n').map((l, j) => <div key={j}>{parseAnsiLine(l || '')}</div>)}
+                            </div>
+                        ))}
+                    </div>
+                    <form className="terminal-input-row" onSubmit={handleSubmit}>
+                        <span className="terminal-prompt-char" aria-hidden="true">$</span>
+                        <label htmlFor="terminal-input" className="sr-only">Enter Git command</label>
+                        <input
+                            ref={inputRef}
+                            id="terminal-input"
+                            type="text"
+                            className="terminal-input"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            autoComplete="off"
+                            spellCheck="false"
+                            aria-label="Git command"
+                        />
+                    </form>
+                </div>
+            );
+        }
+
+        const COL_WIDTH = 52;
+        const LANE_HEIGHT = 52;
+        const NODE_R = 10;
+        const GRAPH_PAD = 24;
+        const BRANCH_TAIL = 64;
+        const BRANCH_SPLIT_STAGGER = 32;
+        const LABEL_MARGIN = 10;
+
+        function BranchVisualizer({ gitState }) {
+            const graph = buildBranchGraph(gitState);
+            const { nodes, currentBranch, numCols, numLanes, branchNames, heads } = graph;
+            const nodeByHash = {};
+            nodes.forEach(n => { nodeByHash[n.hash] = n; });
+            const leftEdge = GRAPH_PAD;
+            const graphContentWidth = Math.max(numCols * COL_WIDTH, 80);
+            const mainHeadHash = heads && heads['main'];
+            const mainHeadNode = mainHeadHash ? nodeByHash[mainHeadHash] : null;
+            const xTip = mainHeadNode != null ? leftEdge + mainHeadNode.col * COL_WIDTH + COL_WIDTH / 2 : leftEdge;
+            const rightEdge = xTip + BRANCH_TAIL;
+            const width = rightEdge + 100;
+            const height = Math.max(numLanes * LANE_HEIGHT + GRAPH_PAD * 2, 120);
+            const x = (col) => leftEdge + col * COL_WIDTH + COL_WIDTH / 2;
+            const y = (row) => GRAPH_PAD + (numLanes - 1 - row) * LANE_HEIGHT + LANE_HEIGHT / 2;
+
+            const pathSegments = [];
+            nodes.forEach(node => {
+                const x0 = x(node.col);
+                const y0 = y(node.row);
+                if (node.parent != null && nodeByHash[node.parent]) {
+                    const p = nodeByHash[node.parent];
+                    const x1 = x(p.col);
+                    const y1 = y(p.row);
+                    if (node.row === p.row) {
+                        pathSegments.push({ key: node.hash + '-p1', type: 'line', x1, y1, x2: x0, y2: y0, lane: node.row });
+                    } else {
+                        const midX = (x0 + x1) / 2;
+                        pathSegments.push({ key: node.hash + '-p1', type: 'curve', x1, y1, x2: x0, y2: y0, cpx: midX, cpy: y1, lane: node.row });
+                    }
+                }
+                if (node.parent2 != null && nodeByHash[node.parent2]) {
+                    const p = nodeByHash[node.parent2];
+                    const x1 = x(p.col);
+                    const y1 = y(p.row);
+                    const midX = (x0 + x1) / 2;
+                    pathSegments.push({ key: node.hash + '-p2', type: 'curve', x1, y1, x2: x0, y2: y0, cpx: midX + 20, cpy: (y0 + y1) / 2, lane: 1 });
+                }
+            });
+
+            const yMain = y(0);
+            const branchParent = gitState.branchParent || {};
+            const creationOrder = ['main'];
+            while (creationOrder.length < branchNames.length) {
+                let addedAny = false;
+                for (const b of branchNames) {
+                    if (creationOrder.includes(b)) continue;
+                    const p = branchParent[b] || 'main';
+                    if (creationOrder.includes(p)) { creationOrder.push(b); addedAny = true; }
+                }
+                if (!addedAny) break;
+            }
+            const splitX = { main: xTip };
+            creationOrder.forEach((name) => {
+                if (name === 'main') return;
+                const p = branchParent[name] || 'main';
+                const siblingIndex = creationOrder.filter((b) => (branchParent[b] || 'main') === p && creationOrder.indexOf(b) < creationOrder.indexOf(name)).length;
+                splitX[name] = (splitX[p] != null ? splitX[p] : xTip) + (siblingIndex + 1) * BRANCH_SPLIT_STAGGER;
+            });
+
+            const laneLines = [];
+            laneLines.push({ key: 'lane-main', type: 'line', x1: leftEdge, y1: yMain, x2: xTip, y2: yMain, lane: 0 });
+            branchNames.forEach((name, row) => {
+                if (name === 'main') return;
+                const parent = branchParent[name] || 'main';
+                const parentRow = branchNames.indexOf(parent);
+                const yParent = parentRow >= 0 ? y(parentRow) : yMain;
+                const xSplit = splitX[name] != null ? splitX[name] : xTip;
+                laneLines.push({ key: 'lane-' + name + '-vert', type: 'line', x1: xSplit, y1: yParent, x2: xSplit, y2: y(row), lane: row });
+                laneLines.push({ key: 'lane-' + name + '-horiz', type: 'line', x1: xSplit, y1: y(row), x2: rightEdge, y2: y(row), lane: row });
+            });
+
+            return (
+                <div className="branch-visualizer" role="img" aria-label="Branch graph">
+                    <div className="branch-visualizer-header">
+                        <span className="branch-visualizer-title">Branch graph</span>
+                        <span className="branch-visualizer-current">current: <strong>{currentBranch}</strong></span>
+                    </div>
+                    <div className="branch-visualizer-graph">
+                        {nodes.length === 0 ? (
+                            <div className="branch-visualizer-empty">No commits yet. Run git commit to see the graph.</div>
+                        ) : (
+                            <svg width="100%" height={height} className="branch-visualizer-svg" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMinYMid meet" aria-hidden="true">
+                                {laneLines.filter(s => s.type === 'line').map(s => (
+                                    <line key={s.key} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} className={'branch-visualizer-line branch-visualizer-lane-' + (s.lane === 0 ? 'main' : 'side')} />
+                                ))}
+                                {pathSegments.filter(s => s.type === 'line').map(s => (
+                                    <line key={s.key} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} className={'branch-visualizer-line branch-visualizer-lane-' + (s.lane === 0 ? 'main' : 'side')} />
+                                ))}
+                                {laneLines.filter(s => s.type === 'curve').map(s => (
+                                    <path key={s.key} d={`M ${s.x1} ${s.y1} Q ${s.cpx} ${s.cpy} ${s.x2} ${s.y2}`} fill="none" className="branch-visualizer-line branch-visualizer-line-curve" />
+                                ))}
+                                {pathSegments.filter(s => s.type === 'curve').map(s => (
+                                    <path key={s.key} d={`M ${s.x1} ${s.y1} Q ${s.cpx} ${s.cpy} ${s.x2} ${s.y2}`} fill="none" className="branch-visualizer-line branch-visualizer-line-curve" />
+                                ))}
+                                {nodes.map(node => (
+                                    <g key={node.hash}>
+                                        <circle
+                                            cx={x(node.col)}
+                                            cy={y(node.row)}
+                                            r={NODE_R}
+                                            className={'branch-visualizer-node branch-visualizer-lane-' + (node.row === 0 ? 'main' : 'side') + (node.isMerge ? ' branch-visualizer-merge' : '') + (node.branches.includes(currentBranch) ? ' branch-visualizer-node-current' : '')}
+                                        />
+                                        <text x={x(node.col)} y={y(node.row) + NODE_R + 10} className="branch-visualizer-hash" textAnchor="middle">
+                                            {node.shortHash}
+                                        </text>
+                                    </g>
+                                ))}
+                                {branchNames.map((name, row) => (
+                                    <text key={name} x={rightEdge + LABEL_MARGIN} y={y(row) + 4} className={'branch-visualizer-lane-label' + (name === currentBranch ? ' branch-visualizer-lane-label-current' : '')} textAnchor="start">
+                                        {name}
+                                    </text>
+                                ))}
+                            </svg>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            const [studentName, setStudentName] = useState('');
+            const [failedAvatarUrls, setFailedAvatarUrls] = useState(getInitialFailedAvatarUrls);
+            const validAvatarOptions = React.useMemo(() => AVATAR_OPTIONS_SHUFFLED.filter((url) => !failedAvatarUrls.has(url)), [failedAvatarUrls]);
+            const [avatarUrl, setAvatarUrl] = useState(() => {
+                const valid = AVATAR_OPTIONS_SHUFFLED.filter((u) => !getInitialFailedAvatarUrls().has(u));
+                return valid[0] || DEFAULT_AVATAR_URL;
+            });
+            const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
+            const [code, setCode] = useState('');
+            const [codeByLesson, setCodeByLesson] = useState({});
+            const [feedback, setFeedback] = useState(null);
+            const [gitState, setGitState] = useState(() => createInitialGitState(lessons[0].id));
+            const [terminalLinesByLesson, setTerminalLinesByLesson] = useState({});
+            const [shellCwd, setShellCwd] = useState('');
+            const [editingFile, setEditingFile] = useState(null);
+            const [editingContent, setEditingContent] = useState('');
+            const terminalInputRef = useRef(null);
+            const gitStateRef = useRef(gitState);
+            // Do not sync ref from gitState on render: React can render with stale state and overwrite
+            // the ref after a command (e.g. git add), so the next command (git status) would see old state.
+            const [hasStarted, setHasStarted] = useState(false);
+            const [hintExpanded, setHintExpanded] = useState(false);
+            const [completedLessons, setCompletedLessons] = useState(new Set());
+            const [language, setLanguage] = useState('en');
+            const [refreshKey, setRefreshKey] = useState(0);
+            const [glossaryOpen, setGlossaryOpen] = useState(false);
+            const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
+            const [showCertificateView, setShowCertificateView] = useState(false);
+            const glossaryTriggerRef = useRef(null);
+            const avatarTriggerRef = useRef(null);
+            const nextButtonRef = useRef(null);
+            const prevLessonIndexRef = useRef(undefined);
+
+            const onAvatarFailed = (url) => {
+                setFailedAvatarUrls((prev) => {
+                    const next = new Set(prev);
+                    next.add(url);
+                    try { localStorage.setItem(AVATAR_FAILED_STORAGE_KEY, JSON.stringify([...next])); } catch (e) {}
+                    return next;
+                });
+            };
+            useEffect(() => {
+                if (failedAvatarUrls.has(avatarUrl)) setAvatarUrl(validAvatarOptions[0] || DEFAULT_AVATAR_URL);
+            }, [failedAvatarUrls, avatarUrl]);
+
+            useEffect(() => { window.currentLanguage = language; document.documentElement.lang = language; setRefreshKey(prev => prev + 1); }, [language]);
+
+            useEffect(() => {
+                if (!hasStarted || currentLessonIndex >= lessons.length || !translationsLoaded) return;
+                const currentLessonRaw = lessons[currentLessonIndex];
+                const translatedLesson = getTranslatedLesson(currentLessonRaw, language);
+                const currentLangTemplate = translatedLesson.codeTemplate || currentLessonRaw.codeTemplate || '';
+                if (currentLangTemplate && code.trim() === '') setCode(currentLangTemplate);
+            }, [language, currentLessonIndex, hasStarted, translationsLoaded]);
+
+            useEffect(() => {
+                if (!hasStarted || currentLessonIndex >= lessons.length) return;
+                const prev = prevLessonIndexRef.current;
+                const lessonChanged = prev !== undefined && prev !== currentLessonIndex;
+                const firstRun = prev === undefined;
+                prevLessonIndexRef.current = currentLessonIndex;
+                const lessonRaw = lessons[currentLessonIndex];
+                if (lessonChanged || firstRun) {
+                    if (lessonChanged) {
+                        const saved = codeByLesson[lessonRaw.id];
+                        setCode(saved ?? getTranslatedLesson(lessonRaw, language).codeTemplate ?? '');
+                    }
+                    const nextGitState = createInitialGitState(lessonRaw.id);
+                    gitStateRef.current = nextGitState;
+                    setGitState(nextGitState);
+                    setShellCwd('');
+                    setEditingFile(null);
+                }
+            }, [currentLessonIndex, hasStarted, language, codeByLesson]);
+
+            useEffect(() => {
+                window.forceUpdate = () => setRefreshKey(prev => prev + 1);
+                const handleTranslationsLoaded = () => setRefreshKey(prev => prev + 1);
+                window.addEventListener('translationsLoaded', handleTranslationsLoaded);
+                if (translationsLoaded) setRefreshKey(prev => prev + 1);
+                return () => { window.forceUpdate = null; window.removeEventListener('translationsLoaded', handleTranslationsLoaded); };
+            }, []);
+
+            useEffect(() => {
+                const hash = window.location.hash.substring(1);
+                if (hash) {
+                    const state = decodeState(hash);
+                    if (state) {
+                        if (state.language) setLanguage(state.language);
+                        setStudentName(state.name || '');
+                        if (state.avatarUrl) setAvatarUrl(state.avatarUrl);
+                        if (!state.code && state.completedLessons && state.completedLessons.length === lessons.length) {
+                            setCurrentLessonIndex(lessons.length - 1);
+                            setCode('');
+                            setShowCertificateView(true);
+                        } else {
+                            setCurrentLessonIndex(Math.min(state.lessonIndex ?? 0, lessons.length - 1));
+                            setCode(state.code || '');
+                            setCompletedLessons(new Set(state.completedLessons || []));
+                            if (state.code || (state.completedLessons && state.completedLessons.length > 0)) setHasStarted(true);
+                        }
+                    }
+                }
+            }, []);
+
+            useEffect(() => {
+                if (!hasStarted) return;
+                const state = { name: studentName, lessonIndex: currentLessonIndex, code, language, completedLessons: Array.from(completedLessons), avatarUrl: avatarUrl || null };
+                const hash = encodeState(state);
+                const newUrl = window.location.pathname + (hash ? '#' + hash : '');
+                if (window.location.hash !== (hash ? '#' + hash : '')) window.history.replaceState(null, '', newUrl);
+            }, [hasStarted, studentName, currentLessonIndex, code, language, completedLessons, avatarUrl]);
+
+            // Do not auto-focus Next button when lesson completes; keep focus in terminal so
+            // typing/Enter runs commands. User advances only by typing "next" or clicking Next.
+
+            const handleNameSubmit = (e) => {
+                e.preventDefault();
+                const nameInput = e.target.querySelector('input');
+                const name = nameInput.value.trim();
+                if (name) {
+                    setStudentName(name);
+                    setHasStarted(true);
+                    const firstLesson = getTranslatedLesson(lessons[0], language);
+                    setCode(firstLesson.codeTemplate || '');
+                }
+            };
+
+            const handleVerify = () => {
+                const currentLessonRaw = lessons[currentLessonIndex];
+                if (currentLessonRaw.validator(code)) {
+                    setFeedback({ type: 'success', message: t('ui.successMessage') });
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCompletedLessons(prev => new Set([...prev, currentLessonIndex]));
+                    if (currentLessonIndex === lessons.length - 1) setShowCertificateView(true);
+                }
+            };
+
+            const handleNext = () => {
+                if (currentLessonIndex < lessons.length - 1) {
+                    const currentLessonRaw = lessons[currentLessonIndex];
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCurrentLessonIndex(currentLessonIndex + 1);
+                    setFeedback(null);
+                    setHintExpanded(false);
+                }
+            };
+
+            const handleBack = () => {
+                if (currentLessonIndex > 0) {
+                    const currentLessonRaw = lessons[currentLessonIndex];
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCurrentLessonIndex(currentLessonIndex - 1);
+                    setFeedback(null);
+                    setHintExpanded(false);
+                }
+            };
+
+            const handleSkip = () => {
+                if (currentLessonIndex < lessons.length - 1) {
+                    const currentLessonRaw = lessons[currentLessonIndex];
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCurrentLessonIndex(currentLessonIndex + 1);
+                    setFeedback(null);
+                    setHintExpanded(false);
+                }
+            };
+
+            const jumpToSection = (category) => {
+                const sectionLessons = lessons.map((lesson, index) => ({ lesson, index })).filter(({ lesson }) => lesson.category === category);
+                if (sectionLessons.length === 0) return;
+                const firstIncomplete = sectionLessons.find(({ index }) => !completedLessons.has(index));
+                const targetIndex = firstIncomplete ? firstIncomplete.index : sectionLessons[0].index;
+                const currentLessonRaw = lessons[currentLessonIndex];
+                setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                setCurrentLessonIndex(targetIndex);
+                setFeedback(null);
+                setHintExpanded(false);
+            };
+
+            const copyCommands = () => {
+                const toCopy = (code || '').trim();
+                if (toCopy && navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(toCopy);
+                }
+            };
+
+            const advanceToNextLesson = () => {
+                if (currentLessonIndex < lessons.length - 1) {
+                    const currentLessonRaw = lessons[currentLessonIndex];
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCurrentLessonIndex(currentLessonIndex + 1);
+                    setFeedback(null);
+                    setHintExpanded(false);
+                }
+            };
+
+            const goToPreviousLesson = () => {
+                if (currentLessonIndex > 0) {
+                    const currentLessonRaw = lessons[currentLessonIndex];
+                    setCodeByLesson(prev => ({ ...prev, [currentLessonRaw.id]: code }));
+                    setCurrentLessonIndex(currentLessonIndex - 1);
+                    setFeedback(null);
+                    setHintExpanded(false);
+                }
+            };
+
+            const handleTerminalCommand = (cmd) => {
+                const lessonRaw = lessons[currentLessonIndex];
+                const trimmed = cmd.trim();
+                const lower = trimmed.toLowerCase();
+
+                if (lower === 'clear') {
+                    setTerminalLinesByLesson(prev => ({ ...prev, [lessonRaw.id]: [] }));
+                    return;
+                }
+
+                if (lower === 'next' || lower === 'done') {
+                    const msgComplete = language === 'fr' ? 'Leçon terminée ! Passage à la suivante...' : 'Lesson complete! Moving to next lesson...';
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: msgComplete }]
+                    }));
+                    setCodeByLesson(prev => ({ ...prev, [lessonRaw.id]: code }));
+                    setCompletedLessons(prev => new Set([...prev, currentLessonIndex]));
+                    setFeedback({ type: 'success', message: t('ui.successMessage') });
+                    if (currentLessonIndex === lessons.length - 1) {
+                        setShowCertificateView(true);
+                    } else {
+                        advanceToNextLesson();
+                    }
+                    return;
+                }
+
+                if (lower === 'back') {
+                    const msgBack = language === 'fr' ? 'Retour à la leçon précédente.' : 'Going back to previous lesson.';
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: msgBack }]
+                    }));
+                    goToPreviousLesson();
+                    return;
+                }
+
+                const shellResult = runShellCommand(shellCwd, gitStateRef.current, cmd);
+                if (shellResult !== null) {
+                    setShellCwd(shellResult.newCwd);
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [
+                            ...(prev[lessonRaw.id] || []),
+                            { type: 'command', text: cmd },
+                            ...(shellResult.output ? [{ type: 'output', text: shellResult.output }] : [])
+                        ]
+                    }));
+                    return;
+                }
+
+                if (shellCwd === '' && (lower.startsWith('edit ') || lower === 'edit')) {
+                    const filename = trimmed.slice(5).trim();
+                    if (!filename || filename.includes('/') || filename === '.git') {
+                        setTerminalLinesByLesson(prev => ({
+                            ...prev,
+                            [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: 'edit: usage: edit <filename>' }]
+                        }));
+                        return;
+                    }
+                    setEditingFile(filename);
+                    setEditingContent((gitStateRef.current.workingDir || {})[filename] !== undefined ? (gitStateRef.current.workingDir || {})[filename] : '');
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: 'Editing ' + filename + ' (save or cancel in editor below)' }]
+                    }));
+                    return;
+                }
+
+                const fileResult = shellCwd === '' ? runFileCommand(shellCwd, gitStateRef.current, cmd) : null;
+                if (fileResult !== null) {
+                    gitStateRef.current = fileResult.newState;
+                    setGitState(fileResult.newState);
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [
+                            ...(prev[lessonRaw.id] || []),
+                            { type: 'command', text: cmd },
+                            ...(fileResult.output ? [{ type: 'output', text: fileResult.output }] : [])
+                        ]
+                    }));
+                    return;
+                }
+
+                const result = runGitCommand(gitStateRef.current, cmd);
+                gitStateRef.current = result.newState;
+                setGitState(result.newState);
+                const goal = checkLessonGoal(lessonRaw.id, result.newState, result.newState.commandHistory);
+                const msgComplete = language === 'fr' ? 'Leçon terminée ! Tapez "next" ou cliquez sur le bouton pour continuer.' : 'Lesson complete! Type "next" or click the button to continue.';
+                const newLines = [
+                    ...(terminalLinesByLesson[lessonRaw.id] || []),
+                    { type: 'command', text: cmd },
+                    ...(result.output ? [{ type: 'output', text: result.output }] : []),
+                    ...(goal === true ? [{ type: 'output', text: msgComplete }] : [])
+                ];
+                setTerminalLinesByLesson(prev => ({ ...prev, [lessonRaw.id]: newLines }));
+                if (goal === true) {
+                    setFeedback({ type: 'success', message: t('ui.successMessage') });
+                    setCodeByLesson(prev => ({ ...prev, [lessonRaw.id]: cmd }));
+                    setCompletedLessons(prev => new Set([...prev, currentLessonIndex]));
+                    // Do not auto-advance; user must type "next" or click the button
+                }
+            };
+
+            const getSectionProgress = (category) => {
+                const sectionLessons = lessons.filter(l => l.category === category);
+                let completed = 0;
+                sectionLessons.forEach(lesson => {
+                    const idx = lessons.findIndex(l => l.id === lesson.id);
+                    if (completedLessons.has(idx)) completed++;
+                });
+                return { completed, total: sectionLessons.length };
+            };
+
+            const vcProgress = getSectionProgress('Version Control');
+            const gitProgress = getSectionProgress('Git Basics');
+            const branchProgress = getSectionProgress('Branching');
+            const ghProgress = getSectionProgress('GitHub');
+            const collabProgress = getSectionProgress('Collaboration');
+            const isSectionComplete = (p) => p.completed === p.total && p.total > 0;
+
+            const currentLessonRaw = lessons[currentLessonIndex];
+            const currentLesson = getTranslatedLesson(currentLessonRaw, language);
+            const isLastLesson = currentLessonIndex === lessons.length - 1;
+            const allLessonsComplete = completedLessons.size === lessons.length;
+            const commandText = (currentLesson.codeTemplate || code || '').trim();
+            const terminalLines = terminalLinesByLesson[currentLessonRaw.id] || [];
+            const hasTerminalGoal = !['vc-1', 'vc-2', 'gh-1', 'gh-2', 'collab-1'].includes(currentLessonRaw.id);
+
+            if (allLessonsComplete && showCertificateView && hasStarted && studentName && refreshKey >= 0) {
+                const completionDate = new Date().toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                return (
+                    <>
+                        <a href="#main-content" className="skip-link">{t('ui.skipToMainContent')}</a>
+                        <div id="main-content" className="certificate" role="main" aria-label={t('ui.certificateTitle')}>
+                            <div className="certificate-header">
+                                <button type="button" className="btn btn-secondary" onClick={() => setShowCertificateView(false)} style={{ marginRight: '12px' }} aria-label={t('ui.backToLessons')}>← {t('ui.backToLessons')}</button>
+                                <div className="certificate-language-selector">
+                                    <button ref={glossaryTriggerRef} type="button" className="glossary-btn glossary-btn-certificate" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')}>📖 {t('ui.glossaryButton')}</button>
+                                    <label htmlFor="cert-lang" className="sr-only">{t('ui.selectLanguage')}</label>
+                                    <select id="cert-lang" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')} className="certificate-language-select">
+                                        <option value="en">English</option>
+                                        <option value="fr">Français</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="certificate-content">
+                                <h1>{t('ui.certificateTitle')}</h1>
+                                <h2>{t('ui.certificateSubtitle')}</h2>
+                                <p className="description">{t('ui.certificateDescription')}</p>
+                                <div className="student-name-block" aria-label={t('ui.studentNameAria', { name: studentName })}>
+                                    <button type="button" className="avatar-change-btn avatar-change-btn-certificate" onClick={(e) => { avatarTriggerRef.current = e.currentTarget; setAvatarPickerOpen(true); }} aria-label={t('ui.changeAvatar')} aria-haspopup="dialog">
+                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-certificate" width="80" height="80" onError={() => setAvatarUrl(DEFAULT_AVATAR_URL)} /> : <span className="avatar-placeholder avatar-placeholder-certificate" aria-hidden="true" />}
+                                    </button>
+                                    <span className="student-name">{studentName}</span>
+                                </div>
+                                <p className="description"><TextWithTooltips text={t('ui.certificateCompleted')} /></p>
+                                <p className="description" style={{ marginTop: '40px' }}>{t('ui.certificateCovered')}</p>
+                                <ul style={{ textAlign: 'left', display: 'inline-block', marginTop: '20px', fontSize: '16px', lineHeight: '2' }}>
+                                    <li><TextWithTooltips text={t('ui.certificateItem1')} /></li>
+                                    <li><TextWithTooltips text={t('ui.certificateItem2')} /></li>
+                                    <li><TextWithTooltips text={t('ui.certificateItemBranching')} /></li>
+                                    <li><TextWithTooltips text={t('ui.certificateItem3')} /></li>
+                                    <li><TextWithTooltips text={t('ui.certificateItem4')} /></li>
+                                </ul>
+                                <p className="date">{t('ui.completedOn')} {completionDate}</p>
+                                <div style={{ marginTop: '40px', fontSize: '48px' }} role="img" aria-label={t('ui.congratulations')}>🎉</div>
+                                <div className="certificate-share" style={{ marginTop: '50px', paddingTop: '30px', borderTop: '2px solid #e0e0e0' }}>
+                                    <p style={{ fontSize: '16px', color: '#555', marginBottom: '15px' }}><strong>{t('ui.certificateShare')}</strong></p>
+                                    <div className="url-share">
+                                        <input type="text" readOnly value={window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) })} onClick={(e) => e.target.select()} style={{ width: '100%', maxWidth: '600px', padding: '10px', fontSize: '14px', border: '2px solid #ddd', borderRadius: '5px' }} aria-label={t('ui.certificateShare')} />
+                                    </div>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <a href={`mailto:?subject=${encodeURIComponent(t('ui.emailCertificateSubject'))}&body=${encodeURIComponent(t('ui.emailCertificateBody') + ' ' + (window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) })))}`} className="btn btn-primary" style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 24px', fontSize: '16px' }} aria-label={t('ui.emailCertificate')}>📧 {t('ui.emailCertificate')}</a>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: '#595959', marginTop: '15px', fontStyle: 'italic' }}>{t('ui.certificateShareDescription')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
+                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                    </>
+                );
+            }
+
+            if (!hasStarted || !studentName) {
+                return (
+                    <>
+                        <a href="#main-content" className="skip-link">{t('ui.skipToMainContent')}</a>
+                        <div id="main-content" className="app-container" role="main">
+                            <div className="lesson-panel">
+                                <div className="header">
+                                    <div className="header-content">
+                                        <h1>{t('ui.title')}</h1>
+                                        <p>{t('ui.subtitle')}</p>
+                                    </div>
+                                    <div className="language-selector">
+                                        <button ref={glossaryTriggerRef} type="button" className="glossary-btn" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')} aria-haspopup="dialog">📖 {t('ui.glossaryButton')}</button>
+                                        <label htmlFor="language-select" className="sr-only">{t('ui.selectLanguage')}</label>
+                                        <select id="language-select" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')}>
+                                            <option value="en">English</option>
+                                            <option value="fr">Français</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="lesson-content">
+                                    <div className="welcome-screen">
+                                        <h2>{t('ui.welcome')}</h2>
+                                        <p><TextWithTooltips text={t('ui.welcomeDescription')} /></p>
+                                        <p style={{ fontSize: '14px', color: '#595959', fontStyle: 'italic', marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #e0e0e0' }}>{t('ui.tutorialCredit')}</p>
+                                        <div className="avatar-picker-section" role="group" aria-labelledby="avatar-picker-label">
+                                            <p id="avatar-picker-label" className="avatar-picker-label">{t('ui.chooseAvatar')}</p>
+                                            <div className="avatar-picker-grid" aria-describedby="welcome-avatar-scroll-hint">
+                                                {validAvatarOptions.map((url, index) => (
+                                                    <button key={url} type="button" className={`avatar-picker-option ${avatarUrl === url ? 'selected' : ''}`} onClick={() => setAvatarUrl(url)} aria-pressed={avatarUrl === url} aria-label={t('ui.chooseAvatarOption', { number: index + 1, total: validAvatarOptions.length })}>
+                                                        <img src={url} alt="" width="80" height="80" onError={() => onAvatarFailed(url)} />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            <p id="welcome-avatar-scroll-hint" className="avatar-picker-scroll-hint" role="status">{t('ui.avatarPickerScrollHint')}</p>
+                                        </div>
+                                        <form onSubmit={handleNameSubmit} className="name-input">
+                                            <label htmlFor="student-name-input" className="sr-only">{t('ui.enterName')}</label>
+                                            <input id="student-name-input" type="text" placeholder={t('ui.enterName')} value={studentName} onChange={(e) => setStudentName(e.target.value)} required autoFocus aria-label={t('ui.enterName')} aria-describedby="name-certificate-note" />
+                                            <p id="name-certificate-note" style={{ fontSize: '13px', color: '#666', marginTop: '8px', marginBottom: '15px', fontStyle: 'italic' }}>{t('ui.nameCertificateNote')}</p>
+                                            <button type="submit" className="btn btn-primary" aria-label={t('ui.startLearning')}>{t('ui.startLearning')}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
+                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                    </>
+                );
+            }
+
+            const progressSection = (category, progress, categoryKey) => (
+                <div key={category} className="progress-circle-container">
+                    <div className={`progress-circle ${isSectionComplete(progress) ? 'completed' : progress.completed > 0 ? 'in-progress' : ''}`} onClick={() => jumpToSection(category)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToSection(category); } }} tabIndex="0" role="button" aria-label={t('ui.jumpToSection', { section: t(`categories.${categoryKey}`), completed: progress.completed, total: progress.total })}>
+                        {progress.completed}/{progress.total}
+                        {isSectionComplete(progress) && <span className="progress-star" role="img" aria-label={t('ui.completed')}>⭐</span>}
+                    </div>
+                    <div className="progress-label">{t(`categories.${categoryKey}`)}</div>
+                </div>
+            );
+
+            return (
+                <>
+                    <a href="#main-content" className="skip-link">{t('ui.skipToMainContent')}</a>
+                    <div id="main-content" className="app-container" role="main">
+                        <div className="lesson-panel">
+                            <div className="header">
+                                <div className="header-content header-content-with-avatar">
+                                    <button type="button" className="avatar-change-btn" onClick={(e) => { avatarTriggerRef.current = e.currentTarget; setAvatarPickerOpen(true); }} aria-label={t('ui.changeAvatar')} aria-haspopup="dialog">
+                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-header" width="44" height="44" onError={() => { onAvatarFailed(avatarUrl); setAvatarUrl(DEFAULT_AVATAR_URL); }} /> : <span className="avatar-placeholder" aria-hidden="true" />}
+                                    </button>
+                                    <div>
+                                        <h1>{t('ui.title')}</h1>
+                                        <p>{t('ui.welcomeUser', { name: studentName, current: currentLessonIndex + 1, total: lessons.length })}</p>
+                                    </div>
+                                </div>
+                                <div className="language-selector">
+                                    <button ref={glossaryTriggerRef} type="button" className="glossary-btn" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')} aria-haspopup="dialog">📖 {t('ui.glossaryButton')}</button>
+                                    <label htmlFor="language-select-main" className="sr-only">{t('ui.selectLanguage')}</label>
+                                    <select id="language-select-main" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')}>
+                                        <option value="en">English</option>
+                                        <option value="fr">Français</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="progress-section" role="region" aria-labelledby="course-progress-title">
+                                <div id="course-progress-title" className="progress-title">{t('ui.courseProgress')}</div>
+                                <div className="progress-circles">
+                                    {progressSection('Version Control', vcProgress, 'versionControl')}
+                                    {progressSection('Git Basics', gitProgress, 'gitBasics')}
+                                    {progressSection('Branching', branchProgress, 'branching')}
+                                    {progressSection('GitHub', ghProgress, 'github')}
+                                    {progressSection('Collaboration', collabProgress, 'collaboration')}
+                                </div>
+                                {allLessonsComplete && (
+                                    <div style={{ marginTop: '16px' }}>
+                                        <button type="button" className="btn btn-primary" onClick={() => setShowCertificateView(true)} aria-label={t('ui.viewCertificate')}>🏆 {t('ui.viewCertificate')}</button>
+                                    </div>
+                                )}
+                                <div className="url-share" style={{ marginTop: '16px' }}>
+                                    <p><strong>{t('ui.tip')}</strong> {t('ui.copyUrl')}</p>
+                                    <p className="url-tip-note">{t('ui.noFilesSaved')}</p>
+                                    <input type="text" readOnly value={window.location.href} onClick={(e) => e.target.select()} aria-label={t('ui.copyUrl')} />
+                                </div>
+                            </div>
+                            <div className="progress-indicator">
+                                <span>{currentLesson.category}: {currentLesson.title}</span>
+                            </div>
+                            <div className="lesson-content">
+                                <div className="lesson-section">
+                                    <h2 className="lesson-title">{currentLesson.title}</h2>
+                                    <div className="lesson-description">
+                                        <p><strong>{t('ui.whatWeLearning')}</strong> <TextWithTooltips text={currentLesson.description} /></p>
+                                        <p style={{ marginTop: '15px' }}><strong>{t('ui.whyImportant')}</strong> <TextWithTooltips text={currentLesson.whyImportant} /></p>
+                                    </div>
+                                    {currentLesson.whatToDo && (
+                                        <div className="hint-section">
+                                            <button type="button" className="hint-button" onClick={() => setHintExpanded(!hintExpanded)} aria-expanded={hintExpanded} aria-controls="hint-content" aria-label={hintExpanded ? t('ui.hideHint') : t('ui.showHint')}>
+                                                <span>{t('ui.needHint')}</span>
+                                                <span className="hint-icon" aria-hidden="true">▼</span>
+                                            </button>
+                                            <div id="hint-content" className={`hint-content ${hintExpanded ? 'hint-content--expanded' : ''}`} aria-hidden={!hintExpanded} role="region" aria-label={t('ui.hintRegion')}>
+                                                <h3>{t('ui.whatToDo')}</h3>
+                                                <ol>
+                                                    {currentLesson.whatToDo.map((step, index) => (
+                                                        <li key={index}><TextWithTooltips text={step} /></li>
+                                                    ))}
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {hasTerminalGoal ? (
+                                        <p className="terminal-hint-left" style={{ marginTop: '16px', padding: '12px', background: '#e8f4f8', borderLeft: '4px solid #2563a8', borderRadius: '4px', fontSize: '15px' }}>
+                                            → {t('ui.terminalHint')}
+                                        </p>
+                                    ) : null}
+                                    <p className="terminal-nav-hint" style={{ marginTop: '8px', fontSize: '13px', color: '#666' }}>
+                                        {t('ui.terminalNavHint')}
+                                    </p>
+                                    {!hasTerminalGoal && commandText ? (
+                                        <div className="code-input">
+                                            <label className="commands-label">{t('ui.commandsToTry')}</label>
+                                            <div className="code-editor-container">
+                                                <div className="code-editor-header">
+                                                    <div className="code-editor-dot red" aria-hidden="true"></div>
+                                                    <div className="code-editor-dot yellow" aria-hidden="true"></div>
+                                                    <div className="code-editor-dot green" aria-hidden="true"></div>
+                                                    <span className="code-editor-title">terminal</span>
+                                                </div>
+                                                <pre className="commands-block" aria-label={t('ui.commandsToTry')}>{commandText}</pre>
+                                            </div>
+                                            <button type="button" className="btn btn-secondary" onClick={copyCommands} style={{ marginTop: '8px' }} aria-label={t('ui.copyCommand')}>{t('ui.copyCommand')}</button>
+                                        </div>
+                                    ) : null}
+                                    <div className="button-group">
+                                        {currentLessonIndex > 0 && <button onClick={handleBack} className="btn btn-secondary" aria-label={t('ui.back')}>{t('ui.back')}</button>}
+                                        {feedback?.type === 'success' ? (
+                                            !isLastLesson ? <button onClick={handleNext} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.nextLesson')}>{t('ui.nextLesson')}</button> : <button onClick={() => setShowCertificateView(true)} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.viewCertificate')}>{t('ui.viewCertificate')}</button>
+                                        ) : (
+                                            <>
+                                                <button onClick={handleVerify} className="btn btn-primary" aria-label={t('ui.verifyCode')}>{t('ui.verifyCode')}</button>
+                                                {!isLastLesson && <button onClick={handleSkip} className="btn btn-secondary" aria-label={t('ui.skip')}>{t('ui.skip')}</button>}
+                                            </>
+                                        )}
+                                    </div>
+                                    {feedback && <div className={`feedback ${feedback.type}`} role="status" aria-live="polite">{feedback.message}</div>}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="preview-panel terminal-panel">
+                            {currentLessonRaw.category === 'Branching' && (
+                                <BranchVisualizer gitState={gitState} />
+                            )}
+                            <Terminal
+                                lines={terminalLines}
+                                onSubmit={handleTerminalCommand}
+                                disabled={false}
+                                placeholder={hasTerminalGoal ? (t('ui.terminalNavHint') || 'git ... | next | back | clear') : (t('ui.terminalNavHint') || 'next | back | clear — or type next when done')}
+                                inputRef={terminalInputRef}
+                            />
+                            {editingFile && (
+                                <div className="file-editor-panel" role="region" aria-label={t('ui.editorLabel') || 'File editor'}>
+                                    <div className="file-editor-header">
+                                        <span className="file-editor-title">{editingFile}</span>
+                                        <div className="file-editor-actions">
+                                            <button type="button" className="btn btn-primary" onClick={() => { setGitState(prev => { const next = { ...prev, workingDir: { ...(prev.workingDir || {}), [editingFile]: editingContent } }; gitStateRef.current = next; return next; }); setEditingFile(null); }}>{t('ui.save') || 'Save'}</button>
+                                            <button type="button" className="btn btn-secondary" onClick={() => setEditingFile(null)}>{t('ui.cancel') || 'Cancel'}</button>
+                                        </div>
+                                    </div>
+                                    <textarea className="file-editor-textarea" value={editingContent} onChange={e => setEditingContent(e.target.value)} aria-label={t('ui.editorLabel') || 'File content'} spellCheck="false" />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
+                    {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                </>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
