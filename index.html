@@ -405,6 +405,7 @@
             const isBranchLesson = ['branch-1','branch-2','branch-3','branch-4'].includes(lessonId);
             let commits = [];
             let branchHeads = { main: null };
+            let branchParent = {};
             if (inited && isBranchLesson) {
                 const firstHash = 'a' + Math.random().toString(36).slice(2, 9);
                 const secondHash = 'b' + Math.random().toString(36).slice(2, 9);
@@ -414,6 +415,37 @@
                     { hash: secondHash, message: 'Second commit', files: ['readme.txt'], fileContents, parent: firstHash }
                 ];
                 branchHeads = { main: secondHash };
+                // For squash lesson only: start on a branch that already has multiple commits
+                if (lessonId === 'branch-3') {
+                    const f1 = 'c' + Math.random().toString(36).slice(2, 9);
+                    const f2 = 'd' + Math.random().toString(36).slice(2, 9);
+                    const f3 = 'e' + Math.random().toString(36).slice(2, 9);
+                    const fc1 = { 'readme.txt': 'Feature draft' };
+                    const fc2 = { 'readme.txt': 'WIP feature' };
+                    const fc3 = { 'readme.txt': 'Feature complete' };
+                    commits = commits.concat([
+                        { hash: f1, message: 'Add feature (draft)', files: ['readme.txt'], fileContents: fc1, parent: secondHash },
+                        { hash: f2, message: 'WIP', files: ['readme.txt'], fileContents: fc2, parent: f1 },
+                        { hash: f3, message: 'Fix typo', files: ['readme.txt'], fileContents: fc3, parent: f2 }
+                    ]);
+                    branchHeads = { main: secondHash, feature: f3 };
+                    branchParent = { feature: 'main' };
+                }
+            } else if (inited && lessonId === 'branch-5') {
+                // Merge-conflict lesson: simulate a failed merge – readme.txt has conflict markers in workingDir
+                const baseHash = 'a' + Math.random().toString(36).slice(2, 9);
+                const mainHash = 'b' + Math.random().toString(36).slice(2, 9);
+                const featHash = 'c' + Math.random().toString(36).slice(2, 9);
+                const baseContents = { 'readme.txt': 'Hello world' };
+                const mainContents = { 'readme.txt': 'This is a Digital Humanities project tracking manuscript versions.' };
+                const featContents = { 'readme.txt': 'This is a DH project for analysing historical texts and variants.' };
+                commits = [
+                    { hash: baseHash, message: 'Initial commit', files: ['readme.txt'], fileContents: baseContents, parent: null },
+                    { hash: mainHash, message: 'Update project description', files: ['readme.txt'], fileContents: mainContents, parent: baseHash },
+                    { hash: featHash, message: 'Add project overview', files: ['readme.txt'], fileContents: featContents, parent: baseHash }
+                ];
+                branchHeads = { main: mainHash, feature: featHash };
+                branchParent = { feature: 'main' };
             } else if (inited && (lessonId === 'git-5' || lessonId === 'git-6')) {
                 const firstHash = 'a' + Math.random().toString(36).slice(2, 9);
                 const fileContents = { 'readme.txt': 'Hello world' };
@@ -424,17 +456,20 @@
             } else if (inited && (lessonId === 'git-3' || lessonId === 'git-4')) {
                 commits = [];
             }
+            const conflictContent = '<<<<<<< HEAD\nThis is a Digital Humanities project tracking manuscript versions.\n=======\nThis is a DH project for analysing historical texts and variants.\n>>>>>>> feature';
             const workingDir = (lessonId === 'git-4')
                 ? {}
-                : (hasFiles ? { 'readme.txt': 'Hello world' } : {});
+                : (lessonId === 'branch-5'
+                    ? { 'readme.txt': conflictContent }
+                    : (hasFiles ? { 'readme.txt': (lessonId === 'branch-3' ? 'Feature complete' : 'Hello world') } : {}));
             return {
                 inited,
-                branch: 'main',
+                branch: lessonId === 'branch-3' ? 'feature' : 'main',
                 branchHeads,
-                branchParent: {},
+                branchParent,
                 commits,
                 staged: [],
-                trackedFiles: isBranchLesson ? ['readme.txt'] : (['git-5','git-6'].includes(lessonId) ? ['readme.txt'] : []),
+                trackedFiles: (isBranchLesson || lessonId === 'branch-5') ? ['readme.txt'] : (['git-5','git-6'].includes(lessonId) ? ['readme.txt'] : []),
                 workingDir,
                 remotes: {},
                 pushed: false,
@@ -2077,6 +2112,19 @@
                             ...(prev[lessonRaw.id] || []),
                             { type: 'command', text: cmd },
                             ...(fileResult.output ? [{ type: 'output', text: fileResult.output }] : [])
+                        ]
+                    }));
+                    return;
+                }
+
+                const firstWord = (cmd.trim().split(/\s+/)[0] || '').toLowerCase();
+                if (firstWord !== 'git') {
+                    setTerminalLinesByLesson(prev => ({
+                        ...prev,
+                        [lessonRaw.id]: [
+                            ...(prev[lessonRaw.id] || []),
+                            { type: 'command', text: cmd },
+                            { type: 'output', text: t('ui.unsupportedGitCommand', {}) }
                         ]
                     }));
                     return;

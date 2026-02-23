@@ -258,13 +258,13 @@
         "description": "A **squash merge** (**git merge --squash <branch>**) brings the other branch's changes into your working tree as a single set of staged changes, without creating a merge commit. You then commit once—so multiple commits on the other branch become one commit on the current branch. Useful for keeping history tidy.",
         "whyImportant": "Squashing turns a messy series of \"WIP\" or \"fix typo\" commits into one clear commit, which is easier to review and cite.",
         "whatToDo": [
-          "Create a branch and make one or more commits on it",
-          "Switch to main: **git checkout main**",
-          "Run **git merge --squash feature** (use your branch name)",
+          "You start on a branch (**feature**) that already has multiple commits. Switch to main: **git checkout main**",
+          "Run **git merge --squash feature**",
           "Run **git status**—you'll see the changes staged. Then **git commit -m \"Add feature (squashed)\"** to complete",
+          "*(Optional)* Delete the branch now that it's merged: **git branch -d feature**",
           "Type **next** when done"
         ],
-        "codeTemplate": "git merge --squash feature\ngit commit -m \"Squashed feature\""
+        "codeTemplate": "git checkout main\ngit merge --squash feature\ngit commit -m \"Add feature (squashed)\"\ngit branch -d feature"
       },
       "branch-4": {
         "title": "Rebasing",
@@ -283,10 +283,13 @@
         "description": "When two branches change the **same part** of the same file, Git cannot merge automatically. You get a **merge conflict**: the file is marked with conflict markers (**<<<<<<<**, **=======**, **>>>>>>>**) showing the two versions. To resolve it: open the file, decide what the final content should be (keep one version, combine both, or edit by hand), remove the conflict markers and the version you don't want, then **git add** the file and **git commit** to complete the merge. In this simulation, to open a file for editing: type **edit filename** in the terminal; the editor opens below—edit the content and click Save. Conflicts are normal when several people edit the same lines; resolving them is a routine part of collaboration.",
         "whyImportant": "In DH projects, multiple editors or datasets can touch the same files. Knowing how to read conflict markers and resolve conflicts lets you merge branches and pull others' work without fear.",
         "whatToDo": [
-          "Read the explanation above",
-          "When you see a conflict in real Git, open the file, edit it to remove the markers and keep the desired content, then **git add <file>** and **git commit**. Here: type **edit <filename>** in the terminal; the editor opens below—remove conflict markers and click Save.",
-          "In the terminal, type **next** when ready to continue"
-        ]
+          "**readme.txt** already has a conflict. Run **cat readme.txt** to see the conflict markers",
+          "Type **edit readme.txt** in the terminal—the editor opens below. Remove the conflict markers and keep the content you want (one version, the other, or a combination). Click **Save**",
+          "Stage the resolved file: **git add readme.txt**",
+          "Complete the merge: **git commit -m \"Resolve conflict\"**",
+          "Type **next** when done"
+        ],
+        "codeTemplate": "cat readme.txt\nedit readme.txt\ngit add readme.txt\ngit commit -m \"Resolve conflict\""
       },
       "gh-1": {
         "title": "What is GitHub?",
@@ -691,13 +694,13 @@
         "description": "Une **fusion squash** (**git merge --squash <branche>**) apporte les changements de l'autre branche dans votre arbre de travail comme un seul ensemble de changements en stage, sans créer de commit de merge. Vous commitez ensuite une fois—plusieurs commits sur l'autre branche deviennent un seul commit sur la branche courante. Utile pour garder un historique propre.",
         "whyImportant": "Squasher transforme une série de commits « WIP » ou « typo » en un commit clair, plus facile à relire et citer.",
         "whatToDo": [
-          "Créer une branche et y faire un ou plusieurs commits",
-          "Revenir sur main : **git checkout main**",
-          "Lancer **git merge --squash feature** (avec le nom de votre branche)",
+          "Vous débutez sur une branche (**feature**) qui a déjà plusieurs commits. Revenir sur main : **git checkout main**",
+          "Lancer **git merge --squash feature**",
           "Lancer **git status**—vous verrez les changements en stage. Puis **git commit -m \"Feature squashed\"** pour terminer",
+          "*(Optionnel)* Supprimer la branche maintenant qu'elle est fusionnée : **git branch -d feature**",
           "Taper **next** quand c'est fait"
         ],
-        "codeTemplate": "git merge --squash feature\ngit commit -m \"Feature squashed\""
+        "codeTemplate": "git checkout main\ngit merge --squash feature\ngit commit -m \"Feature squashed\"\ngit branch -d feature"
       },
       "branch-4": {
         "title": "Rebase",
@@ -716,10 +719,13 @@
         "description": "Quand deux branches modifient la **même partie** du même fichier, Git ne peut pas fusionner automatiquement. Vous obtenez un **conflit de fusion** : le fichier est marqué avec des marqueurs de conflit (**<<<<<<<**, **=======**, **>>>>>>>**) qui montrent les deux versions. Pour le résoudre : ouvrez le fichier, décidez du contenu final (garder une version, combiner les deux, ou modifier à la main), supprimez les marqueurs et la version que vous ne voulez pas, puis **git add** le fichier et **git commit** pour terminer la fusion. Dans cette simulation, pour ouvrir un fichier : tapez **edit nomfichier** dans le terminal ; l'éditeur s'ouvre en dessous—modifiez le contenu et cliquez sur Enregistrer. Les conflits sont normaux quand plusieurs personnes modifient les mêmes lignes ; les résoudre fait partie du travail en équipe.",
         "whyImportant": "En HN, plusieurs éditeurs ou jeux de données peuvent toucher les mêmes fichiers. Savoir lire les marqueurs de conflit et résoudre les conflits permet de fusionner des branches et d'intégrer le travail des autres en toute sérénité.",
         "whatToDo": [
-          "Lire l'explication ci-dessus",
-          "En vrai Git, quand vous voyez un conflit : ouvrez le fichier, éditez-le pour supprimer les marqueurs et garder le contenu voulu, puis **git add <fichier>** et **git commit**. Ici : tapez **edit <nomfichier>** dans le terminal ; l'éditeur s'ouvre en dessous—supprimez les marqueurs de conflit et cliquez sur Enregistrer.",
-          "Dans le terminal, taper **next** quand vous êtes prêt à continuer"
-        ]
+          "**readme.txt** contient déjà un conflit. Tapez **cat readme.txt** pour voir les marqueurs de conflit",
+          "Tapez **edit readme.txt** dans le terminal—l'éditeur s'ouvre en dessous. Supprimez les marqueurs de conflit et gardez le contenu souhaité (une version, l'autre, ou une combinaison). Cliquez sur **Enregistrer**",
+          "Indexez le fichier résolu : **git add readme.txt**",
+          "Terminez la fusion : **git commit -m \"Résoudre le conflit\"**",
+          "Taper **next** quand c'est fait"
+        ],
+        "codeTemplate": "cat readme.txt\nedit readme.txt\ngit add readme.txt\ngit commit -m \"Résoudre le conflit\""
       },
       "gh-1": {
         "title": "Qu'est-ce que GitHub ?",
