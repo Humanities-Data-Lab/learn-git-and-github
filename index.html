@@ -1287,20 +1287,10 @@
             }
         }
 
-        function TextWithTooltips({ text }) {
-            if (!text) return null;
-            const lang = window.currentLanguage || 'en';
-            const englishGlossary = translations.en?.glossary || {};
-            const glossaryMap = new Map();
-            Object.keys(englishGlossary).forEach(key => { glossaryMap.set(key.toLowerCase(), getTranslatedGlossary(key)); });
-            let termsToMatch = Object.keys(englishGlossary);
-            if (lang === 'fr' && translations.fr?.glossary) {
-                const frenchTerms = Object.keys(translations.fr.glossary).filter(key => !englishGlossary.hasOwnProperty(key));
-                termsToMatch = [...termsToMatch, ...frenchTerms];
-            }
-            const sortedTerms = termsToMatch.sort((a, b) => b.length - a.length);
+        function applyGlossaryToPlainText(plainText, keyPrefix, lang, glossaryMap, sortedTerms) {
+            if (!plainText) return null;
             const parts = [];
-            let remaining = text;
+            let remaining = plainText;
             let keyCounter = 0;
             while (remaining.length > 0) {
                 let matched = false;
@@ -1315,8 +1305,8 @@
                         const afterMatch = remaining.substring(matchIndex + match[0].length);
                         let definition = glossaryMap.get(term.toLowerCase()) || (lang === 'fr' && translations.fr?.glossary?.[term]) || getTranslatedGlossary(term);
                         if (definition) {
-                            if (beforeMatch) parts.push(<React.Fragment key={`t-${keyCounter++}`}>{beforeMatch}</React.Fragment>);
-                            parts.push(<span key={`t-${keyCounter}`} className="tooltip-wrapper" title={definition}>{match[0]}</span>);
+                            if (beforeMatch) parts.push(<React.Fragment key={`${keyPrefix}-${keyCounter++}`}>{beforeMatch}</React.Fragment>);
+                            parts.push(<span key={`${keyPrefix}-${keyCounter}`} className="tooltip-wrapper" title={definition}>{match[0]}</span>);
                             keyCounter++;
                             remaining = afterMatch;
                             matched = true;
@@ -1325,8 +1315,35 @@
                     }
                 }
                 if (!matched) {
-                    parts.push(<React.Fragment key={`t-${keyCounter++}`}>{remaining}</React.Fragment>);
+                    parts.push(<React.Fragment key={`${keyPrefix}-${keyCounter++}`}>{remaining}</React.Fragment>);
                     break;
+                }
+            }
+            if (parts.length === 0) return null;
+            if (parts.length === 1 && typeof parts[0].props?.children === 'string') return parts[0].props.children;
+            return <>{parts}</>;
+        }
+
+        function TextWithTooltips({ text }) {
+            if (!text) return null;
+            const lang = window.currentLanguage || 'en';
+            const englishGlossary = translations.en?.glossary || {};
+            const glossaryMap = new Map();
+            Object.keys(englishGlossary).forEach(key => { glossaryMap.set(key.toLowerCase(), getTranslatedGlossary(key)); });
+            let termsToMatch = Object.keys(englishGlossary);
+            if (lang === 'fr' && translations.fr?.glossary) {
+                const frenchTerms = Object.keys(translations.fr.glossary).filter(key => !englishGlossary.hasOwnProperty(key));
+                termsToMatch = [...termsToMatch, ...frenchTerms];
+            }
+            const sortedTerms = termsToMatch.sort((a, b) => b.length - a.length);
+            const segments = text.split(/\*\*/);
+            const parts = [];
+            for (let i = 0; i < segments.length; i++) {
+                if (i % 2 === 0) {
+                    const node = applyGlossaryToPlainText(segments[i], `t-${i}`, lang, glossaryMap, sortedTerms);
+                    if (node !== null && (segments[i] || i > 0)) parts.push(<React.Fragment key={`seg-${i}`}>{node}</React.Fragment>);
+                } else {
+                    parts.push(<strong key={`seg-${i}`}>{segments[i]}</strong>);
                 }
             }
             return <>{parts}</>;
@@ -1777,6 +1794,7 @@
             const [cheatsheetOpen, setCheatsheetOpen] = useState(false);
             const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
             const [showCertificateView, setShowCertificateView] = useState(false);
+            const [urlCopied, setUrlCopied] = useState(false);
             const glossaryTriggerRef = useRef(null);
             const cheatsheetTriggerRef = useRef(null);
             const avatarTriggerRef = useRef(null);
@@ -2154,7 +2172,10 @@
                                 <div className="certificate-share" style={{ marginTop: '50px', paddingTop: '30px', borderTop: '2px solid #e0e0e0' }}>
                                     <p style={{ fontSize: '16px', color: '#555', marginBottom: '15px' }}><strong>{t('ui.certificateShare')}</strong></p>
                                     <div className="url-share">
-                                        <input type="text" readOnly value={window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) })} onClick={(e) => e.target.select()} style={{ width: '100%', maxWidth: '600px', padding: '10px', fontSize: '14px', border: '2px solid #ddd', borderRadius: '5px' }} aria-label={t('ui.certificateShare')} />
+                                        <div className="url-share-row" style={{ maxWidth: '600px' }}>
+                                            <input type="text" readOnly value={window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) })} onClick={(e) => e.target.select()} style={{ flex: 1, padding: '10px', fontSize: '14px', border: '2px solid #ddd', borderRadius: '5px' }} aria-label={t('ui.certificateShare')} />
+                                            <button type="button" className="btn btn-primary url-copy-btn" onClick={async () => { const url = window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) }); try { await navigator.clipboard.writeText(url); setUrlCopied(true); setTimeout(() => setUrlCopied(false), 2000); } catch (e) { } }} aria-label={t('ui.copyToClipboard')}>{urlCopied ? t('ui.copied') : t('ui.copyToClipboard')}</button>
+                                        </div>
                                     </div>
                                     <div style={{ marginTop: '20px' }}>
                                         <a href={`mailto:?subject=${encodeURIComponent(t('ui.emailCertificateSubject'))}&body=${encodeURIComponent(t('ui.emailCertificateBody') + ' ' + (window.location.origin + window.location.pathname + '#' + encodeCertificateState({ name: studentName, avatarUrl: avatarUrl || null, language, completedLessons: Array.from(completedLessons) })))}`} className="btn btn-primary" style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 24px', fontSize: '16px' }} aria-label={t('ui.emailCertificate')}>📧 {t('ui.emailCertificate')}</a>
@@ -2270,7 +2291,10 @@
                                 <div className="url-share" style={{ marginTop: '16px' }}>
                                     <p><strong>{t('ui.tip')}</strong> {t('ui.copyUrl')}</p>
                                     <p className="url-tip-note">{t('ui.noFilesSaved')}</p>
-                                    <input type="text" readOnly value={window.location.href} onClick={(e) => e.target.select()} aria-label={t('ui.copyUrl')} />
+                                    <div className="url-share-row">
+                                        <input type="text" readOnly value={window.location.href} onClick={(e) => e.target.select()} aria-label={t('ui.copyUrl')} />
+                                        <button type="button" className="btn btn-primary url-copy-btn" onClick={async () => { try { await navigator.clipboard.writeText(window.location.href); setUrlCopied(true); setTimeout(() => setUrlCopied(false), 2000); } catch (e) { /* fallback: select and let user copy */ } }} aria-label={t('ui.copyToClipboard')}>{urlCopied ? t('ui.copied') : t('ui.copyToClipboard')}</button>
+                                    </div>
                                 </div>
                             </div>
                             <div className="progress-indicator">
