@@ -1524,45 +1524,45 @@
                     </div>
                     <div className="avatar-creator-controls">
                         <ColorPickerRow label={t('ui.avatarSkinTone')} colors={avatarOpts.skinColors} onChange={(skinColors) => setAvatarOpts(o => ({ ...o, skinColors }))} />
-                        <label className="avatar-creator-label">{t('ui.avatarHairStyle')}
-                            <select value={avatarOpts.top} onChange={(e) => setAvatarOpts(o => ({ ...o, top: e.target.value }))} aria-label={t('ui.avatarHairStyle')}>
+                        <label htmlFor="avatar-select-top" className="avatar-creator-label">{t('ui.avatarHairStyle')}
+                            <select id="avatar-select-top" value={avatarOpts.top} onChange={(e) => setAvatarOpts(o => ({ ...o, top: e.target.value }))}>
                                 {AVATAR_TOP_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                             </select>
                         </label>
                         <ColorPickerRow label={t('ui.avatarHairColor')} colors={avatarOpts.hairColors} onChange={(hairColors) => setAvatarOpts(o => ({ ...o, hairColors }))} />
-                        <label className="avatar-creator-label">{t('ui.avatarClothingStyle')}
-                            <select value={avatarOpts.clothing} onChange={(e) => setAvatarOpts(o => ({ ...o, clothing: e.target.value }))} aria-label={t('ui.avatarClothingStyle')}>
+                        <label htmlFor="avatar-select-clothing" className="avatar-creator-label">{t('ui.avatarClothingStyle')}
+                            <select id="avatar-select-clothing" value={avatarOpts.clothing} onChange={(e) => setAvatarOpts(o => ({ ...o, clothing: e.target.value }))}>
                                 {AVATAR_CLOTHING_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                             </select>
                         </label>
                         <ColorPickerRow label={t('ui.avatarClothingColor')} colors={avatarOpts.clothesColors} onChange={(clothesColors) => setAvatarOpts(o => ({ ...o, clothesColors }))} />
                         <div className="avatar-expression-row">
-                            <label className="avatar-creator-label">{t('ui.avatarMouth')}
-                                <select value={avatarOpts.mouth} onChange={(e) => setAvatarOpts(o => ({ ...o, mouth: e.target.value }))} aria-label={t('ui.avatarMouth')}>
+                            <label htmlFor="avatar-select-mouth" className="avatar-creator-label">{t('ui.avatarMouth')}
+                                <select id="avatar-select-mouth" value={avatarOpts.mouth} onChange={(e) => setAvatarOpts(o => ({ ...o, mouth: e.target.value }))}>
                                     {AVATAR_MOUTH_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                                 </select>
                             </label>
-                            <label className="avatar-creator-label">{t('ui.avatarEyes')}
-                                <select value={avatarOpts.eyes} onChange={(e) => setAvatarOpts(o => ({ ...o, eyes: e.target.value }))} aria-label={t('ui.avatarEyes')}>
+                            <label htmlFor="avatar-select-eyes" className="avatar-creator-label">{t('ui.avatarEyes')}
+                                <select id="avatar-select-eyes" value={avatarOpts.eyes} onChange={(e) => setAvatarOpts(o => ({ ...o, eyes: e.target.value }))}>
                                     {AVATAR_EYES_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                                 </select>
                             </label>
                         </div>
-                        <label className="avatar-creator-label">{t('ui.avatarAccessories')}
-                            <select value={avatarOpts.accessories || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, accessories: e.target.value }))} aria-label={t('ui.avatarAccessories')}>
+                        <label htmlFor="avatar-select-accessories" className="avatar-creator-label">{t('ui.avatarAccessories')}
+                            <select id="avatar-select-accessories" value={avatarOpts.accessories || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, accessories: e.target.value }))}>
                                 {AVATAR_ACCESSORIES_OPTS.map(opt => <option key={opt.v || 'none'} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                             </select>
                         </label>
                         {(avatarOpts.accessories || '').length > 0 && (
                             <ColorPickerRow label={t('ui.avatarAccessoriesColor')} colors={avatarOpts.accessoriesColors || ['#262e33']} onChange={(accessoriesColors) => setAvatarOpts(o => ({ ...o, accessoriesColors }))} />
                         )}
-                        <label className="avatar-creator-label">{t('ui.avatarEyebrows')}
-                            <select value={avatarOpts.eyebrows} onChange={(e) => setAvatarOpts(o => ({ ...o, eyebrows: e.target.value }))} aria-label={t('ui.avatarEyebrows')}>
+                        <label htmlFor="avatar-select-eyebrows" className="avatar-creator-label">{t('ui.avatarEyebrows')}
+                            <select id="avatar-select-eyebrows" value={avatarOpts.eyebrows} onChange={(e) => setAvatarOpts(o => ({ ...o, eyebrows: e.target.value }))}>
                                 {AVATAR_EYEBROWS_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                             </select>
                         </label>
-                        <label className="avatar-creator-label">{t('ui.avatarFacialHair')}
-                            <select value={avatarOpts.facialHair || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, facialHair: e.target.value }))} aria-label={t('ui.avatarFacialHair')}>
+                        <label htmlFor="avatar-select-facial-hair" className="avatar-creator-label">{t('ui.avatarFacialHair')}
+                            <select id="avatar-select-facial-hair" value={avatarOpts.facialHair || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, facialHair: e.target.value }))}>
                                 {AVATAR_FACIAL_HAIR_OPTS.map(opt => <option key={opt.v || 'none'} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                             </select>
                         </label>
@@ -1571,8 +1571,8 @@
                         )}
                         <ColorPickerRow label={t('ui.avatarHatColor')} colors={avatarOpts.hatColors || ['#262e33']} onChange={(hatColors) => setAvatarOpts(o => ({ ...o, hatColors }))} />
                         {avatarOpts.clothing === 'graphicShirt' && (
-                            <label className="avatar-creator-label">{t('ui.avatarClothingGraphic')}
-                                <select value={avatarOpts.clothingGraphic || AVATAR_CLOTHING_GRAPHIC_OPTS[0].v} onChange={(e) => setAvatarOpts(o => ({ ...o, clothingGraphic: e.target.value }))} aria-label={t('ui.avatarClothingGraphic')}>
+                            <label htmlFor="avatar-select-graphic" className="avatar-creator-label">{t('ui.avatarClothingGraphic')}
+                                <select id="avatar-select-graphic" value={avatarOpts.clothingGraphic || AVATAR_CLOTHING_GRAPHIC_OPTS[0].v} onChange={(e) => setAvatarOpts(o => ({ ...o, clothingGraphic: e.target.value }))}>
                                     {AVATAR_CLOTHING_GRAPHIC_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
                                 </select>
                             </label>
@@ -2374,7 +2374,7 @@
                                     <p className="terminal-nav-hint" style={{ marginTop: '8px', fontSize: '13px', color: '#666' }}>
                                         {t('ui.terminalNavHint')}
                                     </p>
-                                    {!hasTerminalGoal && commandText ? (
+                                    {commandText ? (
                                         <div className="code-input">
                                             <label className="commands-label">{t('ui.commandsToTry')}</label>
                                             <div className="code-editor-container">
@@ -2392,7 +2392,7 @@
                                     <div className="button-group">
                                         {currentLessonIndex > 0 && <button onClick={handleBack} className="btn btn-secondary" aria-label={t('ui.back')}>{t('ui.back')}</button>}
                                         {feedback?.type === 'success' ? (
-                                            !isLastLesson ? <button onClick={handleNext} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.nextLesson')}>{t('ui.nextLesson')}</button> : <button onClick={() => setShowCertificateView(true)} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.viewCertificate')}>{t('ui.viewCertificate')}</button>
+                                            !isLastLesson ? <button onClick={handleNext} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.nextLesson')}>{t('ui.nextLesson')}</button> : (allLessonsComplete ? <button onClick={() => setShowCertificateView(true)} className="btn btn-primary" ref={nextButtonRef} aria-label={t('ui.viewCertificate')}>{t('ui.viewCertificate')}</button> : null)
                                         ) : (
                                             <>
                                                 <button onClick={handleVerify} className="btn btn-primary" aria-label={t('ui.verifyCode')}>{t('ui.verifyCode')}</button>
