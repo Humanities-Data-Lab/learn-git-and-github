@@ -9,11 +9,13 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- GitGraph.js: git branch graph (vanilla JS; @gitgraph/react requires core as global so we use this from React) -->
+    <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js@1.4.0/lib/gitgraph.umd.min.js"></script>
 </head>
 <body>
     <div id="root"></div>
 
-    <script type="application/json" id="embedded-translations">{"en":{"ui":{"title":"Learn Git and GitHub","subtitle":"Version control from zero — Essential for Digital Humanities","welcome":"Welcome to Git and GitHub!","welcomeDescription":"This interactive tutorial teaches version control from the ground up. No prior knowledge of Git, GitHub, or version control is assumed. You'll learn why these tools matter—especially for Digital Humanities projects—and how to use them. Everything is done in the terminal and file editor on this page: you do not need to use your computer's terminal or install Git.","tutorialCredit":"This tutorial follows the same module system as the HTML/CSS course. It is available in English and French.","enterName":"Enter your name","chooseAvatar":"Choose your avatar","chooseAvatarOption":"Avatar option {number} of {total}","avatarPickerScrollHint":"Scroll for more avatars","changeAvatar":"Change avatar","startLearning":"Start Learning","nameCertificateNote":"This name will appear on your shareable certificate when you complete all lessons.","welcomeUser":"Welcome, {name}! • Lesson {current} of {total}","courseProgress":"Course Progress - Click any section to jump to it","whatWeLearning":"What we're learning:","whyImportant":"Why it's important:","needHint":"Need a hint? Click to see what to do","hideHint":"Hide hint","showHint":"Show hint","whatToDo":"What to do:","commandsToTry":"Command(s) to try","copyCommand":"Copy command","terminalHint":"Use the terminal on the right to run the command.","terminalNavHint":"Commands: ls, pwd, cd, cat, echo, edit | git ... | next | back | clear","editorLabel":"File editor","save":"Save","cancel":"Cancel","back":"← Back","verifyCode":"I've done this →","skip":"Skip →","tryAgain":"Try Again","nextLesson":"Next Lesson →","learnMore":"Learn more","tip":"Tip:","copyUrl":"Copy this URL to save your progress and resume later:","noFilesSaved":"No data is saved on our server—this is the only way to re-access your progress.","certificateTitle":"Certificate of Completion","certificateSubtitle":"Git and GitHub for Version Control","certificateDescription":"This certifies that","certificateCompleted":"has successfully completed the interactive tutorial on version control, Git basics, and GitHub—with a focus on why these tools matter for Digital Humanities.","certificateCovered":"This course covered:","completedOn":"Completed on","congratulations":"Congratulations","certificateShare":"Share this certificate with anyone by copying the URL:","certificateShareDescription":"You can copy the URL above to share your certificate.","emailCertificate":"Email Certificate","emailCertificateSubject":"Check out my certificate","emailCertificateBody":"I've completed the Git and GitHub tutorial! Check out my certificate:","certificateItem1":"What is version control and why it matters for Digital Humanities","certificateItem2":"Git basics: repositories, commits, and history","certificateItemBranching":"Branching: create branches, merge, squash, and rebase","certificateItem3":"GitHub: hosting, push, pull, and clone","certificateItem4":"Collaboration and good practices for DH projects","successMessage":"Well done! Continue to the next lesson when ready.","errorMessage":"Not quite right. Make sure you: {elements}","selectLanguage":"Select language","studentNameAria":"Student name: {name}","completed":"Completed","jumpToSection":"Jump to {section} section. {completed} of {total} lessons completed.","hintRegion":"Hint instructions","glossaryButton":"Glossary","glossaryTitle":"Glossary","glossarySearchPlaceholder":"Search terms...","glossaryClose":"Close glossary","glossaryNoResults":"No terms match your search.","skipToMainContent":"Skip to main content","definitionOf":"Definition of {term}","backToLessons":"Back to lessons","viewCertificate":"View certificate","reportBug":"Report bug"},"categories":{"versionControl":"Version Control","gitBasics":"Git Basics","branching":"Branching","github":"GitHub","collaboration":"Collaboration"},"lessons":{"vc-1":{"title":"What is version control?","description":"Version control is a way to save and track changes to your files over time. Instead of ending up with files like \"thesis_v1.docx\", \"thesis_final.docx\", and \"thesis_FINAL_really.docx\", you keep one project and a history of every change: who changed what, and when. You can go back to any earlier version if you need to.","whyImportant":"Without version control, it's easy to lose work, overwrite someone else's changes, or forget what you changed. With it, you have a clear history and can collaborate safely. For Digital Humanities projects—editions, corpora, datasets, and websites—this is essential: you often work in teams, iterate over years, and need to cite or reproduce a specific state of the project.","whatToDo":["Read the explanation above","Think of a project (e.g. a text edition or dataset) where you'd want to track every change","In the terminal on the right, type **next** when you're ready to continue"]},"vc-2":{"title":"Why version control matters for Digital Humanities","description":"Digital Humanities projects usually involve texts, metadata, code, and often several people. Version control lets you: keep a single source of truth instead of scattered copies; see who added or changed which line; recover from mistakes; and give others (or future you) a way to understand and reproduce your work. Many funders and publishers now expect or recommend using version control for transparency and reproducibility.","whyImportant":"DH work is research. Being able to show how a corpus or edition evolved, and to restore or cite a specific version, supports both scholarly practice and open science. Learning Git and GitHub is one of the most practical skills you can add to your DH toolkit.","whatToDo":["Read why DH projects benefit from version control","In the terminal, type **next** to continue"]},"git-1":{"title":"What is Git?","description":"Git is a free, open-source tool that does version control on your computer. It was created to manage the Linux kernel source code and is now used worldwide. Git runs locally: it keeps the full history of your project in a hidden folder (a repository) inside your project. You don't need the internet to make commits—only when you want to share or back up with a server like GitHub. In this course we simulate Git in the terminal on this page—no installation needed.","whyImportant":"Git is the standard for version control in software and in many DH projects. Understanding that Git is local-first (your history lives on your machine) helps you see why we later add GitHub for backup and collaboration.","whatToDo":["In the terminal on the right, type: **git --version**","You'll see a simulated version. (On a real computer you'd install from https://git-scm.com/.)","Type **next** when ready to continue"],"codeTemplate":"git --version"},"git-2":{"title":"Your first repository: git init","description":"A repository (or repo) is the folder where Git keeps the history of your project. To turn a folder into a Git repository, you run git init in that folder. Here, the terminal is already in a simulated project folder (~/my-project). After git init, Git will track changes to files when you tell it to.","whyImportant":"Creating a repo is the first step to using Git. From here on, we'll add files and make commits inside this repo—all in the browser terminal.","whatToDo":["In the terminal, type: **git init**","You should see \"Initialized empty Git repository in .git/\"","The lesson completes automatically when you run the command"],"codeTemplate":"git init"},"git-3":{"title":"Staging and committing: git add and git commit","description":"Git doesn't save every change automatically. You choose which changes to include in a \"commit\" (a snapshot). First you stage the files with git add, then you create the snapshot with git commit -m \"Your message\". You can create or edit files right here: use **echo \"text\" > filename** or **edit filename** (then save in the editor that appears). Then run git add and git commit in the terminal.","whyImportant":"Commits are the building blocks of your history. Good commit messages help you and others understand the project later—especially important in DH when you need to cite or explain a specific version.","whatToDo":["In the terminal: create or edit a file (e.g. **echo \"Hello\" > readme.txt** or **edit readme.txt** and save)","Then type: **git add .** (or **git add readme.txt**)","Then: **git commit -m \"First commit\"** (use any short message)","The lesson completes when you make a commit"],"codeTemplate":"git add .\ngit commit -m \"Your short message\""},"git-4":{"title":"Checking status: git status","description":"At any time you can run git status to see which files are modified, which are staged for the next commit, and which are untracked. This helps you stay in control before committing. Try editing a file (echo or edit) and run git status again to see the change.","whyImportant":"Using git status regularly avoids committing the wrong files or forgetting to add something. It's a habit that will save you in real projects.","whatToDo":["In the terminal, type: **git status**","Optionally change a file (**echo \"more\" >> readme.txt** or **edit readme.txt**) and run **git status** again","Type **next** when done"],"codeTemplate":"git status"},"branch-1":{"title":"Branching: create and switch branches","description":"Branches let you work on a separate line of development without affecting the main branch. Use **git branch** to list branches (the current one has a *). Create a new branch with **git checkout -b <name>** (this creates and switches to it). Use **git checkout <name>** to switch to an existing branch—your working directory updates to match that branch's files.","whyImportant":"Branching is essential for trying out changes, working on features separately, and collaborating. In DH projects you might use a branch for a new edition variant or a dataset update.","whatToDo":["Run **git branch** to see the current branch (main)","Create a new branch: **git checkout -b feature** (or any name)","Run **git branch** again to see both branches; you're now on the new one","Optionally run **git checkout main** to switch back—notice how the terminal reflects the branch","Type **next** when done"],"codeTemplate":"git checkout -b feature"},"branch-2":{"title":"Merging branches","description":"When you're happy with work on a branch, you merge it into another (usually main) with **git merge <branch>**. Git combines the histories. If the other branch has new commits since you branched, you may get a merge commit; if not, Git does a \"fast-forward\" (no merge commit). After merging, the current branch includes the other branch's commits.","whyImportant":"Merging is how you bring feature work back into the main line. Understanding merge vs. fast-forward helps you keep history clear.","whatToDo":["Create a branch and make a commit on it (e.g. **git checkout -b feature**, edit a file, **git add .**, **git commit -m \"Add feature\"**)","Switch to main: **git checkout main**","Merge the branch: **git merge feature**","Run **git log** to see the merged history. Type **next** when done"],"codeTemplate":"git checkout -b feature\ngit add .\ngit commit -m \"Add feature\"\ngit checkout main\ngit merge feature"},"branch-3":{"title":"Squash merging","description":"A **squash merge** (**git merge --squash <branch>**) brings the other branch's changes into your working tree as a single set of staged changes, without creating a merge commit. You then commit once—so multiple commits on the other branch become one commit on the current branch. Useful for keeping history tidy.","whyImportant":"Squashing turns a messy series of \"WIP\" or \"fix typo\" commits into one clear commit, which is easier to review and cite.","whatToDo":["Create a branch and make one or more commits on it","Switch to main: **git checkout main**","Run **git merge --squash feature** (use your branch name)","Run **git status**—you'll see the changes staged. Then **git commit -m \"Add feature (squashed)\"** to complete","Type **next** when done"],"codeTemplate":"git merge --squash feature\ngit commit -m \"Squashed feature\""},"branch-4":{"title":"Rebasing","description":"**git rebase <branch>** moves your current branch's commits so they sit on top of the other branch. The result is a linear history: first the other branch's commits, then yours replayed. Use it to update a feature branch with the latest main, or to clean up history before merging.","whyImportant":"Rebasing keeps history linear and avoids unnecessary merge commits. In DH projects it can make the evolution of a text or dataset easier to follow.","whatToDo":["Start from main with at least one commit. Create a branch and commit on it","On the feature branch, run **git rebase main** (or rebase onto the branch you want to base on)","Your branch's commits are now replayed on top of main. Use **git log** to see the linear history","Type **next** when done"],"codeTemplate":"git checkout -b feature\ngit commit -m \"Change\"\ngit rebase main"},"gh-1":{"title":"What is GitHub?","description":"GitHub is a website that hosts Git repositories in the cloud. It gives you a backup of your repo, a visible history online, and tools for collaboration: others can clone your repo, suggest changes (pull requests), and you can manage issues and documentation. GitHub is very common in open source and in DH.","whyImportant":"Git is local; GitHub is remote. Together they let you back up your work, share it, and collaborate. Many DH projects publish their data and code on GitHub for transparency and reuse.","whatToDo":["Read the section above. (You can sign up at https://github.com on your own computer later.)","In the terminal, type **next** when ready to continue"]},"gh-2":{"title":"Creating a repository on GitHub","description":"On GitHub, you'd click \"New repository\", choose a name (e.g. my-dh-project), and get a URL to connect your local repo. In a real workflow you create this repo first, then use its URL in git remote and git push. You can try this on github.com later; for this lesson we focus on the idea.","whyImportant":"The remote repo on GitHub is the place your local history will be copied to when you push. Creating it first gives you the URL you need for the next step.","whatToDo":["Read the steps above (you can create a real repo on GitHub later from your computer)","In the terminal, type **next** when done"]},"gh-3":{"title":"Pushing your code: git remote and git push","description":"To send your local commits to GitHub, you link your repo to the remote with git remote add origin <URL>, then push with git push -u origin main. Here you can run these commands in the terminal (use any URL for the simulation); the lesson completes when you run git remote add or git push.","whyImportant":"Pushing is how you back up and share your work. Once set up, it becomes a simple step in your workflow.","whatToDo":["In the terminal: **git remote add origin https://github.com/you/repo.git** (any URL is fine for this simulation)","Then: **git push -u origin main**","The lesson completes when you run the commands"],"codeTemplate":"git remote add origin https://github.com/USER/REPO.git\ngit push -u origin main"},"gh-4":{"title":"Getting a copy: git clone and git pull","description":"To get a full copy of someone else's repo (or your own from another computer), you'd use git clone <URL>. To update an existing copy, you run git pull. Here you can try these commands in the terminal—e.g. **git clone https://github.com/some/repo** or **git pull**—to see the simulated output.","whyImportant":"Clone and pull are how you work with existing DH projects, contribute to others' work, or sync between machines. They're essential for collaboration.","whatToDo":["In the terminal, try **git clone https://github.com/some/repo** or **git pull**","Type **next** when done"],"codeTemplate":"git clone https://github.com/USER/REPO.git\ngit pull"},"collab-1":{"title":"Collaboration and good practices for DH","description":"In practice, DH teams use branches (separate lines of work) and pull requests (proposed changes for review) on GitHub. Commit often with clear messages; push regularly so work is backed up. Use a README to explain the project and, if relevant, a license so others know how they can reuse your data and code. These practices make your project understandable and citable.","whyImportant":"Good version control habits make DH projects reproducible, transparent, and easier to hand off or publish. They align with open scholarship and funder expectations.","whatToDo":["Read the collaboration and good-practice tips above","In the terminal, type **next** to finish the course and view your certificate"]}},"glossary":{"version control":"A system that records changes to files over time so you can recall or compare specific versions later.","repository":"A folder managed by Git, containing the project files and the full history of commits.","commit":"A snapshot of your project at a point in time, with a message and a unique ID. Commits form the history of the project.","stage":"To mark files as ready to be included in the next commit (using git add).","push":"To send your local commits to a remote repository (e.g. on GitHub).","pull":"To fetch and merge changes from a remote repository into your current branch.","clone":"To download a copy of a repository (including its history) from a remote server.","remote":"A version of the repository hosted elsewhere (e.g. on GitHub), often named origin.","GitHub":"A web platform that hosts Git repositories and provides tools for collaboration, issues, and documentation.","Digital Humanities":"Research and teaching that combine computational methods with humanities disciplines; often involves texts, datasets, and code that benefit from version control."}},"fr":{"ui":{"title":"Apprendre Git et GitHub","subtitle":"Contrôle de version dès le début — Essentiel pour les humanités numériques","welcome":"Bienvenue dans Git et GitHub !","welcomeDescription":"Ce tutoriel interactif enseigne le contrôle de version depuis les bases. Aucune connaissance préalable de Git, GitHub ou du contrôle de version n'est requise. Vous verrez pourquoi ces outils sont importants—surtout pour les projets en humanités numériques—et comment les utiliser. Tout se fait dans le terminal et l'éditeur de fichiers sur cette page : pas besoin d'utiliser le terminal de votre ordinateur ni d'installer Git.","tutorialCredit":"Ce tutoriel reprend le même système de modules que le cours HTML/CSS. Il est disponible en anglais et en français.","enterName":"Entrez votre nom","chooseAvatar":"Choisissez votre avatar","chooseAvatarOption":"Option d'avatar {number} sur {total}","avatarPickerScrollHint":"Faites défiler pour plus d'avatars","changeAvatar":"Changer d'avatar","startLearning":"Commencer","nameCertificateNote":"Ce nom apparaîtra sur votre certificat partageable à la fin de toutes les leçons.","welcomeUser":"Bienvenue, {name} ! • Leçon {current} sur {total}","courseProgress":"Progression — Cliquez sur une section pour y aller","whatWeLearning":"Ce que nous apprenons :","whyImportant":"Pourquoi c'est important :","needHint":"Besoin d'un indice ? Cliquez pour voir quoi faire","hideHint":"Masquer l'indice","showHint":"Afficher l'indice","whatToDo":"À faire :","commandsToTry":"Commande(s) à essayer","copyCommand":"Copier la commande","terminalHint":"Utilisez le terminal à droite pour exécuter la commande.","terminalNavHint":"Commandes : ls, pwd, cd, cat, echo, edit | git ... | next | back | clear","editorLabel":"Éditeur de fichier","save":"Enregistrer","cancel":"Annuler","back":"← Retour","verifyCode":"C'est fait →","skip":"Passer →","tryAgain":"Réessayer","nextLesson":"Leçon suivante →","learnMore":"En savoir plus","tip":"Conseil :","copyUrl":"Copiez cette URL pour sauvegarder votre progression et reprendre plus tard :","noFilesSaved":"Aucune donnée n'est enregistrée sur notre serveur—c'est le seul moyen de retrouver votre progression.","certificateTitle":"Certificat de réussite","certificateSubtitle":"Git et GitHub pour le contrôle de version","certificateDescription":"Ceci certifie que","certificateCompleted":"a suivi avec succès le tutoriel sur le contrôle de version, les bases de Git et GitHub—en mettant l'accent sur leur importance pour les humanités numériques.","certificateCovered":"Ce cours a couvert :","completedOn":"Terminé le","congratulations":"Félicitations","certificateShare":"Partagez ce certificat en copiant l'URL :","certificateShareDescription":"Vous pouvez copier l'URL ci-dessus pour partager votre certificat.","emailCertificate":"Envoyer le certificat par courriel","emailCertificateSubject":"Mon certificat Git et GitHub","emailCertificateBody":"J'ai terminé le tutoriel Git et GitHub ! Voici mon certificat :","certificateItem1":"Qu'est-ce que le contrôle de version et pourquoi il compte pour les humanités numériques","certificateItem2":"Bases de Git : dépôts, commits et historique","certificateItemBranching":"Branches : créer, fusionner, squash et rebase","certificateItem3":"GitHub : hébergement, push, pull et clone","certificateItem4":"Collaboration et bonnes pratiques pour les projets en HN","successMessage":"Très bien ! Passez à la leçon suivante quand vous êtes prêt.","errorMessage":"Pas tout à fait. Assurez-vous de : {elements}","selectLanguage":"Choisir la langue","studentNameAria":"Nom de l'étudiant : {name}","completed":"Terminé","jumpToSection":"Aller à la section {section}. {completed} sur {total} leçons terminées.","hintRegion":"Instructions de l'indice","glossaryButton":"Glossaire","glossaryTitle":"Glossaire","glossarySearchPlaceholder":"Rechercher un terme...","glossaryClose":"Fermer le glossaire","glossaryNoResults":"Aucun terme ne correspond.","skipToMainContent":"Aller au contenu principal","definitionOf":"Définition de {term}","backToLessons":"Retour aux leçons","viewCertificate":"Voir le certificat","reportBug":"Signaler un bug"},"categories":{"versionControl":"Contrôle de version","gitBasics":"Bases de Git","branching":"Branches","github":"GitHub","collaboration":"Collaboration"},"lessons":{},"glossary":{"version control":"Système qui enregistre les changements des fichiers dans le temps pour pouvoir retrouver ou comparer des versions précises.","repository":"Dossier géré par Git, contenant les fichiers du projet et tout l'historique des commits.","commit":"Photo du projet à un instant donné, avec un message et un identifiant unique. Les commits forment l'historique du projet.","stage":"Marquer des fichiers comme prêts à être inclus dans le prochain commit (avec git add).","push":"Envoyer vos commits locaux vers un dépôt distant (ex. sur GitHub).","pull":"Récupérer et fusionner les changements d'un dépôt distant dans votre branche actuelle.","clone":"Télécharger une copie d'un dépôt (avec son historique) depuis un serveur distant.","remote":"Version du dépôt hébergée ailleurs (ex. sur GitHub), souvent nommée origin.","GitHub":"Plateforme web qui héberge des dépôts Git et propose des outils de collaboration, issues et documentation.","Digital Humanities":"Recherche et enseignement qui combinent méthodes numériques et disciplines des humanités ; implique souvent textes, jeux de données et code qui bénéficient du contrôle de version."}}}</script>
+    <script type="application/json" id="embedded-translations">{"en":{"ui":{"title":"Learn Git and GitHub","subtitle":"Version control from zero — Essential for Digital Humanities","welcome":"Welcome to Git and GitHub!","welcomeDescription":"This interactive tutorial teaches version control from the ground up. No prior knowledge of Git, GitHub, or version control is assumed. You'll learn why these tools matter—especially for Digital Humanities projects—and how to use them. Everything is done in the terminal and file editor on this page: you do not need to use your computer's terminal or install Git.","tutorialCredit":"This tutorial follows the same module system as the HTML/CSS course. It is available in English and French.","enterName":"Enter your name","chooseAvatar":"Choose your avatar","chooseAvatarOption":"Avatar option {number} of {total}","avatarPickerScrollHint":"Scroll for more avatars","changeAvatar":"Change avatar","createYourAvatar":"Create your avatar","avatarSkinTone":"Skin tone","avatarHairStyle":"Hair style","avatarHairColor":"Hair color","avatarClothingStyle":"Clothing style","avatarClothingColor":"Clothing color","avatarMouth":"Mouth","avatarEyes":"Eyes","avatarAccessories":"Glasses & accessibility","avatarAccessoriesColor":"Glasses / accessory color","avatarEyebrows":"Eyebrows","avatarFacialHair":"Facial hair","avatarFacialHairColor":"Facial hair color","avatarHatColor":"Hat / headwear color","avatarClothingGraphic":"Shirt graphic","addColor":"Add color","addColorHint":"Click a swatch to change the colour; add more to give the avatar alternate shades.","removeColor":"Remove","done":"Done","randomizeAvatar":"Randomize avatar","startLearning":"Start Learning","nameCertificateNote":"This name will appear on your shareable certificate when you complete all lessons.","welcomeUser":"Welcome, {name}! • Lesson {current} of {total}","courseProgress":"Course Progress - Click any section to jump to it","whatWeLearning":"What we're learning:","whyImportant":"Why it's important:","needHint":"Need a hint? Click to see what to do","hideHint":"Hide hint","showHint":"Show hint","whatToDo":"What to do:","commandsToTry":"Command(s) to try","copyCommand":"Copy command","terminalHint":"Use the terminal on the right to run the command.","terminalNavHint":"Commands: ls, pwd, cd, cat, echo, edit | git ... | next | back | clear","editorLabel":"File editor","save":"Save","cancel":"Cancel","back":"← Back","verifyCode":"I've done this →","skip":"Skip →","tryAgain":"Try Again","nextLesson":"Next Lesson →","learnMore":"Learn more","tip":"Tip:","copyUrl":"Copy this URL to save your progress and resume later:","noFilesSaved":"No data is saved on our server—this is the only way to re-access your progress.","certificateTitle":"Certificate of Completion","certificateSubtitle":"Git and GitHub for Version Control","certificateDescription":"This certifies that","certificateCompleted":"has successfully completed the interactive tutorial on version control, Git basics, and GitHub—with a focus on why these tools matter for Digital Humanities.","certificateCovered":"This course covered:","completedOn":"Completed on","congratulations":"Congratulations","certificateShare":"Share this certificate with anyone by copying the URL:","certificateShareDescription":"You can copy the URL above to share your certificate.","emailCertificate":"Email Certificate","emailCertificateSubject":"Check out my certificate","emailCertificateBody":"I've completed the Git and GitHub tutorial! Check out my certificate:","certificateItem1":"What is version control and why it matters for Digital Humanities","certificateItem2":"Git basics: repositories, commits, and history","certificateItemBranching":"Branching: create branches, merge, squash, and rebase","certificateItem3":"GitHub: hosting, push, pull, and clone","certificateItem4":"Collaboration and good practices for DH projects","successMessage":"Well done! Continue to the next lesson when ready.","errorMessage":"Not quite right. Make sure you: {elements}","selectLanguage":"Select language","studentNameAria":"Student name: {name}","completed":"Completed","jumpToSection":"Jump to {section} section. {completed} of {total} lessons completed.","hintRegion":"Hint instructions","glossaryButton":"Glossary","glossaryTitle":"Glossary","glossarySearchPlaceholder":"Search terms...","glossaryClose":"Close glossary","glossaryNoResults":"No terms match your search.","skipToMainContent":"Skip to main content","definitionOf":"Definition of {term}","backToLessons":"Back to lessons","viewCertificate":"View certificate","reportBug":"Report bug","branchVisualizerHelpButton":"Help","branchVisualizerHelpTitle":"About the branch graph","branchVisualizerHelpBody":"This graph shows your Git branches and commits. Each dot is a commit (with its short hash and message). Branches appear as separate lines; the main branch and any branch you create (e.g. with git checkout -b) are shown. The label \"current\" shows which branch you're on. New branches appear as soon as you create them, even before you make a commit on them.","lessonCompleteNext":"Lesson complete! Moving to next lesson...","lessonCompleteTypeNext":"Lesson complete! Type \"next\" or click the button to continue.","goingBackToLesson":"Going back to previous lesson.","editUsage":"edit: usage: edit <filename>","editingFile":"Editing {filename} (save or cancel in editor below)"},"categories":{"versionControl":"Version Control","gitBasics":"Git Basics","branching":"Branching","github":"GitHub","collaboration":"Collaboration"},"lessons":{"vc-1":{"title":"What is version control?","description":"Version control is a way to save and track changes to your files over time. Instead of ending up with files like \"thesis_v1.docx\", \"thesis_final.docx\", and \"thesis_FINAL_really.docx\", you keep one project and a history of every change: who changed what, and when. You can go back to any earlier version if you need to.","whyImportant":"Without version control, it's easy to lose work, overwrite someone else's changes, or forget what you changed. With it, you have a clear history and can collaborate safely. For Digital Humanities projects—editions, corpora, datasets, and websites—this is essential: you often work in teams, iterate over years, and need to cite or reproduce a specific state of the project.","whatToDo":["Read the explanation above","Think of a project (e.g. a text edition or dataset) where you'd want to track every change","In the terminal on the right, type **next** when you're ready to continue"]},"vc-2":{"title":"Why version control matters for Digital Humanities","description":"Digital Humanities projects usually involve texts, metadata, code, and often several people. Version control lets you: keep a single source of truth instead of scattered copies; see who added or changed which line; recover from mistakes; and give others (or future you) a way to understand and reproduce your work. Many funders and publishers now expect or recommend using version control for transparency and reproducibility.","whyImportant":"DH work is research. Being able to show how a corpus or edition evolved, and to restore or cite a specific version, supports both scholarly practice and open science. Learning Git and GitHub is one of the most practical skills you can add to your DH toolkit.","whatToDo":["Read why DH projects benefit from version control","In the terminal, type **next** to continue"]},"git-1":{"title":"What is Git?","description":"Git is a free, open-source tool that does version control on your computer. It was created to manage the Linux kernel source code and is now used worldwide. Git runs locally: it keeps the full history of your project in a hidden folder (a repository) inside your project. You don't need the internet to make commits—only when you want to share or back up with a server like GitHub. In this course we simulate Git in the terminal on this page—no installation needed.","whyImportant":"Git is the standard for version control in software and in many DH projects. Understanding that Git is local-first (your history lives on your machine) helps you see why we later add GitHub for backup and collaboration.","whatToDo":["In the terminal on the right, type: **git --version**","You'll see a simulated version. (On a real computer you'd install from https://git-scm.com/.)","Type **next** when ready to continue"],"codeTemplate":"git --version"},"git-2":{"title":"Your first repository: git init","description":"A repository (or repo) is the folder where Git keeps the history of your project. To turn a folder into a Git repository, you run git init in that folder. Here, the terminal is already in a simulated project folder (~/my-project). After git init, Git will track changes to files when you tell it to.","whyImportant":"Creating a repo is the first step to using Git. From here on, we'll add files and make commits inside this repo—all in the browser terminal.","whatToDo":["In the terminal, type: **git init**","You should see \"Initialized empty Git repository in .git/\"","The lesson completes automatically when you run the command"],"codeTemplate":"git init"},"git-3":{"title":"Staging and committing: git add and git commit","description":"Git doesn't save every change automatically. You choose which changes to include in a \"commit\" (a snapshot). First you stage the files with git add, then you create the snapshot with git commit -m \"Your message\". You can create or edit files right here: use **echo \"text\" > filename** or **edit filename** (then save in the editor that appears). Then run git add and git commit in the terminal.","whyImportant":"Commits are the building blocks of your history. Good commit messages help you and others understand the project later—especially important in DH when you need to cite or explain a specific version.","whatToDo":["In the terminal: create or edit a file (e.g. **echo \"Hello\" > readme.txt** or **edit readme.txt** and save)","Then type: **git add .** (or **git add readme.txt**)","Then: **git commit -m \"First commit\"** (use any short message)","The lesson completes when you make a commit"],"codeTemplate":"git add .\ngit commit -m \"Your short message\""},"git-4":{"title":"Checking status: git status","description":"At any time you can run git status to see which files are modified, which are staged for the next commit, and which are untracked. This helps you stay in control before committing. Try editing a file (echo or edit) and run git status again to see the change.","whyImportant":"Using git status regularly avoids committing the wrong files or forgetting to add something. It's a habit that will save you in real projects.","whatToDo":["In the terminal, type: **git status**","Optionally change a file (**echo \"more\" >> readme.txt** or **edit readme.txt**) and run **git status** again","Type **next** when done"],"codeTemplate":"git status"},"branch-1":{"title":"Branching: create and switch branches","description":"Branches let you work on a separate line of development without affecting the main branch. Each branch can have its own version of files. Use **git branch** to list branches (the current one has a *). Create a new branch with **git checkout -b <name>** (this creates and switches to it). Use **git checkout <name>** to switch to an existing branch—your working directory updates to match that branch's files. In this lesson you'll change **readme.txt** differently on each branch, then use **cat readme.txt** to see that the file content is different on each branch.","whyImportant":"Branching is essential for trying out changes, working on features separately, and collaborating. In DH projects you might use a branch for a new edition variant or a dataset update.","whatToDo":["Run **git branch** to see the current branch (main)","Create a new branch: **git checkout -b feature** (or any name)","Change **readme.txt** on this branch (e.g. **echo \"Feature version\" > readme.txt** or **edit readme.txt**), then **git add readme.txt** and **git commit -m \"Feature content\"**","Switch to main: **git checkout main**. Run **cat readme.txt** to see main's version of the file","Change **readme.txt** on main to something different (e.g. **echo \"Main version\" > readme.txt**), then **git add readme.txt** and **git commit -m \"Main content\"**","Run **cat readme.txt** again—you'll see the main version. Then **git checkout feature** and run **cat readme.txt**—you'll see the feature version. Each branch has its own copy.","Type **next** when done"],"codeTemplate":"git checkout -b feature\necho \"Feature version\" > readme.txt\ngit add readme.txt\ngit commit -m \"Feature content\"\ngit checkout main\ncat readme.txt"},"branch-2":{"title":"Merging branches","description":"When you're happy with work on a branch, you merge it into another (usually main) with **git merge <branch>**. Git combines the histories. If the other branch has new commits since you branched, you may get a merge commit; if not, Git does a \"fast-forward\" (no merge commit). After merging, the current branch includes the other branch's commits.","whyImportant":"Merging is how you bring feature work back into the main line. Understanding merge vs. fast-forward helps you keep history clear.","whatToDo":["Create a branch and make a commit on it (e.g. **git checkout -b feature**, edit a file, **git add .**, **git commit -m \"Add feature\"**)","Switch to main: **git checkout main**","Merge the branch: **git merge feature**","Run **git log** to see the merged history. Type **next** when done"],"codeTemplate":"git checkout -b feature\ngit add .\ngit commit -m \"Add feature\"\ngit checkout main\ngit merge feature"},"branch-3":{"title":"Squash merging","description":"A **squash merge** (**git merge --squash <branch>**) brings the other branch's changes into your working tree as a single set of staged changes, without creating a merge commit. You then commit once—so multiple commits on the other branch become one commit on the current branch. Useful for keeping history tidy.","whyImportant":"Squashing turns a messy series of \"WIP\" or \"fix typo\" commits into one clear commit, which is easier to review and cite.","whatToDo":["Create a branch and make one or more commits on it","Switch to main: **git checkout main**","Run **git merge --squash feature** (use your branch name)","Run **git status**—you'll see the changes staged. Then **git commit -m \"Add feature (squashed)\"** to complete","Type **next** when done"],"codeTemplate":"git merge --squash feature\ngit commit -m \"Squashed feature\""},"branch-4":{"title":"Rebasing","description":"**git rebase <branch>** moves your current branch's commits so they sit on top of the other branch. The result is a linear history: first the other branch's commits, then yours replayed. Use it to update a feature branch with the latest main, or to clean up history before merging.","whyImportant":"Rebasing keeps history linear and avoids unnecessary merge commits. In DH projects it can make the evolution of a text or dataset easier to follow.","whatToDo":["Start from main with at least one commit. Create a branch and commit on it","On the feature branch, run **git rebase main** (or rebase onto the branch you want to base on)","Your branch's commits are now replayed on top of main. Use **git log** to see the linear history","Type **next** when done"],"codeTemplate":"git checkout -b feature\ngit commit -m \"Change\"\ngit rebase main"},"gh-1":{"title":"What is GitHub?","description":"GitHub is a website that hosts Git repositories in the cloud. It gives you a backup of your repo, a visible history online, and tools for collaboration: others can clone your repo, suggest changes (pull requests), and you can manage issues and documentation. GitHub is very common in open source and in DH.","whyImportant":"Git is local; GitHub is remote. Together they let you back up your work, share it, and collaborate. Many DH projects publish their data and code on GitHub for transparency and reuse.","whatToDo":["Read the section above. (You can sign up at https://github.com on your own computer later.)","In the terminal, type **next** when ready to continue"]},"gh-2":{"title":"Creating a repository on GitHub","description":"On GitHub, you'd click \"New repository\", choose a name (e.g. my-dh-project), and get a URL to connect your local repo. In a real workflow you create this repo first, then use its URL in git remote and git push. You can try this on github.com later; for this lesson we focus on the idea.","whyImportant":"The remote repo on GitHub is the place your local history will be copied to when you push. Creating it first gives you the URL you need for the next step.","whatToDo":["Read the steps above (you can create a real repo on GitHub later from your computer)","In the terminal, type **next** when done"]},"gh-3":{"title":"Pushing your code: git remote and git push","description":"To send your local commits to GitHub, you link your repo to the remote with git remote add origin <URL>, then push with git push -u origin main. Here you can run these commands in the terminal (use any URL for the simulation); the lesson completes when you run git remote add or git push.","whyImportant":"Pushing is how you back up and share your work. Once set up, it becomes a simple step in your workflow.","whatToDo":["In the terminal: **git remote add origin https://github.com/you/repo.git** (any URL is fine for this simulation)","Then: **git push -u origin main**","The lesson completes when you run the commands"],"codeTemplate":"git remote add origin https://github.com/USER/REPO.git\ngit push -u origin main"},"gh-4":{"title":"Getting a copy: git clone and git pull","description":"To get a full copy of someone else's repo (or your own from another computer), you'd use git clone <URL>. To update an existing copy, you run git pull. Here you can try these commands in the terminal—e.g. **git clone https://github.com/some/repo** or **git pull**—to see the simulated output.","whyImportant":"Clone and pull are how you work with existing DH projects, contribute to others' work, or sync between machines. They're essential for collaboration.","whatToDo":["In the terminal, try **git clone https://github.com/some/repo** or **git pull**","Type **next** when done"],"codeTemplate":"git clone https://github.com/USER/REPO.git\ngit pull"},"collab-1":{"title":"Collaboration and good practices for DH","description":"In practice, DH teams use branches (separate lines of work) and pull requests (proposed changes for review) on GitHub. Commit often with clear messages; push regularly so work is backed up. Use a README to explain the project and, if relevant, a license so others know how they can reuse your data and code. These practices make your project understandable and citable.","whyImportant":"Good version control habits make DH projects reproducible, transparent, and easier to hand off or publish. They align with open scholarship and funder expectations.","whatToDo":["Read the collaboration and good-practice tips above","In the terminal, type **next** to finish the course and view your certificate"]}},"glossary":{"version control":"A system that records changes to files over time so you can recall or compare specific versions later.","repository":"A folder managed by Git, containing the project files and the full history of commits.","repo":"Short for repository: the folder where Git keeps your project's history.","commit":"A snapshot of your project at a point in time, with a message and a unique ID. Commits form the history of the project.","stage":"To mark files as ready to be included in the next commit (using git add).","staged":"Marked as ready to be included in the next commit (using git add).","push":"To send your local commits to a remote repository (e.g. on GitHub).","pull":"To fetch and merge changes from a remote repository into your current branch.","clone":"To download a copy of a repository (including its history) from a remote server.","remote":"A version of the repository hosted elsewhere (e.g. on GitHub), often named origin.","origin":"The default name for the remote repository (usually on GitHub) that your local repo is linked to.","Git":"A free, open-source tool for version control on your computer. It keeps the full history of your project in a repository and works locally; you only need the internet to share or back up (e.g. via GitHub).","GitHub":"A web platform that hosts Git repositories and provides tools for collaboration, issues, and documentation.","Digital Humanities":"Research and teaching that combine computational methods with humanities disciplines; often involves texts, datasets, and code that benefit from version control.","DH":"Abbreviation for Digital Humanities.","branch":"A separate line of development in a Git repository. You can create branches to try changes or work on features without affecting the main line.","branches":"Separate lines of development in a Git repository. You can create branches to try changes or work on features without affecting the main line.","merge":"To combine the commits from another branch into your current branch (e.g. git merge feature).","merge commit":"A commit that records the merging of two branches when they have diverged (no fast-forward).","fast-forward":"When merging, if the current branch has not diverged, Git simply moves the branch pointer forward; no merge commit is created.","squash merge":"A merge that brings another branch's changes as a single set of staged changes, without a merge commit. You then make one commit, so multiple commits become one.","rebase":"To move your branch's commits so they sit on top of another branch, producing a linear history. Use git rebase <branch>.","pull request":"On GitHub, a proposal to merge changes from one branch into another, for review and discussion before merging.","README":"A file (usually README.md) that explains a project: what it is, how to use it, and how to contribute. Often displayed on GitHub.","untracked":"A file that Git is not yet tracking (not in the last snapshot and not staged). git status lists untracked files."}},"fr":{"ui":{"title":"Apprendre Git et GitHub","subtitle":"Contrôle de version dès le début — Essentiel pour les humanités numériques","welcome":"Bienvenue dans Git et GitHub !","welcomeDescription":"Ce tutoriel interactif enseigne le contrôle de version depuis les bases. Aucune connaissance préalable de Git, GitHub ou du contrôle de version n'est requise. Vous verrez pourquoi ces outils sont importants—surtout pour les projets en humanités numériques—et comment les utiliser. Tout se fait dans le terminal et l'éditeur de fichiers sur cette page : pas besoin d'utiliser le terminal de votre ordinateur ni d'installer Git.","tutorialCredit":"Ce tutoriel reprend le même système de modules que le cours HTML/CSS. Il est disponible en anglais et en français.","enterName":"Entrez votre nom","chooseAvatar":"Choisissez votre avatar","chooseAvatarOption":"Option d'avatar {number} sur {total}","avatarPickerScrollHint":"Faites défiler pour plus d'avatars","changeAvatar":"Changer d'avatar","createYourAvatar":"Créez votre avatar","avatarSkinTone":"Teint","avatarHairStyle":"Coiffure","avatarHairColor":"Couleur des cheveux","avatarClothingStyle":"Type de vêtement","avatarClothingColor":"Couleur du vêtement","avatarMouth":"Bouche","avatarEyes":"Yeux","avatarAccessories":"Lunettes et accessibilité","avatarAccessoriesColor":"Couleur lunettes / accessoire","avatarEyebrows":"Sourcils","avatarFacialHair":"Barbe / moustache","avatarFacialHairColor":"Couleur barbe","avatarHatColor":"Couleur chapeau / coiffe","avatarClothingGraphic":"Motif du T-shirt","addColor":"Ajouter une couleur","addColorHint":"Cliquez sur un carré pour changer la couleur ; ajoutez-en pour donner d'autres teintes à l'avatar.","removeColor":"Retirer","done":"Terminé","randomizeAvatar":"Avatar aléatoire","startLearning":"Commencer","nameCertificateNote":"Ce nom apparaîtra sur votre certificat partageable à la fin de toutes les leçons.","welcomeUser":"Bienvenue, {name} ! • Leçon {current} sur {total}","courseProgress":"Progression — Cliquez sur une section pour y aller","whatWeLearning":"Ce que nous apprenons :","whyImportant":"Pourquoi c'est important :","needHint":"Besoin d'un indice ? Cliquez pour voir quoi faire","hideHint":"Masquer l'indice","showHint":"Afficher l'indice","whatToDo":"À faire :","commandsToTry":"Commande(s) à essayer","copyCommand":"Copier la commande","terminalHint":"Utilisez le terminal à droite pour exécuter la commande.","terminalNavHint":"Commandes : ls, pwd, cd, cat, echo, edit | git ... | next | back | clear","editorLabel":"Éditeur de fichier","save":"Enregistrer","cancel":"Annuler","back":"← Retour","verifyCode":"C'est fait →","skip":"Passer →","tryAgain":"Réessayer","nextLesson":"Leçon suivante →","learnMore":"En savoir plus","tip":"Conseil :","copyUrl":"Copiez cette URL pour sauvegarder votre progression et reprendre plus tard :","noFilesSaved":"Aucune donnée n'est enregistrée sur notre serveur—c'est le seul moyen de retrouver votre progression.","certificateTitle":"Certificat de réussite","certificateSubtitle":"Git et GitHub pour le contrôle de version","certificateDescription":"Ceci certifie que","certificateCompleted":"a suivi avec succès le tutoriel sur le contrôle de version, les bases de Git et GitHub—en mettant l'accent sur leur importance pour les humanités numériques.","certificateCovered":"Ce cours a couvert :","completedOn":"Terminé le","congratulations":"Félicitations","certificateShare":"Partagez ce certificat en copiant l'URL :","certificateShareDescription":"Vous pouvez copier l'URL ci-dessus pour partager votre certificat.","emailCertificate":"Envoyer le certificat par courriel","emailCertificateSubject":"Mon certificat Git et GitHub","emailCertificateBody":"J'ai terminé le tutoriel Git et GitHub ! Voici mon certificat :","certificateItem1":"Qu'est-ce que le contrôle de version et pourquoi il compte pour les humanités numériques","certificateItem2":"Bases de Git : dépôts, commits et historique","certificateItemBranching":"Branches : créer, fusionner, squash et rebase","certificateItem3":"GitHub : hébergement, push, pull et clone","certificateItem4":"Collaboration et bonnes pratiques pour les projets en HN","successMessage":"Très bien ! Passez à la leçon suivante quand vous êtes prêt.","errorMessage":"Pas tout à fait. Assurez-vous de : {elements}","selectLanguage":"Choisir la langue","studentNameAria":"Nom de l'étudiant : {name}","completed":"Terminé","jumpToSection":"Aller à la section {section}. {completed} sur {total} leçons terminées.","hintRegion":"Instructions de l'indice","glossaryButton":"Glossaire","glossaryTitle":"Glossaire","glossarySearchPlaceholder":"Rechercher un terme...","glossaryClose":"Fermer le glossaire","glossaryNoResults":"Aucun terme ne correspond.","skipToMainContent":"Aller au contenu principal","definitionOf":"Définition de {term}","backToLessons":"Retour aux leçons","viewCertificate":"Voir le certificat","reportBug":"Signaler un bug","branchVisualizerHelpButton":"Aide","branchVisualizerHelpTitle":"À propos du graphe de branches","branchVisualizerHelpBody":"Ce graphe affiche vos branches et commits Git. Chaque point est un commit (avec son hash court et son message). Les branches apparaissent en lignes séparées ; la branche main et toute branche que vous créez (ex. avec git checkout -b) sont affichées. Le libellé « current » indique la branche sur laquelle vous êtes. Les nouvelles branches apparaissent dès que vous les créez, même avant d'y faire un commit.","lessonCompleteNext":"Leçon terminée ! Passage à la suivante...","lessonCompleteTypeNext":"Leçon terminée ! Tapez \"next\" ou cliquez sur le bouton pour continuer.","goingBackToLesson":"Retour à la leçon précédente.","editUsage":"edit: usage: edit <filename>","editingFile":"Édition de {filename} (enregistrer ou annuler dans l'éditeur ci-dessous)"},"categories":{"versionControl":"Contrôle de version","gitBasics":"Bases de Git","branching":"Branches","github":"GitHub","collaboration":"Collaboration"},"lessons":{"vc-1":{"title":"Qu'est-ce que le contrôle de version ?","description":"Le contrôle de version permet de sauvegarder et de suivre l'évolution de vos fichiers dans le temps. Au lieu d'accumuler des fichiers comme \"these_v1.docx\", \"these_finale.docx\" et \"these_VRAIMENT_finale.docx\", vous gardez un seul projet et un historique de chaque modification : qui a changé quoi, et quand. Vous pouvez revenir à n'importe quelle version antérieure si besoin.","whyImportant":"Sans contrôle de version, il est facile de perdre du travail, d'écraser les changements d'un collègue ou d'oublier ce qu'on a modifié. Avec lui, vous avez un historique clair et pouvez collaborer en toute sécurité. Pour les projets en humanités numériques—éditions, corpus, jeux de données, sites web—c'est essentiel : on travaille souvent en équipe, on itère sur des années, et on doit pouvoir citer ou reproduire un état précis du projet.","whatToDo":["Lire l'explication ci-dessus","Penser à un projet (ex. une édition de texte ou un jeu de données) où vous voudriez suivre chaque changement","Dans le terminal à droite, taper **next** quand vous êtes prêt à continuer"]},"vc-2":{"title":"Pourquoi le contrôle de version compte pour les humanités numériques","description":"Les projets en humanités numériques mêlent souvent textes, métadonnées, code et plusieurs personnes. Le contrôle de version permet : d'avoir une seule source de vérité au lieu de copies éparpillées ; de voir qui a ajouté ou modifié quelle ligne ; de revenir en arrière en cas d'erreur ; et de permettre à d'autres (ou à vous plus tard) de comprendre et reproduire votre travail. Beaucoup de financeurs et d'éditeurs attendent ou recommandent désormais le contrôle de version pour la transparence et la reproductibilité.","whyImportant":"Le travail en HN est de la recherche. Pouvoir montrer comment un corpus ou une édition a évolué, et restaurer ou citer une version donnée, sert à la fois la pratique savante et la science ouverte. Apprendre Git et GitHub est l'une des compétences les plus utiles à ajouter à votre boîte à outils HN.","whatToDo":["Lire pourquoi les projets HN bénéficient du contrôle de version","Dans le terminal, taper **next** pour continuer"]},"git-1":{"title":"Qu'est-ce que Git ?","description":"Git est un outil gratuit et open source qui fait du contrôle de version sur votre ordinateur. Créé pour gérer le code source du noyau Linux, il est utilisé partout dans le monde. Git fonctionne en local : il conserve tout l'historique de votre projet dans un dossier caché (un dépôt) à l'intérieur du projet. Vous n'avez pas besoin d'internet pour faire des commits—seulement quand vous voulez partager ou sauvegarder sur un serveur comme GitHub. Dans ce cours nous simulons Git dans le terminal sur cette page—aucune installation requise.","whyImportant":"Git est le standard du contrôle de version en logiciel et dans beaucoup de projets HN. Comprendre qu'il est « local d'abord » (votre historique est sur votre machine) aide à voir pourquoi on ajoute ensuite GitHub pour la sauvegarde et la collaboration.","whatToDo":["Dans le terminal à droite, taper : **git --version**","Vous verrez une version simulée. (Sur un vrai ordinateur vous l'installeriez depuis https://git-scm.com/.)","Taper **next** quand vous êtes prêt à continuer"],"codeTemplate":"git --version"},"git-2":{"title":"Votre premier dépôt : git init","description":"Un dépôt (repository) est le dossier où Git conserve l'historique du projet. Pour transformer un dossier en dépôt Git, on lance git init dans ce dossier. Ici, le terminal est déjà dans un dossier projet simulé (~/my-project). Après git init, Git suivra les changements des fichiers quand vous le lui demanderez.","whyImportant":"Créer un dépôt est la première étape pour utiliser Git. Ensuite nous ajouterons des fichiers et ferons des commits dans ce dépôt—tout dans le terminal du navigateur.","whatToDo":["Dans le terminal, taper : **git init**","Vous devriez voir « Initialized empty Git repository in .git/ »","La leçon se valide automatiquement quand vous exécutez la commande"],"codeTemplate":"git init"},"git-3":{"title":"Mise en stage et commit : git add et git commit","description":"Git ne sauvegarde pas chaque changement automatiquement. Vous choisissez quels changements inclure dans un « commit » (une photo du projet). D'abord vous mettez les fichiers en stage avec git add, puis vous créez la photo avec git commit -m \"Votre message\". Vous pouvez créer ou modifier des fichiers ici : utilisez **echo \"texte\" > nomfichier** ou **edit nomfichier** (puis enregistrez dans l'éditeur). Puis lancez git add et git commit dans le terminal.","whyImportant":"Les commits sont les briques de votre historique. De bons messages de commit aident vous et les autres à comprendre le projet plus tard—surtout en HN quand il faut citer ou expliquer une version précise.","whatToDo":["Dans le terminal : créer ou modifier un fichier (ex. **echo \"Bonjour\" > readme.txt** ou **edit readme.txt** puis enregistrer)","Puis taper : **git add .** (ou **git add readme.txt**)","Puis : **git commit -m \"Premier commit\"** (un message court)","La leçon se valide quand vous faites un commit"],"codeTemplate":"git add .\ngit commit -m \"Votre message court\""},"git-4":{"title":"Vérifier l'état : git status","description":"À tout moment vous pouvez lancer git status pour voir quels fichiers sont modifiés, lesquels sont en stage pour le prochain commit, et lesquels ne sont pas suivis. Essayez de modifier un fichier (echo ou edit) et relancez git status pour voir le changement.","whyImportant":"Utiliser git status régulièrement évite de committer les mauvais fichiers ou d'oublier d'ajouter quelque chose. C'est une habitude qui vous servira dans les vrais projets.","whatToDo":["Dans le terminal, taper : **git status**","Optionnel : modifier un fichier (**echo \"suite\" >> readme.txt** ou **edit readme.txt**) puis **git status**","Taper **next** quand c'est fait"],"codeTemplate":"git status"},"branch-1":{"title":"Branches : créer et changer de branche","description":"Les branches permettent de travailler sur une ligne de développement séparée sans toucher à la branche principale. Chaque branche peut avoir sa propre version des fichiers. Utilisez **git branch** pour lister les branches (la courante a un *). Créez une branche avec **git checkout -b <nom>** (création et bascule). Utilisez **git checkout <nom>** pour passer à une branche existante—le répertoire de travail est mis à jour pour refléter les fichiers de cette branche. Dans cette leçon vous modifierez **readme.txt** différemment sur chaque branche, puis **cat readme.txt** pour constater que le contenu du fichier est différent sur chaque branche.","whyImportant":"Les branches sont essentielles pour tester des changements, travailler sur des fonctionnalités à part et collaborer. En HN vous pouvez avoir une branche pour une variante d'édition ou une mise à jour de jeu de données.","whatToDo":["Lancer **git branch** pour voir la branche courante (main)","Créer une branche : **git checkout -b feature** (ou un autre nom)","Modifier **readme.txt** sur cette branche (ex. **echo \"Version feature\" > readme.txt** ou **edit readme.txt**), puis **git add readme.txt** et **git commit -m \"Contenu feature\"**","Revenir sur main : **git checkout main**. Lancer **cat readme.txt** pour voir la version du fichier sur main","Modifier **readme.txt** sur main avec un contenu différent (ex. **echo \"Version main\" > readme.txt**), puis **git add readme.txt** et **git commit -m \"Contenu main\"**","Relancer **cat readme.txt**—vous verrez la version main. Puis **git checkout feature** et **cat readme.txt**—vous verrez la version feature. Chaque branche a sa propre copie.","Taper **next** quand c'est fait"],"codeTemplate":"git checkout -b feature\necho \"Version feature\" > readme.txt\ngit add readme.txt\ngit commit -m \"Contenu feature\"\ngit checkout main\ncat readme.txt"},"branch-2":{"title":"Fusionner des branches","description":"Quand le travail sur une branche vous convient, vous la fusionnez dans une autre (souvent main) avec **git merge <branche>**. Git combine les historiques. Si l'autre branche a de nouveaux commits depuis la divergence, vous pouvez avoir un commit de merge ; sinon, Git fait un « fast-forward » (pas de commit de merge). Après la fusion, la branche courante contient les commits de l'autre.","whyImportant":"La fusion permet de réintégrer le travail d'une branche dans la ligne principale. Comprendre merge vs. fast-forward aide à garder un historique clair.","whatToDo":["Créer une branche et faire un commit (ex. **git checkout -b feature**, modifier un fichier, **git add .**, **git commit -m \"Ajout feature\"**)","Revenir sur main : **git checkout main**","Fusionner : **git merge feature**","Lancer **git log** pour voir l'historique fusionné. Taper **next** quand c'est fait"],"codeTemplate":"git checkout -b feature\ngit add .\ngit commit -m \"Ajout feature\"\ngit checkout main\ngit merge feature"},"branch-3":{"title":"Fusion squash","description":"Une **fusion squash** (**git merge --squash <branche>**) apporte les changements de l'autre branche dans votre arbre de travail comme un seul ensemble de changements en stage, sans créer de commit de merge. Vous commitez ensuite une fois—plusieurs commits sur l'autre branche deviennent un seul commit sur la branche courante. Utile pour garder un historique propre.","whyImportant":"Squasher transforme une série de commits « WIP » ou « typo » en un commit clair, plus facile à relire et citer.","whatToDo":["Créer une branche et y faire un ou plusieurs commits","Revenir sur main : **git checkout main**","Lancer **git merge --squash feature** (avec le nom de votre branche)","Lancer **git status**—vous verrez les changements en stage. Puis **git commit -m \"Feature squashed\"** pour terminer","Taper **next** quand c'est fait"],"codeTemplate":"git merge --squash feature\ngit commit -m \"Feature squashed\""},"branch-4":{"title":"Rebase","description":"**git rebase <branche>** déplace les commits de la branche courante pour qu'ils reposent sur l'autre branche. Le résultat est un historique linéaire : d'abord les commits de l'autre branche, puis les vôtres rejoués. Utilisez-le pour mettre à jour une branche feature avec le dernier main, ou pour nettoyer l'historique avant une fusion.","whyImportant":"Le rebase garde un historique linéaire et évite les commits de merge inutiles. En HN cela peut rendre l'évolution d'un texte ou d'un jeu de données plus lisible.","whatToDo":["Partir de main avec au moins un commit. Créer une branche et committer dessus","Sur la branche feature, lancer **git rebase main**","Les commits de votre branche sont rejoués sur main. Utilisez **git log** pour voir l'historique linéaire","Taper **next** quand c'est fait"],"codeTemplate":"git checkout -b feature\ngit commit -m \"Changement\"\ngit rebase main"},"gh-1":{"title":"Qu'est-ce que GitHub ?","description":"GitHub est un site qui héberge des dépôts Git dans le cloud. Il vous donne une sauvegarde de votre dépôt, un historique visible en ligne, et des outils pour collaborer : d'autres peuvent cloner votre dépôt, proposer des changements (pull requests), et vous pouvez gérer les issues et la documentation. GitHub est très répandu dans l'open source et en HN.","whyImportant":"Git est local ; GitHub est distant. Ensemble ils permettent de sauvegarder votre travail, de le partager et de collaborer. Beaucoup de projets HN publient leurs données et leur code sur GitHub pour la transparence et la réutilisation.","whatToDo":["Lire la section ci-dessus. (Vous pourrez créer un compte sur https://github.com plus tard depuis votre ordinateur.)","Dans le terminal, taper **next** quand vous êtes prêt à continuer"]},"gh-2":{"title":"Créer un dépôt sur GitHub","description":"Sur GitHub, vous cliqueriez sur « New repository », choisiriez un nom (ex. mon-projet-hn) et obtiendriez une URL pour connecter votre dépôt local. Dans un vrai workflow on crée ce dépôt d'abord, puis on utilise son URL dans git remote et git push. Vous pourrez essayer sur github.com plus tard ; pour cette leçon on se concentre sur l'idée.","whyImportant":"Le dépôt distant sur GitHub est l'endroit où votre historique local sera copié quand vous ferez un push. Le créer d'abord vous donne l'URL nécessaire pour l'étape suivante.","whatToDo":["Lire les étapes ci-dessus (vous pourrez créer un vrai dépôt sur GitHub plus tard depuis votre ordinateur)","Dans le terminal, taper **next** quand c'est fait"]},"gh-3":{"title":"Pousser votre code : git remote et git push","description":"Pour envoyer vos commits locaux sur GitHub, vous liez votre dépôt au distant avec git remote add origin <URL>, puis vous poussez avec git push -u origin main. Ici vous pouvez exécuter ces commandes dans le terminal (une URL quelconque suffit pour la simulation) ; la leçon se valide quand vous exécutez git remote add ou git push.","whyImportant":"Pousser (push) est la façon de sauvegarder et partager votre travail. Une fois configuré, ça devient une étape simple de votre routine.","whatToDo":["Dans le terminal : **git remote add origin https://github.com/you/repo.git** (n'importe quelle URL pour cette simulation)","Puis : **git push -u origin main**","La leçon se valide quand vous exécutez les commandes"],"codeTemplate":"git remote add origin https://github.com/USER/REPO.git\ngit push -u origin main"},"gh-4":{"title":"Obtenir une copie : git clone et git pull","description":"Pour obtenir une copie complète du dépôt de quelqu'un (ou du vôtre depuis un autre ordinateur), on utilise git clone <URL>. Pour mettre à jour une copie existante, on lance git pull. Ici vous pouvez essayer ces commandes dans le terminal—ex. **git clone https://github.com/some/repo** ou **git pull**—pour voir la sortie simulée.","whyImportant":"Clone et pull sont la façon de travailler avec des projets HN existants, de contribuer au travail d'autres, ou de synchroniser entre machines. Ils sont essentiels pour la collaboration.","whatToDo":["Dans le terminal, essayer **git clone https://github.com/some/repo** ou **git pull**","Taper **next** quand c'est fait"],"codeTemplate":"git clone https://github.com/USER/REPO.git\ngit pull"},"collab-1":{"title":"Collaboration et bonnes pratiques pour la HN","description":"En pratique, les équipes HN utilisent des branches (lignes de travail séparées) et des pull requests (changements proposés pour revue) sur GitHub. Committez souvent avec des messages clairs ; poussez régulièrement pour sauvegarder. Utilisez un README pour expliquer le projet et, si pertinent, une licence pour que les autres sachent comment réutiliser vos données et votre code. Ces pratiques rendent votre projet compréhensible et citable.","whyImportant":"De bonnes habitudes de contrôle de version rendent les projets HN reproductibles, transparents et plus faciles à transmettre ou publier. Elles s'alignent avec la science ouverte et les attentes des financeurs.","whatToDo":["Lire les conseils de collaboration et de bonnes pratiques ci-dessus","Dans le terminal, taper **next** pour terminer le cours et voir votre certificat"]}},"glossary":{"version control":"Système qui enregistre les changements des fichiers dans le temps pour pouvoir retrouver ou comparer des versions précises.","repository":"Dossier géré par Git, contenant les fichiers du projet et tout l'historique des commits.","dépôt":"Dossier géré par Git, contenant les fichiers du projet et tout l'historique des commits.","repo":"Abréviation de dépôt (repository) : le dossier où Git conserve l'historique du projet.","commit":"Photo du projet à un instant donné, avec un message et un identifiant unique. Les commits forment l'historique du projet.","stage":"Marquer des fichiers comme prêts à être inclus dans le prochain commit (avec git add).","staged":"Marqué comme prêt à être inclus dans le prochain commit (avec git add).","push":"Envoyer vos commits locaux vers un dépôt distant (ex. sur GitHub).","pull":"Récupérer et fusionner les changements d'un dépôt distant dans votre branche actuelle.","clone":"Télécharger une copie d'un dépôt (avec son historique) depuis un serveur distant.","remote":"Version du dépôt hébergée ailleurs (ex. sur GitHub), souvent nommée origin.","origin":"Nom par défaut du dépôt distant (souvent sur GitHub) auquel votre dépôt local est relié.","Git":"Outil gratuit et open source pour le contrôle de version sur votre ordinateur. Il conserve tout l'historique du projet dans un dépôt et fonctionne en local ; l'internet n'est nécessaire que pour partager ou sauvegarder (ex. via GitHub).","GitHub":"Plateforme web qui héberge des dépôts Git et propose des outils de collaboration, issues et documentation.","Digital Humanities":"Recherche et enseignement qui combinent méthodes numériques et disciplines des humanités ; implique souvent textes, jeux de données et code qui bénéficient du contrôle de version.","DH":"Abréviation pour humanités numériques (Digital Humanities).","HN":"Abréviation pour humanités numériques (Digital Humanities).","branch":"Ligne de développement séparée dans un dépôt Git. On crée des branches pour tester des changements ou travailler sur des fonctionnalités sans toucher à la ligne principale.","branches":"Lignes de développement séparées dans un dépôt Git. On crée des branches pour tester des changements ou travailler sur des fonctionnalités sans toucher à la ligne principale.","merge":"Fusionner les commits d'une autre branche dans la branche courante (ex. git merge feature).","merge commit":"Commit qui enregistre la fusion de deux branches lorsqu'elles ont divergé (pas de fast-forward).","fast-forward":"Lors d'une fusion, si la branche courante n'a pas divergé, Git avance simplement le pointeur ; aucun commit de merge n'est créé.","squash merge":"Fusion qui apporte les changements d'une autre branche en un seul ensemble de changements en stage, sans commit de merge. On committe ensuite une fois, donc plusieurs commits en deviennent un.","rebase":"Déplacer les commits de votre branche pour qu'ils reposent sur une autre branche, pour un historique linéaire. Commande : git rebase <branche>.","pull request":"Sur GitHub, proposition de fusionner les changements d'une branche dans une autre, pour revue et discussion avant la fusion.","README":"Fichier (souvent README.md) qui explique un projet : de quoi il s'agit, comment l'utiliser et contribuer. Souvent affiché sur GitHub.","untracked":"Fichier que Git ne suit pas encore (pas dans la dernière photo ni en stage). git status les affiche."}}}</script>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -78,6 +80,7 @@
         }
 
         const categoryMap = {
+            'Tutorial intro': 'tutorialIntro',
             'Version Control': 'versionControl',
             'Git Basics': 'gitBasics',
             'Branching': 'branching',
@@ -102,52 +105,268 @@
         }
 
         const lessons = [
+            { id: 'intro-1', category: 'Tutorial intro', validator: () => true },
+            { id: 'intro-2', category: 'Tutorial intro', validator: () => true },
             { id: 'vc-1', category: 'Version Control', validator: () => true },
             { id: 'vc-2', category: 'Version Control', validator: () => true },
             { id: 'git-1', category: 'Git Basics', validator: () => true },
             { id: 'git-2', category: 'Git Basics', validator: () => true },
             { id: 'git-3', category: 'Git Basics', validator: () => true },
             { id: 'git-4', category: 'Git Basics', validator: () => true },
+            { id: 'git-5', category: 'Git Basics', validator: () => true },
+            { id: 'git-6', category: 'Git Basics', validator: () => true },
             { id: 'branch-1', category: 'Branching', validator: () => true },
             { id: 'branch-2', category: 'Branching', validator: () => true },
             { id: 'branch-3', category: 'Branching', validator: () => true },
             { id: 'branch-4', category: 'Branching', validator: () => true },
+            { id: 'branch-5', category: 'Branching', validator: () => true },
             { id: 'gh-1', category: 'GitHub', validator: () => true },
             { id: 'gh-2', category: 'GitHub', validator: () => true },
             { id: 'gh-3', category: 'GitHub', validator: () => true },
             { id: 'gh-4', category: 'GitHub', validator: () => true },
-            { id: 'collab-1', category: 'Collaboration', validator: () => true }
+            { id: 'collab-1', category: 'Collaboration', validator: () => true },
+            { id: 'collab-2', category: 'Collaboration', validator: () => true }
         ];
 
-        const DEFAULT_AVATAR_URL = 'https://api.dicebear.com/7.x/avataaars/svg?seed=default';
-        const AVATAR_OPTIONS = [
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=1',
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=2',
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=3',
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=4',
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=5',
-            'https://api.dicebear.com/7.x/avataaars/svg?seed=6'
+        const CUSTOM_AVATAR_BASE = 'https://api.dicebear.com/7.x/avataaars/svg';
+        const AVATAR_TOP_OPTS = [
+            { v: 'shortFlat', en: 'Short flat', fr: 'Court plat' },
+            { v: 'shortRound', en: 'Short round', fr: 'Court rond' },
+            { v: 'shortCurly', en: 'Short curly', fr: 'Court bouclé' },
+            { v: 'shortWaved', en: 'Short wavy', fr: 'Court ondulé' },
+            { v: 'longButNotTooLong', en: 'Long', fr: 'Long' },
+            { v: 'bob', en: 'Bob', fr: 'Bob' },
+            { v: 'bun', en: 'Bun', fr: 'Chignon' },
+            { v: 'curly', en: 'Curly', fr: 'Bouclé' },
+            { v: 'curvy', en: 'Curvy', fr: 'Courbé' },
+            { v: 'dreads', en: 'Dreads', fr: 'Dreadlocks' },
+            { v: 'fro', en: 'Fro', fr: 'Afro' },
+            { v: 'froBand', en: 'Fro with band', fr: 'Afro avec bandeau' },
+            { v: 'hijab', en: 'Hijab', fr: 'Hijab' },
+            { v: 'turban', en: 'Turban', fr: 'Turban' },
+            { v: 'shaggy', en: 'Shaggy', fr: 'Ébouriffé' },
+            { v: 'straight01', en: 'Straight', fr: 'Lisse' },
+            { v: 'straight02', en: 'Straight 2', fr: 'Lisse 2' },
+            { v: 'hat', en: 'Hat', fr: 'Chapeau' },
+            { v: 'winterHat1', en: 'Winter hat', fr: 'Bonnet' },
+            { v: 'bigHair', en: 'Big hair', fr: 'Volume' }
         ];
-        function shuffleArray(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
+        const AVATAR_CLOTHING_OPTS = [
+            { v: 'shirtCrewNeck', en: 'T-shirt', fr: 'T-shirt' },
+            { v: 'shirtVNeck', en: 'V-neck', fr: 'Col V' },
+            { v: 'shirtScoopNeck', en: 'Scoop neck', fr: 'Décolleté' },
+            { v: 'hoodie', en: 'Hoodie', fr: 'Sweat' },
+            { v: 'graphicShirt', en: 'Graphic shirt', fr: 'T-shirt à motif' },
+            { v: 'blazerAndShirt', en: 'Blazer', fr: 'Blazer' },
+            { v: 'collarAndSweater', en: 'Collar & sweater', fr: 'Col roulé' },
+            { v: 'overall', en: 'Overall', fr: 'Salopette' }
+        ];
+        const AVATAR_MOUTH_OPTS = [
+            { v: 'default', en: 'Neutral', fr: 'Neutre' },
+            { v: 'smile', en: 'Smile', fr: 'Sourire' },
+            { v: 'twinkle', en: 'Twinkle', fr: 'Malicieux' },
+            { v: 'serious', en: 'Serious', fr: 'Sérieux' },
+            { v: 'concerned', en: 'Concerned', fr: 'Inquiet' },
+            { v: 'sad', en: 'Sad', fr: 'Triste' },
+            { v: 'disbelief', en: 'Disbelief', fr: 'Incrédulité' }
+        ];
+        const AVATAR_EYES_OPTS = [
+            { v: 'default', en: 'Default', fr: 'Par défaut' },
+            { v: 'happy', en: 'Happy', fr: 'Joyeux' },
+            { v: 'closed', en: 'Closed', fr: 'Fermés' },
+            { v: 'surprised', en: 'Surprised', fr: 'Surpris' },
+            { v: 'wink', en: 'Wink', fr: 'Clin d\'œil' },
+            { v: 'squint', en: 'Squint', fr: 'Plissés' },
+            { v: 'side', en: 'Side glance', fr: 'Regard de côté' },
+            { v: 'hearts', en: 'Hearts', fr: 'Cœurs' }
+        ];
+        const AVATAR_ACCESSORIES_OPTS = [
+            { v: '', en: 'None', fr: 'Aucun' },
+            { v: 'round', en: 'Glasses (round)', fr: 'Lunettes (rondes)' },
+            { v: 'prescription01', en: 'Glasses (prescription)', fr: 'Lunettes (correctives)' },
+            { v: 'prescription02', en: 'Glasses (prescription, style 2)', fr: 'Lunettes (correctives, style 2)' },
+            { v: 'kurt', en: 'Glasses (full frame)', fr: 'Lunettes (pleine monture)' },
+            { v: 'sunglasses', en: 'Sunglasses', fr: 'Lunettes de soleil' },
+            { v: 'wayfarers', en: 'Wayfarers', fr: 'Wayfarer' },
+            { v: 'eyepatch', en: 'Eyepatch', fr: 'Cache-œil' }
+        ];
+        const AVATAR_EYEBROWS_OPTS = [
+            { v: 'default', en: 'Default', fr: 'Par défaut' },
+            { v: 'defaultNatural', en: 'Natural', fr: 'Naturel' },
+            { v: 'raisedExcited', en: 'Raised', fr: 'Relevés' },
+            { v: 'raisedExcitedNatural', en: 'Raised natural', fr: 'Relevés naturels' },
+            { v: 'sadConcerned', en: 'Sad/concerned', fr: 'Tristes/inquiets' },
+            { v: 'unibrowNatural', en: 'Unibrow', fr: 'Monosourcil' },
+            { v: 'flatNatural', en: 'Flat', fr: 'Plats' },
+            { v: 'angry', en: 'Angry', fr: 'En colère' }
+        ];
+        const AVATAR_FACIAL_HAIR_OPTS = [
+            { v: '', en: 'None', fr: 'Aucun' },
+            { v: 'beardLight', en: 'Beard (light)', fr: 'Barbe (claire)' },
+            { v: 'beardMedium', en: 'Beard (medium)', fr: 'Barbe (moyenne)' },
+            { v: 'beardMajestic', en: 'Beard (full)', fr: 'Barbe (complète)' },
+            { v: 'moustacheFancy', en: 'Moustache', fr: 'Moustache' },
+            { v: 'moustacheMagnum', en: 'Moustache (magnum)', fr: 'Moustache (magnum)' }
+        ];
+        const AVATAR_CLOTHING_GRAPHIC_OPTS = [
+            { v: 'bat', en: 'Bat', fr: 'Chauve-souris' },
+            { v: 'bear', en: 'Bear', fr: 'Ours' },
+            { v: 'cumbia', en: 'Cumbia', fr: 'Cumbia' },
+            { v: 'deer', en: 'Deer', fr: 'Cerf' },
+            { v: 'diamond', en: 'Diamond', fr: 'Diamant' },
+            { v: 'hola', en: 'Hola', fr: 'Hola' },
+            { v: 'pizza', en: 'Pizza', fr: 'Pizza' },
+            { v: 'resist', en: 'Resist', fr: 'Resist' },
+            { v: 'skull', en: 'Skull', fr: 'Crâne' },
+            { v: 'skullOutline', en: 'Skull (outline)', fr: 'Crâne (contour)' }
+        ];
+        function hexStrip(h) { return (h || '').replace(/^#/, ''); }
+        function randomHex() {
+            return '#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
         }
-        const AVATAR_OPTIONS_SHUFFLED = shuffleArray(AVATAR_OPTIONS);
-        const AVATAR_FAILED_STORAGE_KEY = 'learnGitAvatarFailedUrls';
-        function getInitialFailedAvatarUrls() {
+        function getRandomAvatarOpts() {
+            return {
+                skinColors: [randomHex()],
+                hairColors: [randomHex()],
+                clothesColors: [randomHex()],
+                accessoriesColors: [randomHex()],
+                hatColors: [randomHex()],
+                facialHairColors: ['#2c1b18'],
+                top: AVATAR_TOP_OPTS[Math.floor(Math.random() * AVATAR_TOP_OPTS.length)].v,
+                clothing: AVATAR_CLOTHING_OPTS[Math.floor(Math.random() * AVATAR_CLOTHING_OPTS.length)].v,
+                mouth: AVATAR_MOUTH_OPTS[Math.floor(Math.random() * AVATAR_MOUTH_OPTS.length)].v,
+                eyes: AVATAR_EYES_OPTS[Math.floor(Math.random() * AVATAR_EYES_OPTS.length)].v,
+                eyebrows: AVATAR_EYEBROWS_OPTS[Math.floor(Math.random() * AVATAR_EYEBROWS_OPTS.length)].v,
+                accessories: AVATAR_ACCESSORIES_OPTS[Math.floor(Math.random() * AVATAR_ACCESSORIES_OPTS.length)].v,
+                facialHair: AVATAR_FACIAL_HAIR_OPTS[Math.floor(Math.random() * AVATAR_FACIAL_HAIR_OPTS.length)].v,
+                clothingGraphic: AVATAR_CLOTHING_GRAPHIC_OPTS[Math.floor(Math.random() * AVATAR_CLOTHING_GRAPHIC_OPTS.length)].v
+            };
+        }
+        function getDefaultAvatarOpts() {
+            return {
+                skinColors: ['#614335'],
+                hairColors: ['#2c1b18'],
+                clothesColors: ['#262e33'],
+                accessoriesColors: ['#262e33'],
+                hatColors: ['#262e33'],
+                facialHairColors: ['#2c1b18'],
+                top: AVATAR_TOP_OPTS[0].v,
+                clothing: AVATAR_CLOTHING_OPTS[0].v,
+                mouth: AVATAR_MOUTH_OPTS[0].v,
+                eyes: AVATAR_EYES_OPTS[0].v,
+                eyebrows: AVATAR_EYEBROWS_OPTS[0].v,
+                accessories: '',
+                facialHair: '',
+                clothingGraphic: AVATAR_CLOTHING_GRAPHIC_OPTS[0].v
+            };
+        }
+        function parseAvatarUrlToOpts(url) {
+            if (!url || typeof url !== 'string' || !url.startsWith(CUSTOM_AVATAR_BASE)) return null;
             try {
-                const raw = typeof localStorage !== 'undefined' && localStorage.getItem(AVATAR_FAILED_STORAGE_KEY);
-                return new Set(raw ? JSON.parse(raw) : []);
-            } catch (e) { return new Set(); }
+                const q = url.indexOf('?');
+                if (q === -1) return null;
+                const p = new URLSearchParams(url.slice(q));
+                const skin = p.get('skinColor');
+                const hair = p.get('hairColor');
+                const clothes = p.get('clothesColor');
+                const top = p.get('top');
+                const clothing = p.get('clothing');
+                const skinColors = skin ? skin.split(',').map(s => '#' + hexStrip(s.trim())).filter(Boolean) : null;
+                const hairColors = hair ? hair.split(',').map(h => '#' + hexStrip(h.trim())).filter(Boolean) : null;
+                const clothesColors = clothes ? clothes.split(',').map(c => '#' + hexStrip(c.trim())).filter(Boolean) : null;
+                let mouth = p.get('mouth');
+                let eyes = p.get('eyes');
+                const accessoriesProb = p.get('accessoriesProbability');
+                const accessories = p.get('accessories');
+                const accessoriesColor = p.get('accessoriesColor');
+                const eyebrows = p.get('eyebrows');
+                const facialHair = p.get('facialHair');
+                const facialHairProb = p.get('facialHairProbability');
+                const facialHairColor = p.get('facialHairColor');
+                const hatColor = p.get('hatColor');
+                const clothingGraphic = p.get('clothingGraphic');
+                if (mouth && mouth.includes(',')) mouth = mouth.split(',')[0].trim();
+                if (eyes && eyes.includes(',')) eyes = eyes.split(',')[0].trim();
+                if (!skinColors?.length && !hairColors?.length && !clothesColors?.length && !top && !clothing && !mouth && !eyes && !accessories) return null;
+                const hasAccessory = accessories && accessoriesProb !== '0';
+                const hasFacialHair = facialHair && facialHairProb !== '0';
+                const accColors = accessoriesColor ? accessoriesColor.split(',').map(c => '#' + hexStrip(c.trim())).filter(Boolean) : null;
+                const hatColors = hatColor ? hatColor.split(',').map(c => '#' + hexStrip(c.trim())).filter(Boolean) : null;
+                const fhColors = facialHairColor ? facialHairColor.split(',').map(c => '#' + hexStrip(c.trim())).filter(Boolean) : null;
+                return {
+                    skinColors: skinColors?.length ? skinColors : ['#614335'],
+                    hairColors: hairColors?.length ? hairColors : ['#2c1b18'],
+                    clothesColors: clothesColors?.length ? clothesColors : ['#262e33'],
+                    accessoriesColors: accColors?.length ? accColors : ['#262e33'],
+                    hatColors: hatColors?.length ? hatColors : ['#262e33'],
+                    facialHairColors: fhColors?.length ? fhColors : ['#2c1b18'],
+                    top: top || AVATAR_TOP_OPTS[0].v,
+                    clothing: clothing || AVATAR_CLOTHING_OPTS[0].v,
+                    mouth: mouth || AVATAR_MOUTH_OPTS[0].v,
+                    eyes: eyes || AVATAR_EYES_OPTS[0].v,
+                    eyebrows: eyebrows || AVATAR_EYEBROWS_OPTS[0].v,
+                    accessories: hasAccessory ? (accessories.includes(',') ? accessories.split(',')[0].trim() : accessories) : '',
+                    facialHair: hasFacialHair ? (facialHair.includes(',') ? facialHair.split(',')[0].trim() : facialHair) : '',
+                    clothingGraphic: clothingGraphic || AVATAR_CLOTHING_GRAPHIC_OPTS[0].v
+                };
+            } catch (e) { return null; }
         }
+        function buildCustomAvatarUrl(opts) {
+            const skin = (opts.skinColors && opts.skinColors.length) ? opts.skinColors.map(hexStrip).join(',') : '614335';
+            const hair = (opts.hairColors && opts.hairColors.length) ? opts.hairColors.map(hexStrip).join(',') : '2c1b18';
+            const clothes = (opts.clothesColors && opts.clothesColors.length) ? opts.clothesColors.map(hexStrip).join(',') : '262e33';
+            const p = new URLSearchParams();
+            p.set('seed', 'custom');
+            p.set('skinColor', skin);
+            p.set('top', opts.top || AVATAR_TOP_OPTS[0].v);
+            p.set('hairColor', hair);
+            p.set('clothing', opts.clothing || AVATAR_CLOTHING_OPTS[0].v);
+            p.set('clothesColor', clothes);
+            p.set('mouth', opts.mouth || AVATAR_MOUTH_OPTS[0].v);
+            p.set('eyes', opts.eyes || AVATAR_EYES_OPTS[0].v);
+            if (opts.accessories) {
+                p.set('accessories', opts.accessories);
+                p.set('accessoriesProbability', '100');
+                if (opts.accessoriesColors && opts.accessoriesColors[0]) p.set('accessoriesColor', hexStrip(opts.accessoriesColors[0]));
+            } else {
+                p.set('accessoriesProbability', '0');
+            }
+            p.set('eyebrows', opts.eyebrows || AVATAR_EYEBROWS_OPTS[0].v);
+            if (opts.facialHair) {
+                p.set('facialHair', opts.facialHair);
+                p.set('facialHairProbability', '100');
+                if (opts.facialHairColors && opts.facialHairColors[0]) p.set('facialHairColor', hexStrip(opts.facialHairColors[0]));
+            } else {
+                p.set('facialHairProbability', '0');
+            }
+            if (opts.hatColors && opts.hatColors[0]) p.set('hatColor', hexStrip(opts.hatColors[0]));
+            if (opts.clothing === 'graphicShirt' && opts.clothingGraphic) p.set('clothingGraphic', opts.clothingGraphic);
+            return CUSTOM_AVATAR_BASE + '?' + p.toString();
+        }
+        function getDefaultAvatarUrl() { return buildCustomAvatarUrl(getDefaultAvatarOpts()); }
 
+        const MAX_TERMINAL_LINES_PER_LESSON = 80;
         function encodeState(state) {
             try {
-                const compressed = { n: state.name, l: state.lessonIndex, c: state.code, lang: state.language, cl: state.completedLessons, a: state.avatarUrl || null };
+                const tTrimmed = {};
+                if (state.terminalLinesByLesson && typeof state.terminalLinesByLesson === 'object') {
+                    Object.keys(state.terminalLinesByLesson).forEach(lessonId => {
+                        const lines = state.terminalLinesByLesson[lessonId];
+                        if (Array.isArray(lines) && lines.length > 0)
+                            tTrimmed[lessonId] = lines.slice(-MAX_TERMINAL_LINES_PER_LESSON);
+                    });
+                }
+                const compressed = {
+                    n: state.name,
+                    l: state.lessonIndex,
+                    c: state.code,
+                    lang: state.language,
+                    cl: state.completedLessons,
+                    a: state.avatarUrl || null,
+                    g: state.gitStateByLesson || null,
+                    t: Object.keys(tTrimmed).length ? tTrimmed : null,
+                    cb: state.codeByLesson && Object.keys(state.codeByLesson).length ? state.codeByLesson : null
+                };
                 return btoa(JSON.stringify(compressed)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
             } catch (e) { return ''; }
         }
@@ -156,8 +375,18 @@
                 let base64 = hash.replace(/-/g, '+').replace(/_/g, '/');
                 while (base64.length % 4) base64 += '=';
                 const compressed = JSON.parse(atob(base64));
-                if (compressed.name !== undefined) return compressed;
-                return { name: compressed.n, lessonIndex: compressed.l, code: compressed.c, language: compressed.lang, completedLessons: compressed.cl, avatarUrl: compressed.a || null };
+                const expanded = {
+                    name: compressed.name !== undefined ? compressed.name : compressed.n,
+                    lessonIndex: compressed.lessonIndex !== undefined ? compressed.lessonIndex : compressed.l,
+                    code: compressed.code !== undefined ? compressed.code : compressed.c,
+                    language: compressed.language !== undefined ? compressed.language : compressed.lang,
+                    completedLessons: compressed.completedLessons !== undefined ? compressed.completedLessons : compressed.cl,
+                    avatarUrl: compressed.avatarUrl !== undefined ? compressed.avatarUrl : (compressed.a || null),
+                    gitStateByLesson: compressed.gitStateByLesson !== undefined ? compressed.gitStateByLesson : (compressed.g || null),
+                    terminalLinesByLesson: compressed.terminalLinesByLesson !== undefined ? compressed.terminalLinesByLesson : (compressed.t || null),
+                    codeByLesson: compressed.codeByLesson !== undefined ? compressed.codeByLesson : (compressed.cb || null)
+                };
+                return expanded;
             } catch (e) {
                 try { return JSON.parse(decodeURIComponent(atob(hash))); } catch (e2) { return null; }
             }
@@ -172,7 +401,7 @@
         // ----- Git simulator (Learn Git Branching–style in-browser simulation) -----
         function createInitialGitState(lessonId) {
             const inited = !['vc-1','vc-2','git-1','git-2'].includes(lessonId);
-            const hasFiles = ['git-3','git-4','branch-1','branch-2','branch-3','branch-4'].includes(lessonId) || inited;
+            const hasFiles = ['git-3','git-4','git-5','git-6','branch-1','branch-2','branch-3','branch-4'].includes(lessonId) || inited;
             const isBranchLesson = ['branch-1','branch-2','branch-3','branch-4'].includes(lessonId);
             let commits = [];
             let branchHeads = { main: null };
@@ -185,6 +414,13 @@
                     { hash: secondHash, message: 'Second commit', files: ['readme.txt'], fileContents, parent: firstHash }
                 ];
                 branchHeads = { main: secondHash };
+            } else if (inited && (lessonId === 'git-5' || lessonId === 'git-6')) {
+                const firstHash = 'a' + Math.random().toString(36).slice(2, 9);
+                const fileContents = { 'readme.txt': 'Hello world' };
+                commits = [
+                    { hash: firstHash, message: 'First commit', files: ['readme.txt'], fileContents, parent: null }
+                ];
+                branchHeads = { main: firstHash };
             } else if (inited && (lessonId === 'git-3' || lessonId === 'git-4')) {
                 commits = [];
             }
@@ -198,13 +434,49 @@
                 branchParent: {},
                 commits,
                 staged: [],
-                trackedFiles: isBranchLesson ? ['readme.txt'] : [],
+                trackedFiles: isBranchLesson ? ['readme.txt'] : (['git-5','git-6'].includes(lessonId) ? ['readme.txt'] : []),
                 workingDir,
                 remotes: {},
                 pushed: false,
                 cloned: false,
+                clonedDirs: {},
                 commandHistory: []
             };
+        }
+
+        function getGitignorePatterns(state) {
+            const wd = state.workingDir || {};
+            const content = wd['.gitignore'];
+            if (typeof content !== 'string') return [];
+            return content.split(/\n/).map(l => l.replace(/#.*$/, '').trim()).filter(Boolean);
+        }
+
+        function isIgnoredByPattern(path, pattern) {
+            if (pattern.startsWith('*')) {
+                const suffix = pattern.slice(1);
+                return path === suffix || path.endsWith(suffix);
+            }
+            return path === pattern;
+        }
+
+        function isIgnored(state, path) {
+            if (path === '.gitignore') return false;
+            const patterns = getGitignorePatterns(state);
+            return patterns.some(p => isIgnoredByPattern(path, p));
+        }
+
+        function cloneDirNameFromUrl(url) {
+            if (!url || typeof url !== 'string') return 'repo';
+            const trimmed = url.trim().replace(/\/+$/, '');
+            const pathMatch = trimmed.match(/\/([^/]+?)(?:\.git)?$/);
+            if (pathMatch) return pathMatch[1];
+            try {
+                const u = new URL(trimmed.startsWith('http') ? trimmed : 'https://' + trimmed);
+                const path = u.pathname.replace(/\/+$/, '');
+                const segment = path.split('/').filter(Boolean).pop();
+                if (segment) return segment.replace(/\.git$/, '') || 'repo';
+            } catch (e) {}
+            return 'repo';
         }
 
         function getCommitByHash(state, hash) {
@@ -213,8 +485,8 @@
         }
 
         function getBranchHeadCommit(state, branchName) {
-            const heads = state.branchHeads || { main: null };
-            const h = heads[branchName] || (branchName === 'main' ? (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) : null);
+            const heads = state.branchHeads || {};
+            const h = heads[branchName] ?? null;
             return getCommitByHash(state, h);
         }
 
@@ -345,7 +617,8 @@
             };
         }
 
-        function runGitCommand(state, rawCommand) {
+        function runGitCommand(state, rawCommand, cwd) {
+            cwd = cwd == null ? '' : cwd;
             const cmd = rawCommand.trim();
             const argv = cmd.split(/\s+/).filter(Boolean);
             const first = argv[0];
@@ -379,7 +652,9 @@
                 return { output: usage, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
             }
 
-            if (!state.inited && first === 'git' && second) {
+            const clonedDirsForInit = state.clonedDirs || {};
+            const inClonedDirForInit = cwd && cwd !== '..' && clonedDirsForInit[cwd];
+            if (!state.inited && !inClonedDirForInit && first === 'git' && second) {
                 return { output: 'fatal: not a git repository (or any of the parent directories): .git', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
             }
 
@@ -396,7 +671,7 @@
                     if (!tracked.includes(f) || staged.includes(f)) return false;
                     return (workingDir[f] || '') !== (headContents[f] || '');
                 });
-                const untracked = allFiles.filter(f => !tracked.includes(f) && !staged.includes(f));
+                const untracked = allFiles.filter(f => !tracked.includes(f) && !staged.includes(f) && !isIgnored(nextState, f));
                 const stagedNew = staged.filter(f => !(headContents[f] !== undefined));
                 const stagedModified = staged.filter(f => headContents[f] !== undefined);
                 const RED = '\u001b[31m', GREEN = '\u001b[32m', RESET = '\u001b[0m';
@@ -429,24 +704,37 @@
                 return { output: out.trim(), newState: nextState };
             }
 
-            // git add .
+            // git add .  (only stage files that are new or modified vs HEAD; respect .gitignore)
             if (cmd === 'git add .' || (first === 'git' && second === 'add' && argv[2] === '.')) {
-                const files = Object.keys(state.workingDir || {});
+                const workingDir = state.workingDir || {};
+                const headCommit = getBranchHeadCommit(state, state.branch || 'main') || (state.commits && state.commits.length ? state.commits[state.commits.length - 1] : null);
+                const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                const filesToStage = Object.keys(workingDir).filter(f =>
+                    !isIgnored(state, f) && (headContents[f] === undefined || (workingDir[f] || '') !== (headContents[f] || ''))
+                );
                 return {
                     output: '',
-                    newState: { ...state, staged: [...new Set([...(state.staged || []), ...files])], commandHistory: [...state.commandHistory, cmd] }
+                    newState: { ...state, staged: [...new Set([...(state.staged || []), ...filesToStage])], commandHistory: [...state.commandHistory, cmd] }
                 };
             }
 
-            // git add <file> [file2 ...]
+            // git add <file> [file2 ...]  (only stage if file exists and is new or modified vs HEAD)
             if (first === 'git' && second === 'add' && argv[2]) {
                 const files = argv.slice(2).filter(arg => arg && !arg.startsWith('-'));
+                const headCommit = getBranchHeadCommit(state, state.branch || 'main');
+                const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                const workingDir = state.workingDir || {};
                 let newStaged = state.staged || [];
                 let firstError = null;
                 for (const f of files) {
-                    const has = state.workingDir && state.workingDir[f] !== undefined;
-                    if (has) newStaged = [...new Set([...newStaged, f])];
-                    else if (firstError === null) firstError = "fatal: pathspec '" + f + "' did not match any files";
+                    const has = workingDir[f] !== undefined;
+                    if (!has) {
+                        if (firstError === null) firstError = "fatal: pathspec '" + f + "' did not match any files";
+                        continue;
+                    }
+                    const isNew = headContents[f] === undefined;
+                    const isModified = (workingDir[f] || '') !== (headContents[f] || '');
+                    if (isNew || isModified) newStaged = [...new Set([...newStaged, f])];
                 }
                 return {
                     output: firstError || '',
@@ -476,21 +764,101 @@
                 };
             }
 
+            // git restore <file>  (discard working tree changes)
+            if (first === 'git' && second === 'restore' && argv[2] && argv[2] !== '--staged') {
+                const file = argv[2];
+                const headCommit = getBranchHeadCommit(state, state.branch || 'main');
+                const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                const newContent = headContents[file];
+                if (newContent === undefined && !(state.trackedFiles || []).includes(file)) {
+                    return { output: "fatal: path '" + file + "' is not in the working tree.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                }
+                const newWorkingDir = { ...(state.workingDir || {}), [file]: newContent !== undefined ? newContent : '' };
+                const newStaged = (state.staged || []).filter(x => x !== file);
+                return {
+                    output: '',
+                    newState: { ...state, workingDir: newWorkingDir, staged: newStaged, commandHistory: [...state.commandHistory, cmd] }
+                };
+            }
+
+            // git commit --amend -m "msg"
+            const amendMatch = cmd.match(/git\s+commit\s+--amend(?:\s+-m\s+["']?([^"']*)["']?)?/);
+            if (first === 'git' && second === 'commit' && argv[2] === '--amend') {
+                const amendMsg = amendMatch ? (amendMatch[1] !== undefined ? amendMatch[1] : null) : null;
+                const headCommit = getBranchHeadCommit(state, state.branch || 'main');
+                if (!headCommit) {
+                    return { output: 'fatal: You have nothing to amend.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                }
+                const staged = state.staged || [];
+                const workingDir = state.workingDir || {};
+                const headContents = headCommit.fileContents || {};
+                const newFileContents = { ...headContents };
+                if (staged.length > 0) {
+                    staged.forEach(f => { newFileContents[f] = workingDir[f] !== undefined ? workingDir[f] : ''; });
+                }
+                const msg = (amendMsg !== null && amendMsg !== '') ? amendMsg : headCommit.message;
+                const hash = 'a' + Math.random().toString(36).slice(2, 9);
+                const curBranch = state.branch || 'main';
+                const heads = state.branchHeads || {};
+                const parentHash = headCommit.parent;
+                const newCommit = { hash, message: msg, files: Object.keys(newFileContents), fileContents: newFileContents, parent: parentHash };
+                const newTracked = [...new Set([...(state.trackedFiles || []), ...staged])];
+                const newCommits = state.commits.filter(c => c.hash !== headCommit.hash).concat([newCommit]);
+                return {
+                    output: '[' + curBranch + ' ' + hash + '] ' + msg + ' (amend)\n ' + (staged.length || Object.keys(newFileContents).length) + ' file(s) changed',
+                    newState: {
+                        ...state,
+                        commits: newCommits,
+                        branchHeads: { ...heads, [curBranch]: hash },
+                        staged: [],
+                        trackedFiles: newTracked,
+                        commandHistory: [...state.commandHistory, cmd]
+                    }
+                };
+            }
+
             // git commit -m "msg"
             const commitMatch = cmd.match(/git\s+commit\s+-m\s+["']?([^"']*)["']?/);
             if (commitMatch || (first === 'git' && second === 'commit')) {
                 const msg = commitMatch ? commitMatch[1] : (argv[3] || '');
                 if (!msg && argv[2] !== '-m') return { output: 'error: switch \'m\' requires a value', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
                 const staged = state.staged || [];
-                if (staged.length === 0) return { output: 'nothing added to commit but untracked files present (use "git add" to track)', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                if (staged.length === 0) {
+                    const workingDir = state.workingDir || {};
+                    const tracked = state.trackedFiles || [];
+                    const headCommit = getBranchHeadCommit(state, state.branch || 'main') || (state.commits && state.commits.length ? state.commits[state.commits.length - 1] : null);
+                    const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                    const allFiles = Object.keys(workingDir);
+                    const modifiedNotStaged = allFiles.filter(f => {
+                        if (!tracked.includes(f) || staged.includes(f)) return false;
+                        return (workingDir[f] || '') !== (headContents[f] || '');
+                    });
+                    const untracked = allFiles.filter(f => !tracked.includes(f) && !staged.includes(f));
+                    const nothingMsg = (headCommit && modifiedNotStaged.length === 0 && untracked.length === 0)
+                        ? 'nothing to commit, working tree clean'
+                        : (untracked.length > 0
+                            ? 'nothing added to commit but untracked files present (use "git add" to track)'
+                            : 'no changes added to commit (use "git add" and/or "git commit -a")');
+                    return { output: nothingMsg, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                }
+                const workingDir = state.workingDir || {};
+                const headCommit = getBranchHeadCommit(state, state.branch || 'main');
+                const headContents = headCommit && headCommit.fileContents ? headCommit.fileContents : {};
+                const stagedSnapshot = {};
+                staged.forEach(path => { stagedSnapshot[path] = workingDir[path] !== undefined ? workingDir[path] : ''; });
+                const stagedKeys = Object.keys(stagedSnapshot).sort().join('\0');
+                const headKeys = Object.keys(headContents).sort().join('\0');
+                const sameKeys = stagedKeys === headKeys;
+                const sameContent = sameKeys && staged.every(f => (stagedSnapshot[f] || '') === (headContents[f] || ''));
+                if (headCommit && sameContent) {
+                    return { output: 'nothing to commit, working tree clean', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                }
                 const hash = 'a' + Math.random().toString(36).slice(2, 9);
                 const curBranch = state.branch || 'main';
-                const heads = state.branchHeads || { main: state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null };
+                const heads = state.branchHeads || {};
                 const parentHash = heads[curBranch] || null;
                 const trackedFiles = [...new Set([...(state.trackedFiles || []), ...staged])];
-                const workingDir = state.workingDir || {};
-                const fileContents = {};
-                staged.forEach(path => { fileContents[path] = workingDir[path] !== undefined ? workingDir[path] : ''; });
+                const fileContents = stagedSnapshot;
                 const newCommit = { hash, message: msg || 'update', files: staged, fileContents, parent: parentHash };
                 return {
                     output: '[' + curBranch + ' ' + hash + '] ' + (msg || 'update') + '\n ' + staged.length + ' file(s) changed, 0 insertions(+), 0 deletions(-)',
@@ -510,8 +878,7 @@
                 const oneline = cmd.includes('--oneline');
                 const curBranch = state.branch || 'main';
                 const heads = state.branchHeads || {};
-                let headHash = heads[curBranch];
-                if (headHash == null && curBranch === 'main' && state.commits && state.commits.length) headHash = state.commits[state.commits.length - 1].hash;
+                const headHash = heads[curBranch] ?? null;
                 const branchCommits = [];
                 let c = getCommitByHash(state, headHash);
                 while (c) { branchCommits.push(c); c = c.parent ? getCommitByHash(state, c.parent) : null; }
@@ -522,7 +889,7 @@
             // git checkout -b <newbranch> (create and switch)
             if (first === 'git' && second === 'checkout' && argv[2] === '-b' && argv[3]) {
                 const newName = argv[3];
-                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const heads = state.branchHeads || {};
                 if (heads[newName] !== undefined) return { output: "fatal: A branch named '" + newName + "' already exists.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
                 const curBranch = state.branch || 'main';
                 const curHead = heads[curBranch] || null;
@@ -536,15 +903,38 @@
             // git checkout <branch> (switch branch, update working dir)
             if (first === 'git' && second === 'checkout' && argv[2] && argv[2] !== '-b') {
                 const targetBranch = argv[2];
-                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const curBranch = state.branch || 'main';
+                if (targetBranch === curBranch) {
+                    return { output: "Already on '" + targetBranch + "'", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                }
+                const heads = state.branchHeads || {};
                 if (heads[targetBranch] === undefined) return { output: "error: pathspec '" + targetBranch + "' did not match any file(s) known to git.\nfatal: no matching branch found.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                const headCommitCur = getBranchHeadCommit(state, curBranch);
+                const headContentsCur = headCommitCur && headCommitCur.fileContents ? headCommitCur.fileContents : {};
+                const workingDir = state.workingDir || {};
+                const staged = state.staged || [];
+                const tracked = state.trackedFiles || [];
+                const hasStaged = staged.length > 0;
+                const modifiedNotStaged = Object.keys(workingDir).filter(f =>
+                    tracked.includes(f) && !staged.includes(f) && (workingDir[f] || '') !== (headContentsCur[f] || '')
+                );
+                const untracked = Object.keys(workingDir).filter(f => !tracked.includes(f) && !staged.includes(f));
+                if (hasStaged || modifiedNotStaged.length > 0 || untracked.length > 0) {
+                    const targetCommit = getCommitByHash(state, heads[targetBranch]);
+                    const targetContents = targetCommit && targetCommit.fileContents ? targetCommit.fileContents : {};
+                    const wouldOverwrite = modifiedNotStaged.some(f => targetContents[f] !== undefined && (targetContents[f] || '') !== (workingDir[f] || ''))
+                        || untracked.some(f => targetContents[f] !== undefined);
+                    if (wouldOverwrite || hasStaged) {
+                        return { output: 'Please commit your changes or stash them before you switch branches.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                    }
+                }
                 const headCommit = getCommitByHash(state, heads[targetBranch]);
                 const fileContents = (headCommit && headCommit.fileContents) ? headCommit.fileContents : {};
                 const trackedFiles = Object.keys(fileContents);
-                const workingDir = { ...fileContents };
+                const newWorkingDir = { ...fileContents };
                 return {
                     output: "Switched to branch '" + targetBranch + "'",
-                    newState: { ...state, branch: targetBranch, workingDir, trackedFiles, staged: [], commandHistory: [...state.commandHistory, cmd] }
+                    newState: { ...state, branch: targetBranch, workingDir: newWorkingDir, trackedFiles, staged: [], commandHistory: [...state.commandHistory, cmd] }
                 };
             }
 
@@ -566,10 +956,23 @@
                 return { output: lines.join('\n'), newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
             }
 
-            // git branch (list branches); git branch <name> (create branch only, no checkout)
+            // git branch (list branches); git branch <name> (create); git branch -d/-D <name> (delete)
             if (first === 'git' && second === 'branch') {
                 const curBranch = state.branch || 'main';
-                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const heads = state.branchHeads || {};
+                const forceDelete = argv[2] === '-D';
+                const deleteBranch = (argv[2] === '-d' || forceDelete) && argv[3];
+                if (deleteBranch) {
+                    const name = argv[3];
+                    if (heads[name] === undefined) return { output: "error: branch '" + name + "' not found.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                    if (name === curBranch) return { output: "error: Cannot delete the branch '" + name + "' which you are currently on.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                    const newHeads = { ...heads };
+                    delete newHeads[name];
+                    const branchParent = state.branchParent || {};
+                    const newBranchParent = { ...branchParent };
+                    delete newBranchParent[name];
+                    return { output: "Deleted branch " + name + " (was " + (heads[name] ? heads[name].slice(0, 7) : '') + ").", newState: { ...state, branchHeads: newHeads, branchParent: newBranchParent, commandHistory: [...state.commandHistory, cmd] } };
+                }
                 if (argv[2] && argv[2] !== '-d' && argv[2] !== '-D') {
                     const newName = argv[2];
                     if (heads[newName] !== undefined) return { output: "fatal: A branch named '" + newName + "' already exists.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
@@ -605,15 +1008,19 @@
             // git clone <url>
             if (first === 'git' && second === 'clone') {
                 const url = argv[2] || '';
+                const dirName = cloneDirNameFromUrl(url);
+                const clonedDirs = { ...(state.clonedDirs || {}), [dirName]: { workingDir: { 'readme.txt': 'Hello world' }, inited: true, originUrl: url || 'https://github.com/some/repo.git' } };
                 return {
-                    output: "Cloning into 'repo'...\ndone.",
-                    newState: { ...state, cloned: true, commandHistory: [...state.commandHistory, cmd] }
+                    output: "Cloning into '" + dirName + "'...\ndone.",
+                    newState: { ...state, cloned: true, clonedDirs, commandHistory: [...state.commandHistory, cmd] }
                 };
             }
 
             // git pull
             if (cmd === 'git pull' || (first === 'git' && second === 'pull')) {
-                const hasOrigin = state.remotes && state.remotes.origin;
+                const clonedDirs = state.clonedDirs || {};
+                const inClonedDir = cwd && cwd !== '..' && clonedDirs[cwd];
+                const hasOrigin = (state.remotes && state.remotes.origin) || (inClonedDir && clonedDirs[cwd].originUrl);
                 if (!hasOrigin) {
                     return {
                         output: "fatal: No remote repository specified.  Please, specify either a URL or a\nremote name from which new revisions should be fetched.",
@@ -629,7 +1036,7 @@
             // git merge <branch> and git merge --squash <branch>
             if (first === 'git' && second === 'merge' && argv[2]) {
                 const curBranch = state.branch || 'main';
-                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const heads = state.branchHeads || {};
                 const squash = argv[2] === '--squash';
                 const otherBranch = squash ? (argv[3] || '') : argv[2];
                 if (!otherBranch) return { output: 'fatal: No branch specified for merge.', newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
@@ -703,7 +1110,7 @@
             // git rebase <branch>
             if (first === 'git' && second === 'rebase' && argv[2] && argv[2] !== '--abort' && argv[2] !== '--continue') {
                 const curBranch = state.branch || 'main';
-                const heads = state.branchHeads || { main: (state.commits && state.commits.length ? state.commits[state.commits.length - 1].hash : null) };
+                const heads = state.branchHeads || {};
                 const ontoBranch = argv[2];
                 if (heads[ontoBranch] === undefined) return { output: "fatal: invalid upstream " + ontoBranch, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
                 const ourHash = heads[curBranch];
@@ -760,9 +1167,13 @@
 
             if (!cmd) return { output: '', newCwd: cwd };
 
+            const clonedDirs = gitState.clonedDirs || {};
+            const isInClonedDir = cwd !== '' && cwd !== '..' && clonedDirs[cwd];
+
             if (first === 'pwd') {
-                const path = cwd === '..' ? '~' : '~/' + PROJECT_DIR_NAME;
-                return { output: path, newCwd: cwd };
+                if (cwd === '..') return { output: '~', newCwd: cwd };
+                if (isInClonedDir) return { output: '~/' + PROJECT_DIR_NAME + '/' + cwd, newCwd: cwd };
+                return { output: '~/' + PROJECT_DIR_NAME, newCwd: cwd };
             }
 
             if (first === 'ls') {
@@ -770,12 +1181,19 @@
                 if (cwd === '..') {
                     return { output: long ? 'drwxr-xr-x  2 user  staff  64 Jan  1 12:00 ' + PROJECT_DIR_NAME : PROJECT_DIR_NAME, newCwd: cwd };
                 }
-                const files = Object.keys(gitState.workingDir || {});
-                if (gitState.inited) files.push('.git');
+                let files;
+                if (isInClonedDir) {
+                    files = Object.keys(clonedDirs[cwd].workingDir || {});
+                    if (clonedDirs[cwd].inited) files.push('.git');
+                } else {
+                    files = Object.keys(gitState.workingDir || {});
+                    if (gitState.inited) files.push('.git');
+                    Object.keys(clonedDirs).forEach(d => files.push(d));
+                }
                 files.sort();
                 if (long && files.length > 0) {
                     const lines = files.map(f => {
-                        const isDir = f === '.git';
+                        const isDir = f === '.git' || clonedDirs[f];
                         return (isDir ? 'drwxr-xr-x' : '-rw-r--r--') + '  1 user  staff  ' + (isDir ? '64' : '11') + ' Jan  1 12:00 ' + f;
                     });
                     return { output: lines.join('\n'), newCwd: cwd };
@@ -786,6 +1204,7 @@
             if (first === 'cd') {
                 const target = argv[1] || '~';
                 if (target === '..' || target === '../') {
+                    if (isInClonedDir) return { output: '', newCwd: '' };
                     return { output: '', newCwd: cwd === '..' ? cwd : '..' };
                 }
                 if (target === '~' || target === '' || target === PROJECT_DIR_NAME) {
@@ -794,6 +1213,8 @@
                 if (cwd === '..' && target === PROJECT_DIR_NAME) {
                     return { output: '', newCwd: '' };
                 }
+                if (clonedDirs[target]) return { output: '', newCwd: target };
+                if (cwd === '..' && clonedDirs[target]) return { output: '', newCwd: target };
                 return { output: "cd: no such file or directory: " + target, newCwd: cwd };
             }
 
@@ -801,22 +1222,32 @@
         }
 
         function runFileCommand(cwd, gitState, rawCommand) {
-            if (cwd !== '') return null;
+            const clonedDirs = gitState.clonedDirs || {};
+            const isClonedDir = cwd !== '' && cwd !== '..' && clonedDirs[cwd];
+            if (!isClonedDir && cwd !== '') return null;
             const cmd = rawCommand.trim();
             const argv = cmd.split(/\s+/).filter(Boolean);
             const first = (argv[0] || '').toLowerCase();
-            const workingDir = { ...(gitState.workingDir || {}) };
+            const baseDir = isClonedDir ? (clonedDirs[cwd].workingDir || {}) : (gitState.workingDir || {});
+            const workingDir = { ...baseDir };
+
+            function buildNewState(updatedWorkingDir) {
+                if (isClonedDir) {
+                    return { ...gitState, clonedDirs: { ...clonedDirs, [cwd]: { ...clonedDirs[cwd], workingDir: updatedWorkingDir } } };
+                }
+                return { ...gitState, workingDir: updatedWorkingDir };
+            }
 
             if (first === 'touch') {
                 const files = argv.slice(1).filter(Boolean);
                 if (files.length === 0) return { output: 'touch: missing file operand', newState: gitState };
                 files.forEach(f => { workingDir[f] = workingDir[f] ?? ''; });
-                return { output: '', newState: { ...gitState, workingDir } };
+                return { output: '', newState: buildNewState(workingDir) };
             }
 
             if (first === 'cat') {
                 const f = argv[1];
-                if (!f) return { output: 'cat: missing operand', newState: { ...gitState } };
+                if (!f) return { output: 'cat: missing operand', newState: gitState };
                 if (workingDir[f] === undefined) return { output: 'cat: ' + f + ': No such file or directory', newState: gitState };
                 return { output: workingDir[f], newState: gitState };
             }
@@ -831,7 +1262,7 @@
                 }
                 const existing = workingDir[filename] !== undefined ? workingDir[filename] : '';
                 workingDir[filename] = append ? existing + content + (existing && !existing.endsWith('\n') ? '\n' : '') : content;
-                return { output: '', newState: { ...gitState, workingDir } };
+                return { output: '', newState: buildNewState(workingDir) };
             }
 
             return null;
@@ -839,11 +1270,13 @@
 
         function checkLessonGoal(lessonId, gitState, commandHistory) {
             switch (lessonId) {
-                case 'vc-1': case 'vc-2': case 'gh-1': case 'gh-2': case 'collab-1': return null;
+                case 'vc-1': case 'vc-2': case 'gh-1': case 'gh-2': case 'branch-5': case 'collab-1': case 'collab-2': return null;
                 case 'git-1': return commandHistory.some(c => /git\s+--version/.test(c));
                 case 'git-2': return gitState.inited;
                 case 'git-3': return (gitState.commits || []).length >= 1;
                 case 'git-4': return commandHistory.some(c => /git\s+status/.test(c));
+                case 'git-5': return (gitState.commits || []).some(c => c.fileContents && c.fileContents['.gitignore'] !== undefined);
+                case 'git-6': return commandHistory.some(c => /git\s+restore\s+--staged/.test(c)) || commandHistory.some(c => /git\s+restore\s+\S+/.test(c) && !/git\s+restore\s+--staged/.test(c)) || commandHistory.some(c => /git\s+commit\s+--amend/.test(c));
                 case 'branch-1': return commandHistory.some(c => /git\s+checkout\s+-b\s+\S+/.test(c)) || (gitState.branchHeads && Object.keys(gitState.branchHeads).length > 1);
                 case 'branch-2': return commandHistory.some(c => /git\s+merge\s+(?!--squash)\S+/.test(c));
                 case 'branch-3': return commandHistory.some(c => /git\s+merge\s+--squash\s+\S+/.test(c));
@@ -956,7 +1389,149 @@
             );
         }
 
-        function AvatarPickerPopup({ open, onClose, avatarUrl, setAvatarUrl, triggerRef, validAvatarOptions, onAvatarFailed }) {
+        function getCheatsheetSections(lang) {
+            const l = lang || window.currentLanguage || 'en';
+            const data = translations[l]?.cheatsheet || translations.en?.cheatsheet;
+            if (data && Array.isArray(data.sections) && data.sections.length > 0) {
+                return data.sections;
+            }
+            return (translations.en?.cheatsheet?.sections || []).map(s => ({ title: s.title, items: s.items || s.commands }));
+        }
+
+        function CheatsheetPopup({ open, onClose, triggerRef, language }) {
+            const dialogRef = useRef(null);
+            const sections = React.useMemo(() => getCheatsheetSections(language), [language]);
+            useEffect(() => {
+                if (!open && triggerRef?.current) triggerRef.current.focus();
+            }, [open, triggerRef]);
+            useEffect(() => {
+                if (!open) return;
+                const handleKeyDown = (e) => {
+                    if (e.key === 'Escape') { e.preventDefault(); onClose(); }
+                };
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [open, onClose]);
+            const handlePrint = () => { window.print(); };
+            if (!open) return null;
+            return (
+                <div className="cheatsheet-overlay glossary-overlay" onClick={(e) => e.target === e.currentTarget && onClose()} role="presentation">
+                    <div ref={dialogRef} className="cheatsheet-dialog glossary-dialog" role="dialog" aria-modal="true" aria-labelledby="cheatsheet-title" onClick={(e) => e.stopPropagation()}>
+                        <div className="glossary-dialog-header">
+                            <h2 id="cheatsheet-title" className="glossary-title">{t('ui.cheatsheetTitle')}</h2>
+                            <div className="cheatsheet-actions">
+                                <button type="button" className="btn btn-primary" onClick={handlePrint} aria-label={t('ui.cheatsheetPrint')}>🖨 {t('ui.cheatsheetPrint')}</button>
+                                <button type="button" className="glossary-close-btn" onClick={onClose} aria-label={t('ui.cheatsheetClose')}>×</button>
+                            </div>
+                        </div>
+                        <div className="cheatsheet-list-wrapper glossary-list-wrapper">
+                            <div className="cheatsheet-print-content">
+                                {sections.map(({ title, items }, sectionIndex) => (
+                                    <section key={sectionIndex} className="cheatsheet-section">
+                                        <h3 className="cheatsheet-section-title">{title}</h3>
+                                        <dl className="cheatsheet-list">
+                                            {(items || []).map(({ cmd, desc }, itemIndex) => (
+                                                <React.Fragment key={itemIndex}>
+                                                    <dt className="cheatsheet-cmd">{cmd}</dt>
+                                                    <dd className="cheatsheet-desc">{desc}</dd>
+                                                </React.Fragment>
+                                            ))}
+                                        </dl>
+                                    </section>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function ColorPickerRow({ label, colors, onChange }) {
+            const hex = (Array.isArray(colors) && colors[0]) ? colors[0] : '#614335';
+            return (
+                <div className="avatar-color-row" role="group">
+                    <span className="avatar-creator-label">{label}</span>
+                    <div className="avatar-color-swatches">
+                        <input type="color" value={hex} onChange={(e) => onChange([e.target.value])} className="avatar-color-input" aria-label={label} title={hex} />
+                    </div>
+                </div>
+            );
+        }
+
+        function AvatarCreator({ avatarOpts, setAvatarOpts, showDoneButton, onDone }) {
+            const lang = (typeof window !== 'undefined' && window.currentLanguage) || 'en';
+            const previewUrl = buildCustomAvatarUrl(avatarOpts);
+            return (
+                <div className="avatar-creator" role="group" aria-labelledby="avatar-creator-title">
+                    <div className="avatar-creator-header">
+                        <h3 id="avatar-creator-title" className="avatar-picker-section-title">{t('ui.createYourAvatar')}</h3>
+                        <button type="button" className="btn btn-secondary avatar-randomize-btn" onClick={() => setAvatarOpts(getRandomAvatarOpts())} aria-label={t('ui.randomizeAvatar')} title={t('ui.randomizeAvatar')}>🎲</button>
+                    </div>
+                    <div className="avatar-creator-preview">
+                        <img src={previewUrl} alt="" width="120" height="120" />
+                    </div>
+                    <div className="avatar-creator-controls">
+                        <ColorPickerRow label={t('ui.avatarSkinTone')} colors={avatarOpts.skinColors} onChange={(skinColors) => setAvatarOpts(o => ({ ...o, skinColors }))} />
+                        <label className="avatar-creator-label">{t('ui.avatarHairStyle')}
+                            <select value={avatarOpts.top} onChange={(e) => setAvatarOpts(o => ({ ...o, top: e.target.value }))} aria-label={t('ui.avatarHairStyle')}>
+                                {AVATAR_TOP_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                            </select>
+                        </label>
+                        <ColorPickerRow label={t('ui.avatarHairColor')} colors={avatarOpts.hairColors} onChange={(hairColors) => setAvatarOpts(o => ({ ...o, hairColors }))} />
+                        <label className="avatar-creator-label">{t('ui.avatarClothingStyle')}
+                            <select value={avatarOpts.clothing} onChange={(e) => setAvatarOpts(o => ({ ...o, clothing: e.target.value }))} aria-label={t('ui.avatarClothingStyle')}>
+                                {AVATAR_CLOTHING_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                            </select>
+                        </label>
+                        <ColorPickerRow label={t('ui.avatarClothingColor')} colors={avatarOpts.clothesColors} onChange={(clothesColors) => setAvatarOpts(o => ({ ...o, clothesColors }))} />
+                        <div className="avatar-expression-row">
+                            <label className="avatar-creator-label">{t('ui.avatarMouth')}
+                                <select value={avatarOpts.mouth} onChange={(e) => setAvatarOpts(o => ({ ...o, mouth: e.target.value }))} aria-label={t('ui.avatarMouth')}>
+                                    {AVATAR_MOUTH_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                                </select>
+                            </label>
+                            <label className="avatar-creator-label">{t('ui.avatarEyes')}
+                                <select value={avatarOpts.eyes} onChange={(e) => setAvatarOpts(o => ({ ...o, eyes: e.target.value }))} aria-label={t('ui.avatarEyes')}>
+                                    {AVATAR_EYES_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                                </select>
+                            </label>
+                        </div>
+                        <label className="avatar-creator-label">{t('ui.avatarAccessories')}
+                            <select value={avatarOpts.accessories || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, accessories: e.target.value }))} aria-label={t('ui.avatarAccessories')}>
+                                {AVATAR_ACCESSORIES_OPTS.map(opt => <option key={opt.v || 'none'} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                            </select>
+                        </label>
+                        {(avatarOpts.accessories || '').length > 0 && (
+                            <ColorPickerRow label={t('ui.avatarAccessoriesColor')} colors={avatarOpts.accessoriesColors || ['#262e33']} onChange={(accessoriesColors) => setAvatarOpts(o => ({ ...o, accessoriesColors }))} />
+                        )}
+                        <label className="avatar-creator-label">{t('ui.avatarEyebrows')}
+                            <select value={avatarOpts.eyebrows} onChange={(e) => setAvatarOpts(o => ({ ...o, eyebrows: e.target.value }))} aria-label={t('ui.avatarEyebrows')}>
+                                {AVATAR_EYEBROWS_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                            </select>
+                        </label>
+                        <label className="avatar-creator-label">{t('ui.avatarFacialHair')}
+                            <select value={avatarOpts.facialHair || ''} onChange={(e) => setAvatarOpts(o => ({ ...o, facialHair: e.target.value }))} aria-label={t('ui.avatarFacialHair')}>
+                                {AVATAR_FACIAL_HAIR_OPTS.map(opt => <option key={opt.v || 'none'} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                            </select>
+                        </label>
+                        {(avatarOpts.facialHair || '').length > 0 && (
+                            <ColorPickerRow label={t('ui.avatarFacialHairColor')} colors={avatarOpts.facialHairColors || ['#2c1b18']} onChange={(facialHairColors) => setAvatarOpts(o => ({ ...o, facialHairColors }))} />
+                        )}
+                        <ColorPickerRow label={t('ui.avatarHatColor')} colors={avatarOpts.hatColors || ['#262e33']} onChange={(hatColors) => setAvatarOpts(o => ({ ...o, hatColors }))} />
+                        {avatarOpts.clothing === 'graphicShirt' && (
+                            <label className="avatar-creator-label">{t('ui.avatarClothingGraphic')}
+                                <select value={avatarOpts.clothingGraphic || AVATAR_CLOTHING_GRAPHIC_OPTS[0].v} onChange={(e) => setAvatarOpts(o => ({ ...o, clothingGraphic: e.target.value }))} aria-label={t('ui.avatarClothingGraphic')}>
+                                    {AVATAR_CLOTHING_GRAPHIC_OPTS.map(opt => <option key={opt.v} value={opt.v}>{lang === 'fr' ? opt.fr : opt.en}</option>)}
+                                </select>
+                            </label>
+                        )}
+                    </div>
+                    {showDoneButton && <button type="button" className="btn btn-primary avatar-creator-use-btn" onClick={onDone}>{t('ui.done')}</button>}
+                </div>
+            );
+        }
+
+        function AvatarPickerPopup({ open, onClose, avatarOpts, setAvatarOpts, triggerRef }) {
             const closeButtonRef = useRef(null);
             useEffect(() => {
                 if (open) setTimeout(() => closeButtonRef.current?.focus(), 50);
@@ -971,17 +1546,13 @@
             if (!open) return null;
             return (
                 <div className="glossary-overlay" onClick={(e) => e.target === e.currentTarget && onClose()} role="presentation">
-                    <div className="glossary-dialog" role="dialog" aria-modal="true" aria-labelledby="avatar-picker-title" onClick={(e) => e.stopPropagation()}>
+                    <div className="glossary-dialog avatar-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="avatar-picker-title" onClick={(e) => e.stopPropagation()}>
                         <div className="glossary-dialog-header">
-                            <h2 id="avatar-picker-title">{t('ui.chooseAvatar')}</h2>
+                            <h2 id="avatar-picker-title">{t('ui.createYourAvatar')}</h2>
                             <button ref={closeButtonRef} type="button" className="glossary-close-btn" onClick={onClose} aria-label={t('ui.glossaryClose')}>×</button>
                         </div>
-                        <div className="avatar-picker-grid" style={{ padding: '20px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '12px' }}>
-                            {validAvatarOptions.map((url, index) => (
-                                <button key={url} type="button" className={`avatar-picker-option ${avatarUrl === url ? 'selected' : ''}`} onClick={() => { setAvatarUrl(url); onClose(); }} aria-pressed={avatarUrl === url} aria-label={t('ui.chooseAvatarOption', { number: index + 1, total: validAvatarOptions.length })}>
-                                    <img src={url} alt="" width="80" height="80" onError={() => onAvatarFailed(url)} />
-                                </button>
-                            ))}
+                        <div className="avatar-picker-content">
+                            <AvatarCreator avatarOpts={avatarOpts} setAvatarOpts={setAvatarOpts} showDoneButton={true} onDone={onClose} />
                         </div>
                     </div>
                 </div>
@@ -1016,8 +1587,8 @@
                 e.preventDefault();
                 const cmd = input.trim();
                 if (!cmd || disabled) return;
-                onSubmit(cmd);
                 setInput('');
+                onSubmit(cmd);
             };
             return (
                 <div className="terminal-container">
@@ -1056,128 +1627,118 @@
             );
         }
 
-        const COL_WIDTH = 52;
-        const LANE_HEIGHT = 52;
-        const NODE_R = 10;
-        const GRAPH_PAD = 24;
-        const BRANCH_TAIL = 64;
-        const BRANCH_SPLIT_STAGGER = 32;
-        const LABEL_MARGIN = 10;
+        function sanitizeBranchNameForGraph(name) {
+            if (typeof name !== 'string') return name;
+            return name.replace(/\//g, '-');
+        }
 
-        function BranchVisualizer({ gitState }) {
+        function replayGitGraph(container, gitState) {
+            if (typeof window.GitgraphJS === 'undefined') return;
             const graph = buildBranchGraph(gitState);
-            const { nodes, currentBranch, numCols, numLanes, branchNames, heads } = graph;
+            const { nodes, branchNames } = graph;
+            const template = (window.GitgraphJS.templateExtend && typeof window.GitgraphJS.templateExtend === 'function')
+                ? window.GitgraphJS.templateExtend('metro', { commit: { message: { displayAuthor: false, displayHash: false } } })
+                : 'metro';
+            const gitgraph = window.GitgraphJS.createGitgraph(container, {
+                orientation: 'vertical-reverse',
+                template,
+                author: '',
+                branchLabelOnEveryCommit: true
+            });
+            const branches = {};
+            const tipBranchByHash = {};
+            if (nodes.length === 0) {
+                if (branchNames.length === 0) return;
+                const firstGraph = sanitizeBranchNameForGraph(branchNames[0]);
+                branches[firstGraph] = gitgraph.branch(firstGraph);
+                branches[firstGraph].commit('');
+                for (let i = 1; i < branchNames.length; i++) {
+                    const graphB = sanitizeBranchNameForGraph(branchNames[i]);
+                    branches[graphB] = branches[firstGraph].branch(graphB);
+                    branches[graphB].commit('');
+                }
+                return;
+            }
             const nodeByHash = {};
             nodes.forEach(n => { nodeByHash[n.hash] = n; });
-            const leftEdge = GRAPH_PAD;
-            const graphContentWidth = Math.max(numCols * COL_WIDTH, 80);
-            const mainHeadHash = heads && heads['main'];
-            const mainHeadNode = mainHeadHash ? nodeByHash[mainHeadHash] : null;
-            const xTip = mainHeadNode != null ? leftEdge + mainHeadNode.col * COL_WIDTH + COL_WIDTH / 2 : leftEdge;
-            const rightEdge = xTip + BRANCH_TAIL;
-            const width = rightEdge + 100;
-            const height = Math.max(numLanes * LANE_HEIGHT + GRAPH_PAD * 2, 120);
-            const x = (col) => leftEdge + col * COL_WIDTH + COL_WIDTH / 2;
-            const y = (row) => GRAPH_PAD + (numLanes - 1 - row) * LANE_HEIGHT + LANE_HEIGHT / 2;
-
-            const pathSegments = [];
             nodes.forEach(node => {
-                const x0 = x(node.col);
-                const y0 = y(node.row);
-                if (node.parent != null && nodeByHash[node.parent]) {
-                    const p = nodeByHash[node.parent];
-                    const x1 = x(p.col);
-                    const y1 = y(p.row);
-                    if (node.row === p.row) {
-                        pathSegments.push({ key: node.hash + '-p1', type: 'line', x1, y1, x2: x0, y2: y0, lane: node.row });
-                    } else {
-                        const midX = (x0 + x1) / 2;
-                        pathSegments.push({ key: node.hash + '-p1', type: 'curve', x1, y1, x2: x0, y2: y0, cpx: midX, cpy: y1, lane: node.row });
+                const branchName = branchNames[node.row];
+                const graphBranchName = sanitizeBranchNameForGraph(branchName);
+                const msg = (node.message || node.shortHash || '').slice(0, 40) || node.shortHash || '';
+                if (node.isMerge && node.parent2 && nodeByHash[node.parent2]) {
+                    const fromBranchName = branchNames[nodeByHash[node.parent2].row];
+                    const fromGraphBranchName = sanitizeBranchNameForGraph(fromBranchName);
+                    if (!branches[graphBranchName]) {
+                        const parentNode = node.parent ? nodeByHash[node.parent] : null;
+                        const parentBranchName = parentNode ? branchNames[parentNode.row] : 'main';
+                        const parentGraphBranchName = sanitizeBranchNameForGraph(parentBranchName);
+                        branches[graphBranchName] = (branches[parentGraphBranchName] || gitgraph.branch(parentGraphBranchName)).branch(graphBranchName);
                     }
-                }
-                if (node.parent2 != null && nodeByHash[node.parent2]) {
-                    const p = nodeByHash[node.parent2];
-                    const x1 = x(p.col);
-                    const y1 = y(p.row);
-                    const midX = (x0 + x1) / 2;
-                    pathSegments.push({ key: node.hash + '-p2', type: 'curve', x1, y1, x2: x0, y2: y0, cpx: midX + 20, cpy: (y0 + y1) / 2, lane: 1 });
+                    if (branches[fromGraphBranchName]) branches[graphBranchName].merge(branches[fromGraphBranchName], { commitMessage: msg || 'Merge' });
+                    tipBranchByHash[node.hash] = graphBranchName;
+                } else {
+                    if (!branches[graphBranchName]) {
+                        const parentNode = node.parent ? nodeByHash[node.parent] : null;
+                        const parentBranchName = parentNode ? branchNames[parentNode.row] : 'main';
+                        const parentGraphBranchName = sanitizeBranchNameForGraph(parentBranchName);
+                        branches[graphBranchName] = parentGraphBranchName === graphBranchName
+                            ? gitgraph.branch(graphBranchName)
+                            : (branches[parentGraphBranchName] || gitgraph.branch(parentGraphBranchName)).branch(graphBranchName);
+                    }
+                    branches[graphBranchName].commit(msg);
+                    tipBranchByHash[node.hash] = graphBranchName;
                 }
             });
-
-            const yMain = y(0);
-            const branchParent = gitState.branchParent || {};
-            const creationOrder = ['main'];
-            while (creationOrder.length < branchNames.length) {
-                let addedAny = false;
-                for (const b of branchNames) {
-                    if (creationOrder.includes(b)) continue;
-                    const p = branchParent[b] || 'main';
-                    if (creationOrder.includes(p)) { creationOrder.push(b); addedAny = true; }
+            const heads = gitState.branchHeads || {};
+            branchNames.forEach(b => {
+                const graphB = sanitizeBranchNameForGraph(b);
+                if (branches[graphB]) return;
+                const tipHash = heads[b];
+                if (tipHash && tipBranchByHash[tipHash]) {
+                    branches[graphB] = branches[tipBranchByHash[tipHash]].branch(graphB);
+                    branches[graphB].commit('');
                 }
-                if (!addedAny) break;
-            }
-            const splitX = { main: xTip };
-            creationOrder.forEach((name) => {
-                if (name === 'main') return;
-                const p = branchParent[name] || 'main';
-                const siblingIndex = creationOrder.filter((b) => (branchParent[b] || 'main') === p && creationOrder.indexOf(b) < creationOrder.indexOf(name)).length;
-                splitX[name] = (splitX[p] != null ? splitX[p] : xTip) + (siblingIndex + 1) * BRANCH_SPLIT_STAGGER;
             });
+        }
 
-            const laneLines = [];
-            laneLines.push({ key: 'lane-main', type: 'line', x1: leftEdge, y1: yMain, x2: xTip, y2: yMain, lane: 0 });
-            branchNames.forEach((name, row) => {
-                if (name === 'main') return;
-                const parent = branchParent[name] || 'main';
-                const parentRow = branchNames.indexOf(parent);
-                const yParent = parentRow >= 0 ? y(parentRow) : yMain;
-                const xSplit = splitX[name] != null ? splitX[name] : xTip;
-                laneLines.push({ key: 'lane-' + name + '-vert', type: 'line', x1: xSplit, y1: yParent, x2: xSplit, y2: y(row), lane: row });
-                laneLines.push({ key: 'lane-' + name + '-horiz', type: 'line', x1: xSplit, y1: y(row), x2: rightEdge, y2: y(row), lane: row });
-            });
-
+        function BranchVisualizer({ gitState }) {
+            const containerRef = useRef(null);
+            const [helpOpen, setHelpOpen] = useState(false);
+            const graph = buildBranchGraph(gitState);
+            const { nodes, currentBranch } = graph;
+            const graphKey = nodes.length + '-' + (gitState.commits || []).map(c => c.hash).join(',') + '-' + JSON.stringify(gitState.branchHeads || {});
+            useEffect(() => {
+                if (!containerRef.current) return;
+                containerRef.current.innerHTML = '';
+                replayGitGraph(containerRef.current, gitState);
+            }, [graphKey]);
             return (
                 <div className="branch-visualizer" role="img" aria-label="Branch graph">
                     <div className="branch-visualizer-header">
                         <span className="branch-visualizer-title">Branch graph</span>
-                        <span className="branch-visualizer-current">current: <strong>{currentBranch}</strong></span>
+                        <div className="branch-visualizer-header-right">
+                            <span className="branch-visualizer-current">current: <strong>{currentBranch}</strong></span>
+                            <button
+                                type="button"
+                                className="branch-visualizer-help-btn"
+                                onClick={() => setHelpOpen(!helpOpen)}
+                                aria-expanded={helpOpen}
+                                aria-controls="branch-visualizer-help"
+                                aria-label={t('ui.branchVisualizerHelpButton')}
+                            >
+                                ?
+                            </button>
+                        </div>
                     </div>
-                    <div className="branch-visualizer-graph">
-                        {nodes.length === 0 ? (
+                    {helpOpen && (
+                        <div id="branch-visualizer-help" className="branch-visualizer-help" role="region" aria-labelledby="branch-visualizer-help-title">
+                            <h3 id="branch-visualizer-help-title" className="branch-visualizer-help-title">{t('ui.branchVisualizerHelpTitle')}</h3>
+                            <p className="branch-visualizer-help-body">{t('ui.branchVisualizerHelpBody')}</p>
+                        </div>
+                    )}
+                    <div className="branch-visualizer-graph" ref={containerRef}>
+                        {nodes.length === 0 && (
                             <div className="branch-visualizer-empty">No commits yet. Run git commit to see the graph.</div>
-                        ) : (
-                            <svg width="100%" height={height} className="branch-visualizer-svg" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMinYMid meet" aria-hidden="true">
-                                {laneLines.filter(s => s.type === 'line').map(s => (
-                                    <line key={s.key} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} className={'branch-visualizer-line branch-visualizer-lane-' + (s.lane === 0 ? 'main' : 'side')} />
-                                ))}
-                                {pathSegments.filter(s => s.type === 'line').map(s => (
-                                    <line key={s.key} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} className={'branch-visualizer-line branch-visualizer-lane-' + (s.lane === 0 ? 'main' : 'side')} />
-                                ))}
-                                {laneLines.filter(s => s.type === 'curve').map(s => (
-                                    <path key={s.key} d={`M ${s.x1} ${s.y1} Q ${s.cpx} ${s.cpy} ${s.x2} ${s.y2}`} fill="none" className="branch-visualizer-line branch-visualizer-line-curve" />
-                                ))}
-                                {pathSegments.filter(s => s.type === 'curve').map(s => (
-                                    <path key={s.key} d={`M ${s.x1} ${s.y1} Q ${s.cpx} ${s.cpy} ${s.x2} ${s.y2}`} fill="none" className="branch-visualizer-line branch-visualizer-line-curve" />
-                                ))}
-                                {nodes.map(node => (
-                                    <g key={node.hash}>
-                                        <circle
-                                            cx={x(node.col)}
-                                            cy={y(node.row)}
-                                            r={NODE_R}
-                                            className={'branch-visualizer-node branch-visualizer-lane-' + (node.row === 0 ? 'main' : 'side') + (node.isMerge ? ' branch-visualizer-merge' : '') + (node.branches.includes(currentBranch) ? ' branch-visualizer-node-current' : '')}
-                                        />
-                                        <text x={x(node.col)} y={y(node.row) + NODE_R + 10} className="branch-visualizer-hash" textAnchor="middle">
-                                            {node.shortHash}
-                                        </text>
-                                    </g>
-                                ))}
-                                {branchNames.map((name, row) => (
-                                    <text key={name} x={rightEdge + LABEL_MARGIN} y={y(row) + 4} className={'branch-visualizer-lane-label' + (name === currentBranch ? ' branch-visualizer-lane-label-current' : '')} textAnchor="start">
-                                        {name}
-                                    </text>
-                                ))}
-                            </svg>
                         )}
                     </div>
                 </div>
@@ -1186,17 +1747,20 @@
 
         function App() {
             const [studentName, setStudentName] = useState('');
-            const [failedAvatarUrls, setFailedAvatarUrls] = useState(getInitialFailedAvatarUrls);
-            const validAvatarOptions = React.useMemo(() => AVATAR_OPTIONS_SHUFFLED.filter((url) => !failedAvatarUrls.has(url)), [failedAvatarUrls]);
-            const [avatarUrl, setAvatarUrl] = useState(() => {
-                const valid = AVATAR_OPTIONS_SHUFFLED.filter((u) => !getInitialFailedAvatarUrls().has(u));
-                return valid[0] || DEFAULT_AVATAR_URL;
-            });
+            const [avatarOpts, setAvatarOpts] = useState(getRandomAvatarOpts);
+            const [avatarUrl, setAvatarUrl] = useState(getDefaultAvatarUrl);
+            const setAvatarOptsAndUrl = (nextOrUpdater) => {
+                setAvatarOpts(prev => typeof nextOrUpdater === 'function' ? nextOrUpdater(prev) : nextOrUpdater);
+            };
+            useEffect(() => {
+                setAvatarUrl(buildCustomAvatarUrl(avatarOpts));
+            }, [avatarOpts]);
             const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
             const [code, setCode] = useState('');
             const [codeByLesson, setCodeByLesson] = useState({});
             const [feedback, setFeedback] = useState(null);
             const [gitState, setGitState] = useState(() => createInitialGitState(lessons[0].id));
+            const [gitStateByLesson, setGitStateByLesson] = useState({});
             const [terminalLinesByLesson, setTerminalLinesByLesson] = useState({});
             const [shellCwd, setShellCwd] = useState('');
             const [editingFile, setEditingFile] = useState(null);
@@ -1206,29 +1770,18 @@
             // Do not sync ref from gitState on render: React can render with stale state and overwrite
             // the ref after a command (e.g. git add), so the next command (git status) would see old state.
             const [hasStarted, setHasStarted] = useState(false);
-            const [hintExpanded, setHintExpanded] = useState(false);
             const [completedLessons, setCompletedLessons] = useState(new Set());
             const [language, setLanguage] = useState('en');
             const [refreshKey, setRefreshKey] = useState(0);
             const [glossaryOpen, setGlossaryOpen] = useState(false);
+            const [cheatsheetOpen, setCheatsheetOpen] = useState(false);
             const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
             const [showCertificateView, setShowCertificateView] = useState(false);
             const glossaryTriggerRef = useRef(null);
+            const cheatsheetTriggerRef = useRef(null);
             const avatarTriggerRef = useRef(null);
             const nextButtonRef = useRef(null);
             const prevLessonIndexRef = useRef(undefined);
-
-            const onAvatarFailed = (url) => {
-                setFailedAvatarUrls((prev) => {
-                    const next = new Set(prev);
-                    next.add(url);
-                    try { localStorage.setItem(AVATAR_FAILED_STORAGE_KEY, JSON.stringify([...next])); } catch (e) {}
-                    return next;
-                });
-            };
-            useEffect(() => {
-                if (failedAvatarUrls.has(avatarUrl)) setAvatarUrl(validAvatarOptions[0] || DEFAULT_AVATAR_URL);
-            }, [failedAvatarUrls, avatarUrl]);
 
             useEffect(() => { window.currentLanguage = language; document.documentElement.lang = language; setRefreshKey(prev => prev + 1); }, [language]);
 
@@ -1252,13 +1805,13 @@
                         const saved = codeByLesson[lessonRaw.id];
                         setCode(saved ?? getTranslatedLesson(lessonRaw, language).codeTemplate ?? '');
                     }
-                    const nextGitState = createInitialGitState(lessonRaw.id);
+                    const nextGitState = (gitStateByLesson[lessonRaw.id] != null) ? gitStateByLesson[lessonRaw.id] : createInitialGitState(lessonRaw.id);
                     gitStateRef.current = nextGitState;
                     setGitState(nextGitState);
                     setShellCwd('');
                     setEditingFile(null);
                 }
-            }, [currentLessonIndex, hasStarted, language, codeByLesson]);
+            }, [currentLessonIndex, hasStarted, language, codeByLesson, gitStateByLesson]);
 
             useEffect(() => {
                 window.forceUpdate = () => setRefreshKey(prev => prev + 1);
@@ -1275,28 +1828,62 @@
                     if (state) {
                         if (state.language) setLanguage(state.language);
                         setStudentName(state.name || '');
-                        if (state.avatarUrl) setAvatarUrl(state.avatarUrl);
+                        if (state.avatarUrl) {
+                            setAvatarUrl(state.avatarUrl);
+                            const parsed = parseAvatarUrlToOpts(state.avatarUrl);
+                            if (parsed) setAvatarOpts(parsed);
+                        }
+                        if (state.terminalLinesByLesson && Object.keys(state.terminalLinesByLesson).length > 0) setTerminalLinesByLesson(state.terminalLinesByLesson);
+                        if (state.codeByLesson && Object.keys(state.codeByLesson).length > 0) setCodeByLesson(state.codeByLesson);
+                        if (state.gitStateByLesson && Object.keys(state.gitStateByLesson).length > 0) setGitStateByLesson(state.gitStateByLesson);
+                        const lessonIndex = Math.min(state.lessonIndex ?? 0, lessons.length - 1);
+                        const lessonId = lessons[lessonIndex].id;
+                        const lastLessonId = lessons[lessons.length - 1].id;
                         if (!state.code && state.completedLessons && state.completedLessons.length === lessons.length) {
                             setCurrentLessonIndex(lessons.length - 1);
                             setCode('');
-                            setShowCertificateView(true);
-                        } else {
-                            setCurrentLessonIndex(Math.min(state.lessonIndex ?? 0, lessons.length - 1));
-                            setCode(state.code || '');
                             setCompletedLessons(new Set(state.completedLessons || []));
-                            if (state.code || (state.completedLessons && state.completedLessons.length > 0)) setHasStarted(true);
+                            setShowCertificateView(true);
+                            setHasStarted(true);
+                        } else {
+                            setCurrentLessonIndex(lessonIndex);
+                            const restoredCode = state.codeByLesson && state.codeByLesson[lessonId] !== undefined ? state.codeByLesson[lessonId] : (state.code || '');
+                            setCode(restoredCode || (getTranslatedLesson(lessons[lessonIndex], state.language).codeTemplate || ''));
+                            setCompletedLessons(new Set(state.completedLessons || []));
+                            if (state.code != null && state.code !== '' || (state.completedLessons && state.completedLessons.length > 0) || (state.terminalLinesByLesson && Object.keys(state.terminalLinesByLesson).length > 0)) setHasStarted(true);
                         }
+                        const effectiveLessonId = (!state.code && state.completedLessons && state.completedLessons.length === lessons.length) ? lastLessonId : lessonId;
+                        const initialGitState = (state.gitStateByLesson && state.gitStateByLesson[effectiveLessonId]) || createInitialGitState(effectiveLessonId);
+                        gitStateRef.current = initialGitState;
+                        setGitState(initialGitState);
                     }
                 }
             }, []);
 
             useEffect(() => {
                 if (!hasStarted) return;
-                const state = { name: studentName, lessonIndex: currentLessonIndex, code, language, completedLessons: Array.from(completedLessons), avatarUrl: avatarUrl || null };
+                const currentId = lessons[currentLessonIndex]?.id;
+                const state = {
+                    name: studentName,
+                    lessonIndex: currentLessonIndex,
+                    code,
+                    language,
+                    completedLessons: Array.from(completedLessons),
+                    avatarUrl: avatarUrl || null,
+                    gitStateByLesson: { ...gitStateByLesson, ...(currentId ? { [currentId]: gitState } : {}) },
+                    terminalLinesByLesson,
+                    codeByLesson
+                };
                 const hash = encodeState(state);
                 const newUrl = window.location.pathname + (hash ? '#' + hash : '');
                 if (window.location.hash !== (hash ? '#' + hash : '')) window.history.replaceState(null, '', newUrl);
-            }, [hasStarted, studentName, currentLessonIndex, code, language, completedLessons, avatarUrl]);
+            }, [hasStarted, studentName, currentLessonIndex, code, language, completedLessons, avatarUrl, gitState, gitStateByLesson, terminalLinesByLesson, codeByLesson]);
+
+            useEffect(() => {
+                if (showCertificateView && completedLessons.size !== lessons.length) {
+                    setShowCertificateView(false);
+                }
+            }, [showCertificateView, completedLessons.size, lessons.length]);
 
             // Do not auto-focus Next button when lesson completes; keep focus in terminal so
             // typing/Enter runs commands. User advances only by typing "next" or clicking Next.
@@ -1403,7 +1990,7 @@
                 }
 
                 if (lower === 'next' || lower === 'done') {
-                    const msgComplete = language === 'fr' ? 'Leçon terminée ! Passage à la suivante...' : 'Lesson complete! Moving to next lesson...';
+                    const msgComplete = t('ui.lessonCompleteNext');
                     setTerminalLinesByLesson(prev => ({
                         ...prev,
                         [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: msgComplete }]
@@ -1420,7 +2007,7 @@
                 }
 
                 if (lower === 'back') {
-                    const msgBack = language === 'fr' ? 'Retour à la leçon précédente.' : 'Going back to previous lesson.';
+                    const msgBack = t('ui.goingBackToLesson');
                     setTerminalLinesByLesson(prev => ({
                         ...prev,
                         [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: msgBack }]
@@ -1448,7 +2035,7 @@
                     if (!filename || filename.includes('/') || filename === '.git') {
                         setTerminalLinesByLesson(prev => ({
                             ...prev,
-                            [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: 'edit: usage: edit <filename>' }]
+                            [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: t('ui.editUsage') }]
                         }));
                         return;
                     }
@@ -1456,15 +2043,16 @@
                     setEditingContent((gitStateRef.current.workingDir || {})[filename] !== undefined ? (gitStateRef.current.workingDir || {})[filename] : '');
                     setTerminalLinesByLesson(prev => ({
                         ...prev,
-                        [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: 'Editing ' + filename + ' (save or cancel in editor below)' }]
+                        [lessonRaw.id]: [...(prev[lessonRaw.id] || []), { type: 'command', text: cmd }, { type: 'output', text: t('ui.editingFile', { filename }) }]
                     }));
                     return;
                 }
 
-                const fileResult = shellCwd === '' ? runFileCommand(shellCwd, gitStateRef.current, cmd) : null;
+                const fileResult = runFileCommand(shellCwd, gitStateRef.current, cmd);
                 if (fileResult !== null) {
                     gitStateRef.current = fileResult.newState;
                     setGitState(fileResult.newState);
+                    setGitStateByLesson(prev => ({ ...prev, [lessonRaw.id]: fileResult.newState }));
                     setTerminalLinesByLesson(prev => ({
                         ...prev,
                         [lessonRaw.id]: [
@@ -1476,11 +2064,12 @@
                     return;
                 }
 
-                const result = runGitCommand(gitStateRef.current, cmd);
+                const result = runGitCommand(gitStateRef.current, cmd, shellCwd);
                 gitStateRef.current = result.newState;
                 setGitState(result.newState);
+                setGitStateByLesson(prev => ({ ...prev, [lessonRaw.id]: result.newState }));
                 const goal = checkLessonGoal(lessonRaw.id, result.newState, result.newState.commandHistory);
-                const msgComplete = language === 'fr' ? 'Leçon terminée ! Tapez "next" ou cliquez sur le bouton pour continuer.' : 'Lesson complete! Type "next" or click the button to continue.';
+                const msgComplete = t('ui.lessonCompleteTypeNext');
                 const newLines = [
                     ...(terminalLinesByLesson[lessonRaw.id] || []),
                     { type: 'command', text: cmd },
@@ -1506,6 +2095,7 @@
                 return { completed, total: sectionLessons.length };
             };
 
+            const introProgress = getSectionProgress('Tutorial intro');
             const vcProgress = getSectionProgress('Version Control');
             const gitProgress = getSectionProgress('Git Basics');
             const branchProgress = getSectionProgress('Branching');
@@ -1519,9 +2109,10 @@
             const allLessonsComplete = completedLessons.size === lessons.length;
             const commandText = (currentLesson.codeTemplate || code || '').trim();
             const terminalLines = terminalLinesByLesson[currentLessonRaw.id] || [];
-            const hasTerminalGoal = !['vc-1', 'vc-2', 'gh-1', 'gh-2', 'collab-1'].includes(currentLessonRaw.id);
+            const hasTerminalGoal = !['intro-1', 'intro-2', 'vc-1', 'vc-2', 'gh-1', 'gh-2', 'branch-5', 'collab-1', 'collab-2'].includes(currentLessonRaw.id);
 
-            if (allLessonsComplete && showCertificateView && hasStarted && studentName && refreshKey >= 0) {
+            const mayShowCertificate = completedLessons.size === lessons.length && lessons.length > 0 && showCertificateView && hasStarted && studentName && refreshKey >= 0;
+            if (mayShowCertificate) {
                 const completionDate = new Date().toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 return (
                     <>
@@ -1530,6 +2121,7 @@
                             <div className="certificate-header">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowCertificateView(false)} style={{ marginRight: '12px' }} aria-label={t('ui.backToLessons')}>← {t('ui.backToLessons')}</button>
                                 <div className="certificate-language-selector">
+                                    <button ref={cheatsheetTriggerRef} type="button" className="glossary-btn glossary-btn-certificate" onClick={() => setCheatsheetOpen(true)} aria-label={t('ui.cheatsheetButton')}>📋 {t('ui.cheatsheetButton')}</button>
                                     <button ref={glossaryTriggerRef} type="button" className="glossary-btn glossary-btn-certificate" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')}>📖 {t('ui.glossaryButton')}</button>
                                     <label htmlFor="cert-lang" className="sr-only">{t('ui.selectLanguage')}</label>
                                     <select id="cert-lang" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')} className="certificate-language-select">
@@ -1544,7 +2136,7 @@
                                 <p className="description">{t('ui.certificateDescription')}</p>
                                 <div className="student-name-block" aria-label={t('ui.studentNameAria', { name: studentName })}>
                                     <button type="button" className="avatar-change-btn avatar-change-btn-certificate" onClick={(e) => { avatarTriggerRef.current = e.currentTarget; setAvatarPickerOpen(true); }} aria-label={t('ui.changeAvatar')} aria-haspopup="dialog">
-                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-certificate" width="80" height="80" onError={() => setAvatarUrl(DEFAULT_AVATAR_URL)} /> : <span className="avatar-placeholder avatar-placeholder-certificate" aria-hidden="true" />}
+                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-certificate" width="80" height="80" onError={() => { setAvatarOpts(getDefaultAvatarOpts()); setAvatarUrl(getDefaultAvatarUrl()); }} /> : <span className="avatar-placeholder avatar-placeholder-certificate" aria-hidden="true" />}
                                     </button>
                                     <span className="student-name">{studentName}</span>
                                 </div>
@@ -1572,7 +2164,8 @@
                             </div>
                         </div>
                         {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
-                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                        {cheatsheetOpen && <CheatsheetPopup open={cheatsheetOpen} onClose={() => setCheatsheetOpen(false)} triggerRef={cheatsheetTriggerRef} language={language} />}
+                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarOpts={avatarOpts} setAvatarOpts={setAvatarOptsAndUrl} triggerRef={avatarTriggerRef} />}
                     </>
                 );
             }
@@ -1589,6 +2182,7 @@
                                         <p>{t('ui.subtitle')}</p>
                                     </div>
                                     <div className="language-selector">
+                                        <button ref={cheatsheetTriggerRef} type="button" className="glossary-btn" onClick={() => setCheatsheetOpen(true)} aria-label={t('ui.cheatsheetButton')} aria-haspopup="dialog">📋 {t('ui.cheatsheetButton')}</button>
                                         <button ref={glossaryTriggerRef} type="button" className="glossary-btn" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')} aria-haspopup="dialog">📖 {t('ui.glossaryButton')}</button>
                                         <label htmlFor="language-select" className="sr-only">{t('ui.selectLanguage')}</label>
                                         <select id="language-select" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')}>
@@ -1603,15 +2197,8 @@
                                         <p><TextWithTooltips text={t('ui.welcomeDescription')} /></p>
                                         <p style={{ fontSize: '14px', color: '#595959', fontStyle: 'italic', marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #e0e0e0' }}>{t('ui.tutorialCredit')}</p>
                                         <div className="avatar-picker-section" role="group" aria-labelledby="avatar-picker-label">
-                                            <p id="avatar-picker-label" className="avatar-picker-label">{t('ui.chooseAvatar')}</p>
-                                            <div className="avatar-picker-grid" aria-describedby="welcome-avatar-scroll-hint">
-                                                {validAvatarOptions.map((url, index) => (
-                                                    <button key={url} type="button" className={`avatar-picker-option ${avatarUrl === url ? 'selected' : ''}`} onClick={() => setAvatarUrl(url)} aria-pressed={avatarUrl === url} aria-label={t('ui.chooseAvatarOption', { number: index + 1, total: validAvatarOptions.length })}>
-                                                        <img src={url} alt="" width="80" height="80" onError={() => onAvatarFailed(url)} />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                            <p id="welcome-avatar-scroll-hint" className="avatar-picker-scroll-hint" role="status">{t('ui.avatarPickerScrollHint')}</p>
+                                            <p id="avatar-picker-label" className="avatar-picker-label">{t('ui.createYourAvatar')}</p>
+                                            <AvatarCreator avatarOpts={avatarOpts} setAvatarOpts={setAvatarOptsAndUrl} showDoneButton={false} />
                                         </div>
                                         <form onSubmit={handleNameSubmit} className="name-input">
                                             <label htmlFor="student-name-input" className="sr-only">{t('ui.enterName')}</label>
@@ -1624,7 +2211,8 @@
                             </div>
                         </div>
                         {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
-                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                        {cheatsheetOpen && <CheatsheetPopup open={cheatsheetOpen} onClose={() => setCheatsheetOpen(false)} triggerRef={cheatsheetTriggerRef} language={language} />}
+                        {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarOpts={avatarOpts} setAvatarOpts={setAvatarOptsAndUrl} triggerRef={avatarTriggerRef} />}
                     </>
                 );
             }
@@ -1647,7 +2235,7 @@
                             <div className="header">
                                 <div className="header-content header-content-with-avatar">
                                     <button type="button" className="avatar-change-btn" onClick={(e) => { avatarTriggerRef.current = e.currentTarget; setAvatarPickerOpen(true); }} aria-label={t('ui.changeAvatar')} aria-haspopup="dialog">
-                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-header" width="44" height="44" onError={() => { onAvatarFailed(avatarUrl); setAvatarUrl(DEFAULT_AVATAR_URL); }} /> : <span className="avatar-placeholder" aria-hidden="true" />}
+                                        {avatarUrl ? <img src={avatarUrl} alt="" className="user-avatar user-avatar-header" width="44" height="44" onError={() => { setAvatarOpts(getDefaultAvatarOpts()); setAvatarUrl(getDefaultAvatarUrl()); }} /> : <span className="avatar-placeholder" aria-hidden="true" />}
                                     </button>
                                     <div>
                                         <h1>{t('ui.title')}</h1>
@@ -1655,6 +2243,7 @@
                                     </div>
                                 </div>
                                 <div className="language-selector">
+                                    <button ref={cheatsheetTriggerRef} type="button" className="glossary-btn" onClick={() => setCheatsheetOpen(true)} aria-label={t('ui.cheatsheetButton')} aria-haspopup="dialog">📋 {t('ui.cheatsheetButton')}</button>
                                     <button ref={glossaryTriggerRef} type="button" className="glossary-btn" onClick={() => setGlossaryOpen(true)} aria-label={t('ui.glossaryButton')} aria-haspopup="dialog">📖 {t('ui.glossaryButton')}</button>
                                     <label htmlFor="language-select-main" className="sr-only">{t('ui.selectLanguage')}</label>
                                     <select id="language-select-main" value={language} onChange={(e) => setLanguage(e.target.value)} aria-label={t('ui.selectLanguage')}>
@@ -1666,6 +2255,7 @@
                             <div className="progress-section" role="region" aria-labelledby="course-progress-title">
                                 <div id="course-progress-title" className="progress-title">{t('ui.courseProgress')}</div>
                                 <div className="progress-circles">
+                                    {progressSection('Tutorial intro', introProgress, 'tutorialIntro')}
                                     {progressSection('Version Control', vcProgress, 'versionControl')}
                                     {progressSection('Git Basics', gitProgress, 'gitBasics')}
                                     {progressSection('Branching', branchProgress, 'branching')}
@@ -1694,19 +2284,13 @@
                                         <p style={{ marginTop: '15px' }}><strong>{t('ui.whyImportant')}</strong> <TextWithTooltips text={currentLesson.whyImportant} /></p>
                                     </div>
                                     {currentLesson.whatToDo && (
-                                        <div className="hint-section">
-                                            <button type="button" className="hint-button" onClick={() => setHintExpanded(!hintExpanded)} aria-expanded={hintExpanded} aria-controls="hint-content" aria-label={hintExpanded ? t('ui.hideHint') : t('ui.showHint')}>
-                                                <span>{t('ui.needHint')}</span>
-                                                <span className="hint-icon" aria-hidden="true">▼</span>
-                                            </button>
-                                            <div id="hint-content" className={`hint-content ${hintExpanded ? 'hint-content--expanded' : ''}`} aria-hidden={!hintExpanded} role="region" aria-label={t('ui.hintRegion')}>
-                                                <h3>{t('ui.whatToDo')}</h3>
-                                                <ol>
-                                                    {currentLesson.whatToDo.map((step, index) => (
-                                                        <li key={index}><TextWithTooltips text={step} /></li>
-                                                    ))}
-                                                </ol>
-                                            </div>
+                                        <div className="hint-section" role="region" aria-label={t('ui.hintRegion')}>
+                                            <h3>{t('ui.whatToDo')}</h3>
+                                            <ol>
+                                                {currentLesson.whatToDo.map((step, index) => (
+                                                    <li key={index}><TextWithTooltips text={step} /></li>
+                                                ))}
+                                            </ol>
                                         </div>
                                     )}
                                     {hasTerminalGoal ? (
@@ -1752,6 +2336,7 @@
                                 <BranchVisualizer gitState={gitState} />
                             )}
                             <Terminal
+                                key={currentLessonRaw.id}
                                 lines={terminalLines}
                                 onSubmit={handleTerminalCommand}
                                 disabled={false}
@@ -1763,7 +2348,7 @@
                                     <div className="file-editor-header">
                                         <span className="file-editor-title">{editingFile}</span>
                                         <div className="file-editor-actions">
-                                            <button type="button" className="btn btn-primary" onClick={() => { setGitState(prev => { const next = { ...prev, workingDir: { ...(prev.workingDir || {}), [editingFile]: editingContent } }; gitStateRef.current = next; return next; }); setEditingFile(null); }}>{t('ui.save') || 'Save'}</button>
+                                            <button type="button" className="btn btn-primary" onClick={() => { const lessonId = lessons[currentLessonIndex].id; setGitState(prev => { const next = { ...prev, workingDir: { ...(prev.workingDir || {}), [editingFile]: editingContent } }; gitStateRef.current = next; return next; }); setGitStateByLesson(prev => ({ ...prev, [lessonId]: { ...gitStateRef.current, workingDir: { ...(gitStateRef.current.workingDir || {}), [editingFile]: editingContent } } })); setEditingFile(null); }}>{t('ui.save') || 'Save'}</button>
                                             <button type="button" className="btn btn-secondary" onClick={() => setEditingFile(null)}>{t('ui.cancel') || 'Cancel'}</button>
                                         </div>
                                     </div>
@@ -1773,7 +2358,8 @@
                         </div>
                     </div>
                     {glossaryOpen && <GlossaryPopup open={glossaryOpen} onClose={() => setGlossaryOpen(false)} language={language} triggerRef={glossaryTriggerRef} />}
-                    {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarUrl={avatarUrl} setAvatarUrl={setAvatarUrl} triggerRef={avatarTriggerRef} validAvatarOptions={validAvatarOptions} onAvatarFailed={onAvatarFailed} />}
+                    {cheatsheetOpen && <CheatsheetPopup open={cheatsheetOpen} onClose={() => setCheatsheetOpen(false)} triggerRef={cheatsheetTriggerRef} language={language} />}
+                    {avatarPickerOpen && <AvatarPickerPopup open={avatarPickerOpen} onClose={() => setAvatarPickerOpen(false)} avatarOpts={avatarOpts} setAvatarOpts={setAvatarOptsAndUrl} triggerRef={avatarTriggerRef} />}
                 </>
             );
         }

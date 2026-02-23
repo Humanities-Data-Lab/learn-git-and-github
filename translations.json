@@ -11,6 +11,26 @@
       "chooseAvatarOption": "Avatar option {number} of {total}",
       "avatarPickerScrollHint": "Scroll for more avatars",
       "changeAvatar": "Change avatar",
+      "createYourAvatar": "Create your avatar",
+      "avatarSkinTone": "Skin tone",
+      "avatarHairStyle": "Hair style",
+      "avatarHairColor": "Hair color",
+      "avatarClothingStyle": "Clothing style",
+      "avatarClothingColor": "Clothing color",
+      "avatarMouth": "Mouth",
+      "avatarEyes": "Eyes",
+      "avatarAccessories": "Glasses & accessibility",
+      "avatarAccessoriesColor": "Glasses / accessory color",
+      "avatarEyebrows": "Eyebrows",
+      "avatarFacialHair": "Facial hair",
+      "avatarFacialHairColor": "Facial hair color",
+      "avatarHatColor": "Hat / headwear color",
+      "avatarClothingGraphic": "Shirt graphic",
+      "addColor": "Add color",
+      "addColorHint": "Click a swatch to change the colour; add more to give the avatar alternate shades.",
+      "removeColor": "Remove",
+      "done": "Done",
+      "randomizeAvatar": "Randomize avatar",
       "startLearning": "Start Learning",
       "nameCertificateNote": "This name will appear on your shareable certificate when you complete all lessons.",
       "welcomeUser": "Welcome, {name}! • Lesson {current} of {total}",
@@ -66,13 +86,27 @@
       "glossarySearchPlaceholder": "Search terms...",
       "glossaryClose": "Close glossary",
       "glossaryNoResults": "No terms match your search.",
+      "cheatsheetButton": "Cheatsheet",
+      "cheatsheetTitle": "Git & GitHub Cheatsheet",
+      "cheatsheetPrint": "Print",
+      "cheatsheetClose": "Close",
       "skipToMainContent": "Skip to main content",
       "definitionOf": "Definition of {term}",
       "backToLessons": "Back to lessons",
       "viewCertificate": "View certificate",
-      "reportBug": "Report bug"
+      "reportBug": "Report bug",
+      "branchVisualizerHelpButton": "Help",
+      "branchVisualizerHelpTitle": "About the branch graph",
+      "branchVisualizerHelpBody": "This graph shows your Git branches and commits. Each dot is a commit (with its short hash and message). Branches appear as separate lines; the main branch and any branch you create (e.g. with git checkout -b) are shown. The label \"current\" shows which branch you're on. New branches appear as soon as you create them, even before you make a commit on them.",
+      "lessonCompleteNext": "Lesson complete! Moving to next lesson...",
+      "lessonCompleteTypeNext": "Lesson complete! Type \"next\" or click the button to continue.",
+      "goingBackToLesson": "Going back to previous lesson.",
+      "editUsage": "edit: usage: edit <filename>",
+      "editingFile": "Editing {filename} (save or cancel in editor below)",
+      "editFileReminder": "To edit a file here: type **edit** followed by the filename in the terminal (e.g. **edit readme.txt**); the editor opens below—make your changes and click Save."
     },
     "categories": {
+      "tutorialIntro": "How this tutorial works",
       "versionControl": "Version Control",
       "gitBasics": "Git Basics",
       "branching": "Branching",
@@ -80,6 +114,26 @@
       "collaboration": "Collaboration"
     },
     "lessons": {
+      "intro-1": {
+        "title": "The terminal: what works like the real thing",
+        "description": "This tutorial has a **simulated terminal** on the right. Much of it behaves like a real terminal (e.g. on your Mac, Linux, or in VS Code). You type commands and see output; the prompt shows your current folder (**~/my-project**). Standard shell commands work as you’d expect: **ls** lists files, **pwd** shows the current directory, **cd** changes directory, **cat** shows file contents, and **echo** can create or append to files (e.g. **echo \"Hello\" > readme.txt**). So the way you navigate and run commands is very close to a real terminal.",
+        "whyImportant": "Getting used to typing commands here will make the move to a real terminal or IDE much easier. The habits you build (reading the prompt, using ls and cat to see what’s there) transfer directly.",
+        "whatToDo": [
+          "Read the explanation above",
+          "In the terminal, try **ls** or **pwd** to see they work like a normal shell",
+          "Type **next** when you’re ready to continue"
+        ]
+      },
+      "intro-2": {
+        "title": "What we’ve simplified: edit command and Git simulation",
+        "description": "A few things in this tutorial are **simplified or custom** so you can learn without installing anything. **Editing files:** In a real terminal you’d open a text editor (e.g. **nano**, **vim**, or open the file in an app). Here we use a built-in **edit** command: type **edit filename** (e.g. **edit readme.txt**) in the terminal and an **editor panel opens below**—change the content and click **Save**. That’s only for this tutorial. **Git:** We simulate Git in the browser. Commands like **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push**, and **git pull** behave like real Git and teach the real workflow. But there is no real network: **git push** and **git pull** don’t talk to real servers—remotes and clones are simulated. So: terminal navigation and file commands are close to real; **edit** is tutorial-only; Git logic is real, but remotes are simulated.",
+        "whyImportant": "Knowing what’s “real” vs “for this lesson” helps you know what to expect when you use Git and a terminal on your own machine. You’ll use a real editor and real GitHub; the concepts you learn here will still apply.",
+        "whatToDo": [
+          "Read the explanation above",
+          "When a lesson asks you to edit a file, remember: type **edit filename** in the terminal, then use the editor below and click Save",
+          "Type **next** when you’re ready to start the version control lessons"
+        ]
+      },
       "vc-1": {
         "title": "What is version control?",
         "description": "Version control is a way to save and track changes to your files over time. Instead of ending up with files like \"thesis_v1.docx\", \"thesis_final.docx\", and \"thesis_FINAL_really.docx\", you keep one project and a history of every change: who changed what, and when. You can go back to any earlier version if you need to.",
@@ -123,10 +177,10 @@
       },
       "git-3": {
         "title": "Staging and committing: git add and git commit",
-        "description": "Git doesn't save every change automatically. You choose which changes to include in a \"commit\" (a snapshot). First you stage the files with git add, then you create the snapshot with git commit -m \"Your message\". You can create or edit files right here: use **echo \"text\" > filename** or **edit filename** (then save in the editor that appears). Then run git add and git commit in the terminal.",
+        "description": "Git doesn't save every change automatically. You choose which changes to include in a \"commit\" (a snapshot). First you stage the files with git add, then you create the snapshot with git commit -m \"Your message\". You can create or edit files right here: use **echo \"text\" > filename** or **edit filename**. To edit a file in this simulation: type **edit** followed by the filename in the terminal; the editor opens below—make your changes and click Save. Then run git add and git commit in the terminal.",
         "whyImportant": "Commits are the building blocks of your history. Good commit messages help you and others understand the project later—especially important in DH when you need to cite or explain a specific version.",
         "whatToDo": [
-          "In the terminal: create or edit a file (e.g. **echo \"Hello\" > readme.txt** or **edit readme.txt** and save)",
+          "In the terminal: create or edit a file (e.g. **echo \"Hello\" > readme.txt** or **edit readme.txt** and save). To edit a file: type **edit filename** in the terminal; the editor opens below—click Save when done.",
           "Then type: **git add .** (or **git add readme.txt**)",
           "Then: **git commit -m \"First commit\"** (use any short message)",
           "The lesson completes when you make a commit"
@@ -135,39 +189,66 @@
       },
       "git-4": {
         "title": "Checking status: git status",
-        "description": "At any time you can run git status to see which files are modified, which are staged for the next commit, and which are untracked. This helps you stay in control before committing. Try editing a file (echo or edit) and run git status again to see the change.",
+        "description": "At any time you can run git status to see which files are modified, which are staged for the next commit, and which are untracked. This helps you stay in control before committing. Try editing a file (echo or edit) and run git status again to see the change. To edit a file here: type **edit filename** in the terminal; the editor opens below—then click Save.",
         "whyImportant": "Using git status regularly avoids committing the wrong files or forgetting to add something. It's a habit that will save you in real projects.",
         "whatToDo": [
           "In the terminal, type: **git status**",
-          "Optionally change a file (**echo \"more\" >> readme.txt** or **edit readme.txt**) and run **git status** again",
+          "Optionally change a file (**echo \"more\" >> readme.txt** or **edit readme.txt**) and run **git status** again (to edit: type **edit readme.txt** in the terminal; the editor opens below—click Save)",
           "Type **next** when done"
         ],
         "codeTemplate": "git status"
       },
+      "git-5": {
+        "title": "Ignoring files: .gitignore",
+        "description": "Some files should never be committed: secrets, build outputs, or local config. A **.gitignore** file lists patterns (one per line). Git then ignores those files: they won't appear as untracked in **git status** and won't be added with **git add .**. You can create **.gitignore** with **edit .gitignore** and add a line like **secret.txt** or ***.log**. To edit a file here: type **edit .gitignore** in the terminal; the editor opens below—add your lines and click Save. Then create a file matching that pattern and run **git status**—the ignored file won't be listed. Commit the **.gitignore** file itself so the rules are shared with others.",
+        "whyImportant": "Without .gitignore you might commit passwords, API keys, or thousands of generated files. In DH projects you often ignore data caches, local config, and editor backups.",
+        "whatToDo": [
+          "Create a **.gitignore** file (e.g. **edit .gitignore** and add a line: **secret.txt**). Type **edit .gitignore** in the terminal; the editor opens below—add **secret.txt** and click Save.",
+          "Optionally create a file that matches (e.g. **echo \"don't commit\" > secret.txt**)",
+          "Run **git status**—you should see **.gitignore** as untracked but not the ignored file",
+          "Run **git add .gitignore** and **git commit -m \"Add .gitignore\"** to finish the lesson"
+        ],
+        "codeTemplate": "edit .gitignore\n# add line: secret.txt\ngit add .gitignore\ngit commit -m \"Add .gitignore\""
+      },
+      "git-6": {
+        "title": "Fixing mistakes: unstage, discard, amend",
+        "description": "You can fix common slip-ups without losing work. **git restore --staged <file>** unstage a file (remove it from the next commit). **git restore <file>** discards uncommitted changes in that file—it reverts the file to the last committed version (use with care). **git commit --amend -m \"New message\"** replaces the last commit: either change the message or add more staged changes into that commit. Here you have one commit; try unstaging a file, discarding changes, or amending the last commit.",
+        "whyImportant": "Everyone stages the wrong file or commits with a typo. Knowing how to unstage, discard, or amend keeps your history clean and avoids embarrassing pushes.",
+        "whatToDo": [
+          "**Unstage:** Change **readme.txt** (type **edit readme.txt** in the terminal; the editor opens below—edit and click Save), run **git add readme.txt**, then **git restore --staged readme.txt**. Run **git status** to see it's no longer staged.",
+          "**Discard changes:** Change **readme.txt** again (**edit readme.txt** in the terminal, then Save), then **git restore readme.txt**. The file is back to the last committed version.",
+          "**Amend:** Make a small change, **git add** and **git commit -m \"Typo\"**, then **git commit --amend -m \"Fixed typo\"** to replace the last commit message.",
+          "Type **next** when you've tried at least one of these"
+        ],
+        "codeTemplate": "git add readme.txt\ngit restore --staged readme.txt\ngit status"
+      },
       "branch-1": {
         "title": "Branching: create and switch branches",
-        "description": "Branches let you work on a separate line of development without affecting the main branch. Use **git branch** to list branches (the current one has a *). Create a new branch with **git checkout -b <name>** (this creates and switches to it). Use **git checkout <name>** to switch to an existing branch—your working directory updates to match that branch's files.",
+        "description": "Branches let you work on a separate line of development without affecting the main branch. Each branch can have its own version of files. Use **git branch** to list branches (the current one has a *). Create a new branch with **git checkout -b <name>** (this creates and switches to it). Use **git checkout <name>** to switch to an existing branch—your working directory updates to match that branch's files. In this lesson you'll change **readme.txt** differently on each branch, then use **cat readme.txt** to see that the file content is different on each branch.",
         "whyImportant": "Branching is essential for trying out changes, working on features separately, and collaborating. In DH projects you might use a branch for a new edition variant or a dataset update.",
         "whatToDo": [
           "Run **git branch** to see the current branch (main)",
           "Create a new branch: **git checkout -b feature** (or any name)",
-          "Run **git branch** again to see both branches; you're now on the new one",
-          "Optionally run **git checkout main** to switch back—notice how the terminal reflects the branch",
+          "Change **readme.txt** on this branch (e.g. **echo \"Feature version\" > readme.txt** or **edit readme.txt**). To edit: type **edit readme.txt** in the terminal; the editor opens below—click Save. Then **git add readme.txt** and **git commit -m \"Feature content\"**",
+          "Switch to main: **git checkout main**. Run **cat readme.txt** to see main's version of the file",
+          "Change **readme.txt** on main to something different (e.g. **echo \"Main version\" > readme.txt** or **edit readme.txt**—type **edit readme.txt** in the terminal, edit in the panel below, then Save). Then **git add readme.txt** and **git commit -m \"Main content\"**",
+          "Run **cat readme.txt** again—you'll see the main version. Then **git checkout feature** and run **cat readme.txt**—you'll see the feature version. Each branch has its own copy.",
           "Type **next** when done"
         ],
-        "codeTemplate": "git checkout -b feature"
+        "codeTemplate": "git checkout -b feature\necho \"Feature version\" > readme.txt\ngit add readme.txt\ngit commit -m \"Feature content\"\ngit checkout main\ncat readme.txt"
       },
       "branch-2": {
         "title": "Merging branches",
-        "description": "When you're happy with work on a branch, you merge it into another (usually main) with **git merge <branch>**. Git combines the histories. If the other branch has new commits since you branched, you may get a merge commit; if not, Git does a \"fast-forward\" (no merge commit). After merging, the current branch includes the other branch's commits.",
-        "whyImportant": "Merging is how you bring feature work back into the main line. Understanding merge vs. fast-forward helps you keep history clear.",
+        "description": "When you're happy with work on a branch, you merge it into another (usually main) with **git merge <branch>**. Git combines the histories. If the other branch has new commits since you branched, you may get a merge commit; if not, Git does a \"fast-forward\" (no merge commit). After merging, the current branch includes the other branch's commits. Once a branch is merged, you can delete it locally with **git branch -d <name>** to keep your branch list tidy; the commits remain in the history of the branch you merged into.",
+        "whyImportant": "Merging is how you bring feature work back into the main line. Understanding merge vs. fast-forward helps you keep history clear. Deleting merged branches avoids clutter and makes it obvious which branches are still in progress.",
         "whatToDo": [
-          "Create a branch and make a commit on it (e.g. **git checkout -b feature**, edit a file, **git add .**, **git commit -m \"Add feature\"**)",
+          "Create a branch and make a commit on it (e.g. **git checkout -b feature**, edit a file—type **edit readme.txt** in the terminal, change the content in the editor below and click Save—then **git add .**, **git commit -m \"Add feature\"**)",
           "Switch to main: **git checkout main**",
           "Merge the branch: **git merge feature**",
+          "Optionally delete the merged branch: **git branch -d feature** (keeps your branch list tidy)",
           "Run **git log** to see the merged history. Type **next** when done"
         ],
-        "codeTemplate": "git checkout -b feature\ngit add .\ngit commit -m \"Add feature\"\ngit checkout main\ngit merge feature"
+        "codeTemplate": "git checkout -b feature\ngit add .\ngit commit -m \"Add feature\"\ngit checkout main\ngit merge feature\ngit branch -d feature"
       },
       "branch-3": {
         "title": "Squash merging",
@@ -193,6 +274,16 @@
           "Type **next** when done"
         ],
         "codeTemplate": "git checkout -b feature\ngit commit -m \"Change\"\ngit rebase main"
+      },
+      "branch-5": {
+        "title": "Merge conflicts",
+        "description": "When two branches change the **same part** of the same file, Git cannot merge automatically. You get a **merge conflict**: the file is marked with conflict markers (**<<<<<<<**, **=======**, **>>>>>>>**) showing the two versions. To resolve it: open the file, decide what the final content should be (keep one version, combine both, or edit by hand), remove the conflict markers and the version you don't want, then **git add** the file and **git commit** to complete the merge. In this simulation, to open a file for editing: type **edit filename** in the terminal; the editor opens below—edit the content and click Save. Conflicts are normal when several people edit the same lines; resolving them is a routine part of collaboration.",
+        "whyImportant": "In DH projects, multiple editors or datasets can touch the same files. Knowing how to read conflict markers and resolve conflicts lets you merge branches and pull others' work without fear.",
+        "whatToDo": [
+          "Read the explanation above",
+          "When you see a conflict in real Git, open the file, edit it to remove the markers and keep the desired content, then **git add <file>** and **git commit**. Here: type **edit <filename>** in the terminal; the editor opens below—remove conflict markers and click Save.",
+          "In the terminal, type **next** when ready to continue"
+        ]
       },
       "gh-1": {
         "title": "What is GitHub?",
@@ -225,7 +316,7 @@
       },
       "gh-4": {
         "title": "Getting a copy: git clone and git pull",
-        "description": "To get a full copy of someone else's repo (or your own from another computer), you'd use git clone <URL>. To update an existing copy, you run git pull. Here you can try these commands in the terminal—e.g. **git clone https://github.com/some/repo** or **git pull**—to see the simulated output.",
+        "description": "To get a full copy of someone else's repo (or your own from another computer), you'd use git clone <URL>. When you clone, Git creates a new folder (usually named after the repo) and puts the full copy there—so the cloned repo always lives in its own directory. To update an existing copy, you run git pull. Here you can try these commands in the terminal—e.g. **git clone https://github.com/some/repo** or **git pull**—to see the simulated output.",
         "whyImportant": "Clone and pull are how you work with existing DH projects, contribute to others' work, or sync between machines. They're essential for collaboration.",
         "whatToDo": [
           "In the terminal, try **git clone https://github.com/some/repo** or **git pull**",
@@ -239,21 +330,103 @@
         "whyImportant": "Good version control habits make DH projects reproducible, transparent, and easier to hand off or publish. They align with open scholarship and funder expectations.",
         "whatToDo": [
           "Read the collaboration and good-practice tips above",
-          "In the terminal, type **next** to finish the course and view your certificate"
+          "In the terminal, type **next** to continue"
+        ]
+      },
+      "collab-2": {
+        "title": "Next steps: install Git, GitHub, and authentication",
+        "description": "This tutorial runs in the browser. To use Git and GitHub on your own computer: (1) **Install Git** from https://git-scm.com/ (or your package manager). (2) **Create a GitHub account** at https://github.com if you don't have one. (3) **Set up authentication** so you can push and pull: either **SSH keys** (recommended) or a **personal access token** over HTTPS. GitHub's docs explain both: \"Connecting to GitHub with SSH\" and \"Managing your personal access tokens.\" Once Git is installed and authentication is set up, you can clone repos, push your work, and open pull requests from the command line or a GUI.",
+        "whyImportant": "Without these steps, commands like git push will ask for credentials or fail. A few minutes of setup on your machine unlock everything you've learned here.",
+        "whatToDo": [
+          "Read the steps above and bookmark the links",
+          "When you're ready, type **next** to finish the course and view your certificate"
         ]
       }
     },
     "glossary": {
       "version control": "A system that records changes to files over time so you can recall or compare specific versions later.",
       "repository": "A folder managed by Git, containing the project files and the full history of commits.",
+      "repo": "Short for repository: the folder where Git keeps your project's history.",
       "commit": "A snapshot of your project at a point in time, with a message and a unique ID. Commits form the history of the project.",
       "stage": "To mark files as ready to be included in the next commit (using git add).",
+      "staged": "Marked as ready to be included in the next commit (using git add).",
       "push": "To send your local commits to a remote repository (e.g. on GitHub).",
       "pull": "To fetch and merge changes from a remote repository into your current branch.",
       "clone": "To download a copy of a repository (including its history) from a remote server.",
       "remote": "A version of the repository hosted elsewhere (e.g. on GitHub), often named origin.",
+      "origin": "The default name for the remote repository (usually on GitHub) that your local repo is linked to.",
+      "Git": "A free, open-source tool for version control on your computer. It keeps the full history of your project in a repository and works locally; you only need the internet to share or back up (e.g. via GitHub).",
       "GitHub": "A web platform that hosts Git repositories and provides tools for collaboration, issues, and documentation.",
-      "Digital Humanities": "Research and teaching that combine computational methods with humanities disciplines; often involves texts, datasets, and code that benefit from version control."
+      "Digital Humanities": "Research and teaching that combine computational methods with humanities disciplines; often involves texts, datasets, and code that benefit from version control.",
+      "DH": "Abbreviation for Digital Humanities.",
+      "branch": "A separate line of development in a Git repository. You can create branches to try changes or work on features without affecting the main line.",
+      "branches": "Separate lines of development in a Git repository. You can create branches to try changes or work on features without affecting the main line.",
+      "merge": "To combine the commits from another branch into your current branch (e.g. git merge feature).",
+      "merge conflict": "When two branches modify the same part of the same file, Git cannot merge automatically. The file is marked with conflict markers (<<<<<<<, =======, >>>>>>>); you edit the file to choose the final content, remove the markers, then git add and git commit to complete the merge.",
+      "merge commit": "A commit that records the merging of two branches when they have diverged (no fast-forward).",
+      "fast-forward": "When merging, if the current branch has not diverged, Git simply moves the branch pointer forward; no merge commit is created.",
+      "squash merge": "A merge that brings another branch's changes as a single set of staged changes, without a merge commit. You then make one commit, so multiple commits become one.",
+      "rebase": "To move your branch's commits so they sit on top of another branch, producing a linear history. Use git rebase <branch>.",
+      "pull request": "On GitHub, a proposal to merge changes from one branch into another, for review and discussion before merging.",
+      "README": "A file (usually README.md) that explains a project: what it is, how to use it, and how to contribute. Often displayed on GitHub.",
+      "untracked": "A file that Git is not yet tracking (not in the last snapshot and not staged). git status lists untracked files.",
+      ".gitignore": "A file in the root of your repo that lists patterns (one per line). Git ignores matching files: they won't show as untracked and won't be added with git add .",
+      "amend": "To change the last commit. git commit --amend -m \"New message\" replaces the message; with staged changes, it folds them into that commit."
+    },
+    "cheatsheet": {
+      "sections": [
+        {
+          "title": "Setup",
+          "items": [
+            { "cmd": "git config user.name \"Name\"", "desc": "Set your name" },
+            { "cmd": "git config user.email \"email@example.com\"", "desc": "Set your email" },
+            { "cmd": "git init", "desc": "Create a new repository in current folder" }
+          ]
+        },
+        {
+          "title": "Basic workflow",
+          "items": [
+            { "cmd": "git status", "desc": "See modified/staged/untracked files" },
+            { "cmd": "git add <file>", "desc": "Stage a file (or git add . for all)" },
+            { "cmd": "git commit -m \"message\"", "desc": "Create a snapshot with a message" },
+            { "cmd": "git log", "desc": "View commit history" }
+          ]
+        },
+        {
+          "title": "Branches",
+          "items": [
+            { "cmd": "git branch", "desc": "List branches (* = current)" },
+            { "cmd": "git checkout -b <branch>", "desc": "Create and switch to a new branch" },
+            { "cmd": "git checkout <branch>", "desc": "Switch to an existing branch" },
+            { "cmd": "git merge <branch>", "desc": "Merge branch into current branch" },
+            { "cmd": "git merge --squash <branch>", "desc": "Merge as one staged change (no merge commit)" },
+            { "cmd": "git rebase <branch>", "desc": "Replay your commits on top of another branch" }
+          ]
+        },
+        {
+          "title": "Remote (GitHub)",
+          "items": [
+            { "cmd": "git remote add origin <URL>", "desc": "Link local repo to a remote" },
+            { "cmd": "git push -u origin main", "desc": "Push commits to remote (first time)" },
+            { "cmd": "git push", "desc": "Push commits to remote" },
+            { "cmd": "git pull", "desc": "Fetch and merge from remote" },
+            { "cmd": "git clone <URL>", "desc": "Download a copy of a repository" }
+          ]
+        },
+        {
+          "title": "Tips & tricks",
+          "items": [
+            { "cmd": "git log --oneline", "desc": "Compact one-line view of history" },
+            { "cmd": ".gitignore", "desc": "List files/folders to never track (e.g. node_modules/, .env)" },
+            { "cmd": "git reset --soft HEAD~1", "desc": "Undo last commit but keep your changes staged" },
+            { "cmd": "git remote -v", "desc": "Show remote URLs (origin, etc.)" },
+            { "cmd": "Pull before push", "desc": "Run git pull before git push to avoid rejections" },
+            { "cmd": "Branch per feature", "desc": "Use a new branch for each feature or fix, then merge" },
+            { "cmd": "Clear commit messages", "desc": "Write short, descriptive messages; future you will thank you" },
+            { "cmd": "README + license", "desc": "On GitHub, add a README and license so others know how to use and reuse" }
+          ]
+        }
+      ]
     }
   },
   "fr": {
@@ -268,6 +441,26 @@
       "chooseAvatarOption": "Option d'avatar {number} sur {total}",
       "avatarPickerScrollHint": "Faites défiler pour plus d'avatars",
       "changeAvatar": "Changer d'avatar",
+      "createYourAvatar": "Créez votre avatar",
+      "avatarSkinTone": "Teint",
+      "avatarHairStyle": "Coiffure",
+      "avatarHairColor": "Couleur des cheveux",
+      "avatarClothingStyle": "Type de vêtement",
+      "avatarClothingColor": "Couleur du vêtement",
+      "avatarMouth": "Bouche",
+      "avatarEyes": "Yeux",
+      "avatarAccessories": "Lunettes et accessibilité",
+      "avatarAccessoriesColor": "Couleur lunettes / accessoire",
+      "avatarEyebrows": "Sourcils",
+      "avatarFacialHair": "Barbe / moustache",
+      "avatarFacialHairColor": "Couleur barbe",
+      "avatarHatColor": "Couleur chapeau / coiffe",
+      "avatarClothingGraphic": "Motif du T-shirt",
+      "addColor": "Ajouter une couleur",
+      "addColorHint": "Cliquez sur un carré pour changer la couleur ; ajoutez-en pour donner d'autres teintes à l'avatar.",
+      "removeColor": "Retirer",
+      "done": "Terminé",
+      "randomizeAvatar": "Avatar aléatoire",
       "startLearning": "Commencer",
       "nameCertificateNote": "Ce nom apparaîtra sur votre certificat partageable à la fin de toutes les leçons.",
       "welcomeUser": "Bienvenue, {name} ! • Leçon {current} sur {total}",
@@ -323,13 +516,27 @@
       "glossarySearchPlaceholder": "Rechercher un terme...",
       "glossaryClose": "Fermer le glossaire",
       "glossaryNoResults": "Aucun terme ne correspond.",
+      "cheatsheetButton": "Aide-mémoire",
+      "cheatsheetTitle": "Aide-mémoire Git et GitHub",
+      "cheatsheetPrint": "Imprimer",
+      "cheatsheetClose": "Fermer",
       "skipToMainContent": "Aller au contenu principal",
       "definitionOf": "Définition de {term}",
       "backToLessons": "Retour aux leçons",
       "viewCertificate": "Voir le certificat",
-      "reportBug": "Signaler un bug"
+      "reportBug": "Signaler un bug",
+      "branchVisualizerHelpButton": "Aide",
+      "branchVisualizerHelpTitle": "À propos du graphe de branches",
+      "branchVisualizerHelpBody": "Ce graphe affiche vos branches et commits Git. Chaque point est un commit (avec son hash court et son message). Les branches apparaissent en lignes séparées ; la branche main et toute branche que vous créez (ex. avec git checkout -b) sont affichées. Le libellé « current » indique la branche sur laquelle vous êtes. Les nouvelles branches apparaissent dès que vous les créez, même avant d'y faire un commit.",
+      "lessonCompleteNext": "Leçon terminée ! Passage à la suivante...",
+      "lessonCompleteTypeNext": "Leçon terminée ! Tapez \"next\" ou cliquez sur le bouton pour continuer.",
+      "goingBackToLesson": "Retour à la leçon précédente.",
+      "editUsage": "edit: usage: edit <filename>",
+      "editingFile": "Édition de {filename} (enregistrer ou annuler dans l'éditeur ci-dessous)",
+      "editFileReminder": "Pour modifier un fichier ici : tapez **edit** suivi du nom du fichier dans le terminal (ex. **edit readme.txt**) ; l'éditeur s'ouvre en dessous—faites vos modifications et cliquez sur Enregistrer."
     },
     "categories": {
+      "tutorialIntro": "Comment fonctionne ce tutoriel",
       "versionControl": "Contrôle de version",
       "gitBasics": "Bases de Git",
       "branching": "Branches",
@@ -337,6 +544,26 @@
       "collaboration": "Collaboration"
     },
     "lessons": {
+      "intro-1": {
+        "title": "Le terminal : ce qui fonctionne comme en réel",
+        "description": "Ce tutoriel propose un **terminal simulé** à droite. La plupart du temps il se comporte comme un vrai terminal (Mac, Linux ou VS Code). Vous tapez des commandes et voyez la sortie ; l’invite affiche le dossier courant (**~/my-project**). Les commandes shell habituelles fonctionnent comme attendu : **ls** liste les fichiers, **pwd** affiche le répertoire courant, **cd** change de répertoire, **cat** affiche le contenu d’un fichier, et **echo** peut créer ou compléter un fichier (ex. **echo \"Bonjour\" > readme.txt**). La façon dont vous naviguez et exécutez des commandes est donc très proche d’un vrai terminal.",
+        "whyImportant": "S’habituer à taper des commandes ici facilitera le passage à un vrai terminal ou à un IDE. Les réflexes que vous prenez (lire l’invite, utiliser ls et cat pour voir ce qu’il y a) sont les mêmes en réel.",
+        "whatToDo": [
+          "Lire l’explication ci-dessus",
+          "Dans le terminal, essayez **ls** ou **pwd** pour voir qu’ils se comportent comme un shell normal",
+          "Tapez **next** quand vous êtes prêt à continuer"
+        ]
+      },
+      "intro-2": {
+        "title": "Ce qu’on a simplifié : la commande edit et la simulation Git",
+        "description": "Quelques éléments de ce tutoriel sont **simplifiés ou spécifiques** pour que vous puissiez apprendre sans rien installer. **Modifier des fichiers :** Dans un vrai terminal vous ouvririez un éditeur de texte (**nano**, **vim**, ou le fichier dans une app). Ici nous utilisons une commande intégrée **edit** : tapez **edit nomfichier** (ex. **edit readme.txt**) dans le terminal et un **panneau d’édition s’ouvre en dessous**—modifiez le contenu et cliquez sur **Enregistrer**. C’est propre à ce tutoriel. **Git :** Nous simulons Git dans le navigateur. Les commandes **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push** et **git pull** se comportent comme en vrai et enseignent le vrai workflow. Mais il n’y a pas de vrai réseau : **git push** et **git pull** ne parlent pas à de vrais serveurs—les dépôts distants et les clones sont simulés. Donc : la navigation et les commandes fichiers sont proches du réel ; **edit** est propre au tutoriel ; la logique Git est réelle, mais les remotes sont simulés.",
+        "whyImportant": "Savoir ce qui est « réel » ou « pour cette leçon » vous aide à savoir à quoi vous attendre quand vous utiliserez Git et un terminal sur votre machine. Vous utiliserez un vrai éditeur et un vrai GitHub ; les notions apprises ici resteront valables.",
+        "whatToDo": [
+          "Lire l’explication ci-dessus",
+          "Quand une leçon vous demande d’éditer un fichier, rappelez-vous : tapez **edit nomfichier** dans le terminal, puis utilisez l’éditeur en dessous et cliquez sur Enregistrer",
+          "Tapez **next** quand vous êtes prêt à commencer les leçons sur le contrôle de version"
+        ]
+      },
       "vc-1": {
         "title": "Qu'est-ce que le contrôle de version ?",
         "description": "Le contrôle de version permet de sauvegarder et de suivre l'évolution de vos fichiers dans le temps. Au lieu d'accumuler des fichiers comme \"these_v1.docx\", \"these_finale.docx\" et \"these_VRAIMENT_finale.docx\", vous gardez un seul projet et un historique de chaque modification : qui a changé quoi, et quand. Vous pouvez revenir à n'importe quelle version antérieure si besoin.",
@@ -380,10 +607,10 @@
       },
       "git-3": {
         "title": "Mise en stage et commit : git add et git commit",
-        "description": "Git ne sauvegarde pas chaque changement automatiquement. Vous choisissez quels changements inclure dans un « commit » (une photo du projet). D'abord vous mettez les fichiers en stage avec git add, puis vous créez la photo avec git commit -m \"Votre message\". Vous pouvez créer ou modifier des fichiers ici : utilisez **echo \"texte\" > nomfichier** ou **edit nomfichier** (puis enregistrez dans l'éditeur). Puis lancez git add et git commit dans le terminal.",
+        "description": "Git ne sauvegarde pas chaque changement automatiquement. Vous choisissez quels changements inclure dans un « commit » (une photo du projet). D'abord vous mettez les fichiers en stage avec git add, puis vous créez la photo avec git commit -m \"Votre message\". Vous pouvez créer ou modifier des fichiers ici : utilisez **echo \"texte\" > nomfichier** ou **edit nomfichier**. Pour modifier un fichier dans cette simulation : tapez **edit** suivi du nom du fichier dans le terminal ; l'éditeur s'ouvre en dessous—faites vos modifications et cliquez sur Enregistrer. Puis lancez git add et git commit dans le terminal.",
         "whyImportant": "Les commits sont les briques de votre historique. De bons messages de commit aident vous et les autres à comprendre le projet plus tard—surtout en HN quand il faut citer ou expliquer une version précise.",
         "whatToDo": [
-          "Dans le terminal : créer ou modifier un fichier (ex. **echo \"Bonjour\" > readme.txt** ou **edit readme.txt** puis enregistrer)",
+          "Dans le terminal : créer ou modifier un fichier (ex. **echo \"Bonjour\" > readme.txt** ou **edit readme.txt** puis enregistrer). Pour modifier un fichier : tapez **edit nomfichier** dans le terminal ; l'éditeur s'ouvre en dessous—cliquez sur Enregistrer quand c'est fait.",
           "Puis taper : **git add .** (ou **git add readme.txt**)",
           "Puis : **git commit -m \"Premier commit\"** (un message court)",
           "La leçon se valide quand vous faites un commit"
@@ -392,39 +619,66 @@
       },
       "git-4": {
         "title": "Vérifier l'état : git status",
-        "description": "À tout moment vous pouvez lancer git status pour voir quels fichiers sont modifiés, lesquels sont en stage pour le prochain commit, et lesquels ne sont pas suivis. Essayez de modifier un fichier (echo ou edit) et relancez git status pour voir le changement.",
+        "description": "À tout moment vous pouvez lancer git status pour voir quels fichiers sont modifiés, lesquels sont en stage pour le prochain commit, et lesquels ne sont pas suivis. Essayez de modifier un fichier (echo ou edit) et relancez git status pour voir le changement. Pour modifier un fichier ici : tapez **edit nomfichier** dans le terminal ; l'éditeur s'ouvre en dessous—puis cliquez sur Enregistrer.",
         "whyImportant": "Utiliser git status régulièrement évite de committer les mauvais fichiers ou d'oublier d'ajouter quelque chose. C'est une habitude qui vous servira dans les vrais projets.",
         "whatToDo": [
           "Dans le terminal, taper : **git status**",
-          "Optionnel : modifier un fichier (**echo \"suite\" >> readme.txt** ou **edit readme.txt**) puis **git status**",
+          "Optionnel : modifier un fichier (**echo \"suite\" >> readme.txt** ou **edit readme.txt**) puis **git status** (pour éditer : tapez **edit readme.txt** dans le terminal ; l'éditeur s'ouvre en dessous—cliquez sur Enregistrer)",
           "Taper **next** quand c'est fait"
         ],
         "codeTemplate": "git status"
       },
+      "git-5": {
+        "title": "Ignorer des fichiers : .gitignore",
+        "description": "Certains fichiers ne doivent jamais être commités : secrets, fichiers de build ou config locale. Un fichier **.gitignore** liste des motifs (un par ligne). Git ignore alors ces fichiers : ils n'apparaissent pas comme non suivis dans **git status** et ne sont pas ajoutés avec **git add .**. Vous pouvez créer **.gitignore** avec **edit .gitignore** et ajouter une ligne comme **secret.txt** ou ***.log**. Pour modifier un fichier ici : tapez **edit .gitignore** dans le terminal ; l'éditeur s'ouvre en dessous—ajoutez vos lignes et cliquez sur Enregistrer. Puis créez un fichier correspondant et lancez **git status**—le fichier ignoré n'apparaîtra pas. Commitez le fichier **.gitignore** lui-même pour partager les règles avec les autres.",
+        "whyImportant": "Sans .gitignore vous pourriez commiter des mots de passe, clés API ou des milliers de fichiers générés. En HN on ignore souvent les caches de données, la config locale et les sauvegardes d'éditeur.",
+        "whatToDo": [
+          "Créer un fichier **.gitignore** (ex. **edit .gitignore** et ajouter une ligne : **secret.txt**). Tapez **edit .gitignore** dans le terminal ; l'éditeur s'ouvre en dessous—ajoutez **secret.txt** et cliquez sur Enregistrer.",
+          "Optionnel : créer un fichier qui correspond (ex. **echo \"ne pas commiter\" > secret.txt**)",
+          "Lancer **git status**—vous devriez voir **.gitignore** comme non suivi mais pas le fichier ignoré",
+          "Lancer **git add .gitignore** et **git commit -m \"Add .gitignore\"** pour terminer la leçon"
+        ],
+        "codeTemplate": "edit .gitignore\n# ajouter la ligne : secret.txt\ngit add .gitignore\ngit commit -m \"Add .gitignore\""
+      },
+      "git-6": {
+        "title": "Corriger les erreurs : unstage, annuler, amend",
+        "description": "Vous pouvez corriger les erreurs courantes sans perdre votre travail. **git restore --staged <fichier>** retire un fichier du stage (l'enlève du prochain commit). **git restore <fichier>** annule les changements non commités dans ce fichier—il le ramène à la dernière version commitée (à utiliser avec précaution). **git commit --amend -m \"Nouveau message\"** remplace le dernier commit : soit pour changer le message, soit pour y intégrer des changements mis en stage. Ici vous avez un commit ; essayez de retirer un fichier du stage, d'annuler des changements, ou d'amender le dernier commit.",
+        "whyImportant": "Tout le monde met en stage le mauvais fichier ou commite avec une typo. Savoir unstage, annuler ou amender garde l'historique propre et évite les push embarrassants.",
+        "whatToDo": [
+          "**Retirer du stage :** Modifiez **readme.txt** (tapez **edit readme.txt** dans le terminal ; l'éditeur s'ouvre en dessous—éditez et cliquez sur Enregistrer), lancez **git add readme.txt**, puis **git restore --staged readme.txt**. Lancez **git status** pour voir qu'il n'est plus en stage.",
+          "**Annuler les changements :** Modifiez **readme.txt** à nouveau (**edit readme.txt** dans le terminal, puis Enregistrer), puis **git restore readme.txt**. Le fichier revient à la dernière version commitée.",
+          "**Amender :** Faites un petit changement, **git add** et **git commit -m \"Typo\"**, puis **git commit --amend -m \"Fixed typo\"** pour remplacer le message du dernier commit.",
+          "Taper **next** quand vous avez essayé au moins une de ces commandes"
+        ],
+        "codeTemplate": "git add readme.txt\ngit restore --staged readme.txt\ngit status"
+      },
       "branch-1": {
         "title": "Branches : créer et changer de branche",
-        "description": "Les branches permettent de travailler sur une ligne de développement séparée sans toucher à la branche principale. Utilisez **git branch** pour lister les branches (la courante a un *). Créez une branche avec **git checkout -b <nom>** (création et bascule). Utilisez **git checkout <nom>** pour passer à une branche existante—le répertoire de travail est mis à jour pour refléter les fichiers de cette branche.",
+        "description": "Les branches permettent de travailler sur une ligne de développement séparée sans toucher à la branche principale. Chaque branche peut avoir sa propre version des fichiers. Utilisez **git branch** pour lister les branches (la courante a un *). Créez une branche avec **git checkout -b <nom>** (création et bascule). Utilisez **git checkout <nom>** pour passer à une branche existante—le répertoire de travail est mis à jour pour refléter les fichiers de cette branche. Dans cette leçon vous modifierez **readme.txt** différemment sur chaque branche, puis **cat readme.txt** pour constater que le contenu du fichier est différent sur chaque branche.",
         "whyImportant": "Les branches sont essentielles pour tester des changements, travailler sur des fonctionnalités à part et collaborer. En HN vous pouvez avoir une branche pour une variante d'édition ou une mise à jour de jeu de données.",
         "whatToDo": [
           "Lancer **git branch** pour voir la branche courante (main)",
           "Créer une branche : **git checkout -b feature** (ou un autre nom)",
-          "Relancer **git branch** pour voir les deux branches ; vous êtes sur la nouvelle",
-          "Optionnel : **git checkout main** pour revenir—observez que le terminal reflète la branche",
+          "Modifier **readme.txt** sur cette branche (ex. **echo \"Version feature\" > readme.txt** ou **edit readme.txt**). Pour éditer : tapez **edit readme.txt** dans le terminal ; l'éditeur s'ouvre en dessous—cliquez sur Enregistrer. Puis **git add readme.txt** et **git commit -m \"Contenu feature\"**",
+          "Revenir sur main : **git checkout main**. Lancer **cat readme.txt** pour voir la version du fichier sur main",
+          "Modifier **readme.txt** sur main avec un contenu différent (ex. **echo \"Version main\" > readme.txt** ou **edit readme.txt**—tapez **edit readme.txt** dans le terminal, éditez dans le panneau ci-dessous, puis Enregistrer). Puis **git add readme.txt** et **git commit -m \"Contenu main\"**",
+          "Relancer **cat readme.txt**—vous verrez la version main. Puis **git checkout feature** et **cat readme.txt**—vous verrez la version feature. Chaque branche a sa propre copie.",
           "Taper **next** quand c'est fait"
         ],
-        "codeTemplate": "git checkout -b feature"
+        "codeTemplate": "git checkout -b feature\necho \"Version feature\" > readme.txt\ngit add readme.txt\ngit commit -m \"Contenu feature\"\ngit checkout main\ncat readme.txt"
       },
       "branch-2": {
         "title": "Fusionner des branches",
-        "description": "Quand le travail sur une branche vous convient, vous la fusionnez dans une autre (souvent main) avec **git merge <branche>**. Git combine les historiques. Si l'autre branche a de nouveaux commits depuis la divergence, vous pouvez avoir un commit de merge ; sinon, Git fait un « fast-forward » (pas de commit de merge). Après la fusion, la branche courante contient les commits de l'autre.",
-        "whyImportant": "La fusion permet de réintégrer le travail d'une branche dans la ligne principale. Comprendre merge vs. fast-forward aide à garder un historique clair.",
+        "description": "Quand le travail sur une branche vous convient, vous la fusionnez dans une autre (souvent main) avec **git merge <branche>**. Git combine les historiques. Si l'autre branche a de nouveaux commits depuis la divergence, vous pouvez avoir un commit de merge ; sinon, Git fait un « fast-forward » (pas de commit de merge). Après la fusion, la branche courante contient les commits de l'autre. Une fois une branche fusionnée, vous pouvez la supprimer en local avec **git branch -d <nom>** pour garder la liste des branches lisible ; les commits restent dans l'historique de la branche dans laquelle vous avez fusionné.",
+        "whyImportant": "La fusion permet de réintégrer le travail d'une branche dans la ligne principale. Comprendre merge vs. fast-forward aide à garder un historique clair. Supprimer les branches fusionnées évite l'encombrement et rend clair quelles branches sont encore en cours.",
         "whatToDo": [
-          "Créer une branche et faire un commit (ex. **git checkout -b feature**, modifier un fichier, **git add .**, **git commit -m \"Ajout feature\"**)",
+          "Créer une branche et faire un commit (ex. **git checkout -b feature**, modifier un fichier—tapez **edit readme.txt** dans le terminal, modifiez le contenu dans l'éditeur ci-dessous et cliquez sur Enregistrer—puis **git add .**, **git commit -m \"Ajout feature\"**)",
           "Revenir sur main : **git checkout main**",
           "Fusionner : **git merge feature**",
+          "Optionnel : supprimer la branche fusionnée : **git branch -d feature** (pour garder la liste des branches lisible)",
           "Lancer **git log** pour voir l'historique fusionné. Taper **next** quand c'est fait"
         ],
-        "codeTemplate": "git checkout -b feature\ngit add .\ngit commit -m \"Ajout feature\"\ngit checkout main\ngit merge feature"
+        "codeTemplate": "git checkout -b feature\ngit add .\ngit commit -m \"Ajout feature\"\ngit checkout main\ngit merge feature\ngit branch -d feature"
       },
       "branch-3": {
         "title": "Fusion squash",
@@ -450,6 +704,16 @@
           "Taper **next** quand c'est fait"
         ],
         "codeTemplate": "git checkout -b feature\ngit commit -m \"Changement\"\ngit rebase main"
+      },
+      "branch-5": {
+        "title": "Conflits de fusion",
+        "description": "Quand deux branches modifient la **même partie** du même fichier, Git ne peut pas fusionner automatiquement. Vous obtenez un **conflit de fusion** : le fichier est marqué avec des marqueurs de conflit (**<<<<<<<**, **=======**, **>>>>>>>**) qui montrent les deux versions. Pour le résoudre : ouvrez le fichier, décidez du contenu final (garder une version, combiner les deux, ou modifier à la main), supprimez les marqueurs et la version que vous ne voulez pas, puis **git add** le fichier et **git commit** pour terminer la fusion. Dans cette simulation, pour ouvrir un fichier : tapez **edit nomfichier** dans le terminal ; l'éditeur s'ouvre en dessous—modifiez le contenu et cliquez sur Enregistrer. Les conflits sont normaux quand plusieurs personnes modifient les mêmes lignes ; les résoudre fait partie du travail en équipe.",
+        "whyImportant": "En HN, plusieurs éditeurs ou jeux de données peuvent toucher les mêmes fichiers. Savoir lire les marqueurs de conflit et résoudre les conflits permet de fusionner des branches et d'intégrer le travail des autres en toute sérénité.",
+        "whatToDo": [
+          "Lire l'explication ci-dessus",
+          "En vrai Git, quand vous voyez un conflit : ouvrez le fichier, éditez-le pour supprimer les marqueurs et garder le contenu voulu, puis **git add <fichier>** et **git commit**. Ici : tapez **edit <nomfichier>** dans le terminal ; l'éditeur s'ouvre en dessous—supprimez les marqueurs de conflit et cliquez sur Enregistrer.",
+          "Dans le terminal, taper **next** quand vous êtes prêt à continuer"
+        ]
       },
       "gh-1": {
         "title": "Qu'est-ce que GitHub ?",
@@ -482,7 +746,7 @@
       },
       "gh-4": {
         "title": "Obtenir une copie : git clone et git pull",
-        "description": "Pour obtenir une copie complète du dépôt de quelqu'un (ou du vôtre depuis un autre ordinateur), on utilise git clone <URL>. Pour mettre à jour une copie existante, on lance git pull. Ici vous pouvez essayer ces commandes dans le terminal—ex. **git clone https://github.com/some/repo** ou **git pull**—pour voir la sortie simulée.",
+        "description": "Pour obtenir une copie complète du dépôt de quelqu'un (ou du vôtre depuis un autre ordinateur), on utilise git clone <URL>. Quand vous clonez, Git crée un nouveau dossier (généralement nommé d'après le dépôt) et y place la copie complète—le dépôt cloné se trouve donc toujours dans son propre répertoire. Pour mettre à jour une copie existante, on lance git pull. Ici vous pouvez essayer ces commandes dans le terminal—ex. **git clone https://github.com/some/repo** ou **git pull**—pour voir la sortie simulée.",
         "whyImportant": "Clone et pull sont la façon de travailler avec des projets HN existants, de contribuer au travail d'autres, ou de synchroniser entre machines. Ils sont essentiels pour la collaboration.",
         "whatToDo": [
           "Dans le terminal, essayer **git clone https://github.com/some/repo** ou **git pull**",
@@ -496,21 +760,105 @@
         "whyImportant": "De bonnes habitudes de contrôle de version rendent les projets HN reproductibles, transparents et plus faciles à transmettre ou publier. Elles s'alignent avec la science ouverte et les attentes des financeurs.",
         "whatToDo": [
           "Lire les conseils de collaboration et de bonnes pratiques ci-dessus",
-          "Dans le terminal, taper **next** pour terminer le cours et voir votre certificat"
+          "Dans le terminal, taper **next** pour continuer"
+        ]
+      },
+      "collab-2": {
+        "title": "Prochaines étapes : installer Git, GitHub et l'authentification",
+        "description": "Ce tutoriel s'exécute dans le navigateur. Pour utiliser Git et GitHub sur votre ordinateur : (1) **Installer Git** depuis https://git-scm.com/ (ou votre gestionnaire de paquets). (2) **Créer un compte GitHub** sur https://github.com si vous n'en avez pas. (3) **Configurer l'authentification** pour pouvoir pousser et tirer : soit des **clés SSH** (recommandé), soit un **jeton d'accès personnel** en HTTPS. La doc GitHub explique les deux : « Connecting to GitHub with SSH » et « Managing your personal access tokens ». Une fois Git installé et l'authentification configurée, vous pourrez cloner des dépôts, pousser votre travail et ouvrir des pull requests en ligne de commande ou avec une interface graphique.",
+        "whyImportant": "Sans ces étapes, des commandes comme git push demanderont des identifiants ou échoueront. Quelques minutes de configuration sur votre machine débloquent tout ce que vous avez appris ici.",
+        "whatToDo": [
+          "Lire les étapes ci-dessus et mettre les liens en favoris",
+          "Quand vous êtes prêt, taper **next** pour terminer le cours et voir votre certificat"
         ]
       }
     },
     "glossary": {
       "version control": "Système qui enregistre les changements des fichiers dans le temps pour pouvoir retrouver ou comparer des versions précises.",
       "repository": "Dossier géré par Git, contenant les fichiers du projet et tout l'historique des commits.",
+      "dépôt": "Dossier géré par Git, contenant les fichiers du projet et tout l'historique des commits.",
+      "repo": "Abréviation de dépôt (repository) : le dossier où Git conserve l'historique du projet.",
       "commit": "Photo du projet à un instant donné, avec un message et un identifiant unique. Les commits forment l'historique du projet.",
       "stage": "Marquer des fichiers comme prêts à être inclus dans le prochain commit (avec git add).",
+      "staged": "Marqué comme prêt à être inclus dans le prochain commit (avec git add).",
       "push": "Envoyer vos commits locaux vers un dépôt distant (ex. sur GitHub).",
       "pull": "Récupérer et fusionner les changements d'un dépôt distant dans votre branche actuelle.",
       "clone": "Télécharger une copie d'un dépôt (avec son historique) depuis un serveur distant.",
       "remote": "Version du dépôt hébergée ailleurs (ex. sur GitHub), souvent nommée origin.",
+      "origin": "Nom par défaut du dépôt distant (souvent sur GitHub) auquel votre dépôt local est relié.",
+      "Git": "Outil gratuit et open source pour le contrôle de version sur votre ordinateur. Il conserve tout l'historique du projet dans un dépôt et fonctionne en local ; l'internet n'est nécessaire que pour partager ou sauvegarder (ex. via GitHub).",
       "GitHub": "Plateforme web qui héberge des dépôts Git et propose des outils de collaboration, issues et documentation.",
-      "Digital Humanities": "Recherche et enseignement qui combinent méthodes numériques et disciplines des humanités ; implique souvent textes, jeux de données et code qui bénéficient du contrôle de version."
+      "Digital Humanities": "Recherche et enseignement qui combinent méthodes numériques et disciplines des humanités ; implique souvent textes, jeux de données et code qui bénéficient du contrôle de version.",
+      "DH": "Abréviation pour humanités numériques (Digital Humanities).",
+      "HN": "Abréviation pour humanités numériques (Digital Humanities).",
+      "branch": "Ligne de développement séparée dans un dépôt Git. On crée des branches pour tester des changements ou travailler sur des fonctionnalités sans toucher à la ligne principale.",
+      "branches": "Lignes de développement séparées dans un dépôt Git. On crée des branches pour tester des changements ou travailler sur des fonctionnalités sans toucher à la ligne principale.",
+      "merge": "Fusionner les commits d'une autre branche dans la branche courante (ex. git merge feature).",
+      "merge conflict": "Quand deux branches modifient la même partie du même fichier, Git ne peut pas fusionner automatiquement. Le fichier est marqué avec des marqueurs de conflit (<<<<<<<, =======, >>>>>>>) ; vous éditez le fichier pour choisir le contenu final, supprimez les marqueurs, puis git add et git commit pour terminer la fusion.",
+      "merge commit": "Commit qui enregistre la fusion de deux branches lorsqu'elles ont divergé (pas de fast-forward).",
+      "fast-forward": "Lors d'une fusion, si la branche courante n'a pas divergé, Git avance simplement le pointeur ; aucun commit de merge n'est créé.",
+      "squash merge": "Fusion qui apporte les changements d'une autre branche en un seul ensemble de changements en stage, sans commit de merge. On committe ensuite une fois, donc plusieurs commits en deviennent un.",
+      "rebase": "Déplacer les commits de votre branche pour qu'ils reposent sur une autre branche, pour un historique linéaire. Commande : git rebase <branche>.",
+      "pull request": "Sur GitHub, proposition de fusionner les changements d'une branche dans une autre, pour revue et discussion avant la fusion.",
+      "README": "Fichier (souvent README.md) qui explique un projet : de quoi il s'agit, comment l'utiliser et contribuer. Souvent affiché sur GitHub.",
+      "untracked": "Fichier que Git ne suit pas encore (pas dans la dernière photo ni en stage). git status les affiche.",
+      ".gitignore": "Fichier à la racine du dépôt qui liste des motifs (un par ligne). Git ignore les fichiers correspondants : ils n'apparaissent pas comme non suivis et ne sont pas ajoutés avec git add .",
+      "amend": "Modifier le dernier commit. git commit --amend -m \"Nouveau message\" remplace le message ; avec des changements en stage, les intègre dans ce commit."
+    },
+    "cheatsheet": {
+      "sections": [
+        {
+          "title": "Configuration",
+          "items": [
+            { "cmd": "git config user.name \"Nom\"", "desc": "Définir votre nom" },
+            { "cmd": "git config user.email \"email@exemple.com\"", "desc": "Définir votre courriel" },
+            { "cmd": "git init", "desc": "Créer un nouveau dépôt dans le dossier actuel" }
+          ]
+        },
+        {
+          "title": "Workflow de base",
+          "items": [
+            { "cmd": "git status", "desc": "Voir les fichiers modifiés/en stage/non suivis" },
+            { "cmd": "git add <fichier>", "desc": "Mettre un fichier en stage (ou git add . pour tout)" },
+            { "cmd": "git commit -m \"message\"", "desc": "Créer une photo du projet avec un message" },
+            { "cmd": "git log", "desc": "Voir l'historique des commits" }
+          ]
+        },
+        {
+          "title": "Branches",
+          "items": [
+            { "cmd": "git branch", "desc": "Lister les branches (* = courante)" },
+            { "cmd": "git checkout -b <branche>", "desc": "Créer et passer sur une nouvelle branche" },
+            { "cmd": "git checkout <branche>", "desc": "Passer sur une branche existante" },
+            { "cmd": "git merge <branche>", "desc": "Fusionner une branche dans la branche courante" },
+            { "cmd": "git merge --squash <branche>", "desc": "Fusionner en un seul changement en stage (sans commit de merge)" },
+            { "cmd": "git rebase <branche>", "desc": "Rejouer vos commits au-dessus d'une autre branche" }
+          ]
+        },
+        {
+          "title": "Distant (GitHub)",
+          "items": [
+            { "cmd": "git remote add origin <URL>", "desc": "Lier le dépôt local à un distant" },
+            { "cmd": "git push -u origin main", "desc": "Pousser les commits vers le distant (première fois)" },
+            { "cmd": "git push", "desc": "Pousser les commits vers le distant" },
+            { "cmd": "git pull", "desc": "Récupérer et fusionner depuis le distant" },
+            { "cmd": "git clone <URL>", "desc": "Télécharger une copie d'un dépôt" }
+          ]
+        },
+        {
+          "title": "Conseils et astuces",
+          "items": [
+            { "cmd": "git log --oneline", "desc": "Vue compacte de l'historique (une ligne par commit)" },
+            { "cmd": ".gitignore", "desc": "Lister les fichiers/dossiers à ne jamais suivre (ex. node_modules/, .env)" },
+            { "cmd": "git reset --soft HEAD~1", "desc": "Annuler le dernier commit en gardant les changements en stage" },
+            { "cmd": "git remote -v", "desc": "Afficher les URL des dépôts distants (origin, etc.)" },
+            { "cmd": "Pull avant push", "desc": "Faire git pull avant git push pour éviter les rejets" },
+            { "cmd": "Une branche par fonctionnalité", "desc": "Créer une branche pour chaque fonctionnalité ou correctif, puis fusionner" },
+            { "cmd": "Messages de commit clairs", "desc": "Écrire des messages courts et descriptifs ; votre vous futur vous remerciera" },
+            { "cmd": "README + licence", "desc": "Sur GitHub, ajouter un README et une licence pour que les autres sachent comment utiliser et réutiliser" }
+          ]
+        }
+      ]
     }
   }
 }
