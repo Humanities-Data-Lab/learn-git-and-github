@@ -118,14 +118,12 @@ body {
 }
 .progress-title { font-weight: 600; margin: 0 0 12px 0; font-size: 14px; }
 .progress-circles {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
     width: 100%;
 }
 .progress-circle-container {
-    flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -160,8 +158,8 @@ body {
     max-width: 100%;
 }
 @media (max-width: 700px) {
-    .progress-circles { flex-wrap: wrap; justify-content: flex-start; }
-    .progress-circle-container { flex: 1 1 33.333%; min-width: 80px; }
+    .progress-circles { grid-template-columns: repeat(3, 1fr); }
+    .progress-circle-container { min-width: 0; }
 }
 .progress-indicator {
     padding: 8px 24px;
@@ -256,6 +254,7 @@ body {
     align-items: center;
     gap: 10px;
     margin-top: 8px;
+    width: 100%;
 }
 .url-share-row input {
     flex: 1;
@@ -273,6 +272,7 @@ body {
 .url-copy-btn {
     flex-shrink: 0;
     white-space: nowrap;
+    margin-left: auto;
 }
 .url-tip-note { font-size: 13px; color: #57606a; margin: 8px 0 0 0; }
 
