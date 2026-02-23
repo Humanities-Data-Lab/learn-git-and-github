@@ -105,7 +105,8 @@
       "goingBackToLesson": "Going back to previous lesson.",
       "editUsage": "edit: usage: edit <filename>",
       "editingFile": "Editing {filename} (save or cancel in editor below)",
-      "editFileReminder": "To edit a file here: type **edit** followed by the filename in the terminal (e.g. **edit readme.txt**); the editor opens below—make your changes and click Save."
+      "editFileReminder": "To edit a file here: type **edit** followed by the filename in the terminal (e.g. **edit readme.txt**); the editor opens below—make your changes and click Save.",
+      "unsupportedGitCommand": "The command you entered may be valid in Git, but this tutorial's simulated environment doesn't support it—we only cover a subset of commands here."
     },
     "categories": {
       "tutorialIntro": "How this tutorial works",
@@ -537,7 +538,8 @@
       "goingBackToLesson": "Retour à la leçon précédente.",
       "editUsage": "edit: usage: edit <filename>",
       "editingFile": "Édition de {filename} (enregistrer ou annuler dans l'éditeur ci-dessous)",
-      "editFileReminder": "Pour modifier un fichier ici : tapez **edit** suivi du nom du fichier dans le terminal (ex. **edit readme.txt**) ; l'éditeur s'ouvre en dessous—faites vos modifications et cliquez sur Enregistrer."
+      "editFileReminder": "Pour modifier un fichier ici : tapez **edit** suivi du nom du fichier dans le terminal (ex. **edit readme.txt**) ; l'éditeur s'ouvre en dessous—faites vos modifications et cliquez sur Enregistrer.",
+      "unsupportedGitCommand": "La commande que vous avez entrée peut être valide dans Git, mais l'environnement simulé de ce tutoriel ne la prend pas en charge—nous ne couvrons qu'un sous-ensemble de commandes ici."
     },
     "categories": {
       "tutorialIntro": "Comment fonctionne ce tutoriel",

@@ -1152,9 +1152,9 @@
             }
 
             if (first === 'git' && second) {
-                return { output: "git: '" + second + "' is not a git command. See 'git --help'.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+                return { outputTranslationKey: 'ui.unsupportedGitCommand', outputTranslationParams: {}, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
             }
-            return { output: "git: '" + (second || first) + "' is not a git command. See 'git --help'.", newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
+            return { outputTranslationKey: 'ui.unsupportedGitCommand', outputTranslationParams: {}, newState: { ...state, commandHistory: [...state.commandHistory, cmd] } };
         }
 
         const PROJECT_DIR_NAME = 'my-project';
@@ -2088,10 +2088,11 @@
                 setGitStateByLesson(prev => ({ ...prev, [lessonRaw.id]: result.newState }));
                 const goal = checkLessonGoal(lessonRaw.id, result.newState, result.newState.commandHistory);
                 const msgComplete = t('ui.lessonCompleteTypeNext');
+                const outputText = result.outputTranslationKey ? t(result.outputTranslationKey, result.outputTranslationParams || {}) : result.output;
                 const newLines = [
                     ...(terminalLinesByLesson[lessonRaw.id] || []),
                     { type: 'command', text: cmd },
-                    ...(result.output ? [{ type: 'output', text: result.output }] : []),
+                    ...(outputText ? [{ type: 'output', text: outputText }] : []),
                     ...(goal === true ? [{ type: 'output', text: msgComplete }] : [])
                 ];
                 setTerminalLinesByLesson(prev => ({ ...prev, [lessonRaw.id]: newLines }));
