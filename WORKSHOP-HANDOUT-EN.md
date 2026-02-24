@@ -78,7 +78,7 @@ Use this handout during the live workshop. It summarizes the key concepts and co
 
 - When two branches change the **same part** of the same file, Git cannot merge automatically.
 - The file is marked with conflict markers: `<<<<<<<`, `=======`, `>>>>>>>`.
-- **Resolve:** Open the file, choose the final content (keep one version, combine, or edit), remove the markers and the version you don’t want, then `git add` the file and `git commit`.
+- **Resolve:** Open the file, choose the final content (keep one version, combine, or edit), remove the conflict markers, the HEAD and branch-name lines, and the version you don’t want, then `git add` the file and `git commit`.
 
 ---
 
@@ -101,7 +101,7 @@ Use this handout during the live workshop. It summarizes the key concepts and co
 | `git pull` | Fetch and merge changes from the remote |
 | `git clone <URL>` | Download a full copy of a repository (creates a new folder) |
 
-**Tip:** Run `git pull` before `git push` to avoid rejections when others have pushed.
+**Tip:** Run `git pull` before `git push` to avoid rejections when others have pushed. After `git clone <URL>`, run `cd <repo-folder>` (e.g. `cd repo`) to enter the project directory.
 
 ---
 
@@ -172,7 +172,7 @@ git commit --amend -m "New message"
 - **Remote / origin:** The version of the repo hosted elsewhere (e.g. GitHub); `origin` is the default name.
 - **Push:** Send local commits to a remote. **Pull:** Fetch and merge from remote. **Clone:** Download a full copy of a repo.
 - **Branch:** Separate line of development. **Merge:** Combine another branch into the current one.
-- **Merge conflict:** Same part of same file changed in two branches; you resolve by editing the file and removing conflict markers.
+- **Merge conflict:** Same part of same file changed in two branches; you resolve by editing the file, removing conflict markers and the HEAD/feature lines and unwanted branch content, then committing.
 - **Untracked:** File Git is not yet tracking. **.gitignore:** File listing patterns Git should ignore.
 
 ---

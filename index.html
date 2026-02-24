@@ -125,7 +125,8 @@
             { id: 'gh-3', category: 'GitHub', validator: () => true },
             { id: 'gh-4', category: 'GitHub', validator: () => true },
             { id: 'collab-1', category: 'Collaboration', validator: () => true },
-            { id: 'collab-2', category: 'Collaboration', validator: () => true }
+            { id: 'collab-2', category: 'Collaboration', validator: () => true },
+            { id: 'collab-3', category: 'Collaboration', validator: () => true }
         ];
 
         const CUSTOM_AVATAR_BASE = 'https://api.dicebear.com/7.x/avataaars/svg';
@@ -408,6 +409,7 @@
             let commits = [];
             let branchHeads = { main: null };
             let branchParent = {};
+            let branch4WorkingDir = null;
             if (inited && isBranchLesson) {
                 const firstHash = 'a' + Math.random().toString(36).slice(2, 9);
                 const secondHash = 'b' + Math.random().toString(36).slice(2, 9);
@@ -432,6 +434,25 @@
                     ]);
                     branchHeads = { main: secondHash, feature: f3 };
                     branchParent = { feature: 'main' };
+                } else if (lessonId === 'branch-4') {
+                    // Rebase lesson: feature branched from an old main; main has moved on.
+                    const baseHash = 'a' + Math.random().toString(36).slice(2, 9);
+                    const main1Hash = 'b' + Math.random().toString(36).slice(2, 9);
+                    const main2Hash = 'c' + Math.random().toString(36).slice(2, 9);
+                    const featHash = 'd' + Math.random().toString(36).slice(2, 9);
+                    const baseContents = { 'readme.txt': 'Hello world' };
+                    const main1Contents = { 'readme.txt': 'Hello world\nUpdate on main.' };
+                    const main2Contents = { 'readme.txt': 'Hello world\nUpdate on main.\nMore on main.' };
+                    const featContents = { 'readme.txt': 'Hello world\nFeature change.' };
+                    commits = [
+                        { hash: baseHash, message: 'Initial commit', files: ['readme.txt'], fileContents: baseContents, parent: null },
+                        { hash: main1Hash, message: 'Update on main', files: ['readme.txt'], fileContents: main1Contents, parent: baseHash },
+                        { hash: main2Hash, message: 'More on main', files: ['readme.txt'], fileContents: main2Contents, parent: main1Hash },
+                        { hash: featHash, message: 'Feature change', files: ['readme.txt'], fileContents: featContents, parent: baseHash }
+                    ];
+                    branchHeads = { main: main2Hash, feature: featHash };
+                    branchParent = { feature: 'main' };
+                    branch4WorkingDir = featContents;
                 }
             } else if (inited && lessonId === 'branch-5') {
                 // Merge-conflict lesson: simulate a failed merge – readme.txt has conflict markers in workingDir
@@ -463,10 +484,12 @@
                 ? {}
                 : (lessonId === 'branch-5'
                     ? { 'readme.txt': conflictContent }
-                    : (hasFiles ? { 'readme.txt': (lessonId === 'branch-3' ? 'Feature complete' : 'Hello world') } : {}));
+                    : (lessonId === 'branch-4' && branch4WorkingDir
+                        ? branch4WorkingDir
+                        : (hasFiles ? { 'readme.txt': (lessonId === 'branch-3' ? 'Feature complete' : 'Hello world') } : {})));
             return {
                 inited,
-                branch: lessonId === 'branch-3' ? 'feature' : 'main',
+                branch: (lessonId === 'branch-3' || lessonId === 'branch-4') ? 'feature' : 'main',
                 branchHeads,
                 branchParent,
                 commits,
@@ -1307,14 +1330,24 @@
 
         function checkLessonGoal(lessonId, gitState, commandHistory) {
             switch (lessonId) {
-                case 'vc-1': case 'vc-2': case 'gh-1': case 'gh-2': case 'branch-5': case 'collab-1': case 'collab-2': return null;
+                case 'vc-1': case 'vc-2': case 'gh-1': case 'gh-2': case 'branch-5': case 'collab-1': case 'collab-2': case 'collab-3': return null;
                 case 'git-1': return commandHistory.some(c => /git\s+--version/.test(c));
                 case 'git-2': return gitState.inited;
                 case 'git-3': return (gitState.commits || []).length >= 1;
                 case 'git-4': return commandHistory.some(c => /git\s+status/.test(c));
                 case 'git-5': return (gitState.commits || []).some(c => c.fileContents && c.fileContents['.gitignore'] !== undefined);
                 case 'git-6': return commandHistory.some(c => /git\s+restore\s+--staged/.test(c)) || commandHistory.some(c => /git\s+restore\s+\S+/.test(c) && !/git\s+restore\s+--staged/.test(c)) || commandHistory.some(c => /git\s+commit\s+--amend/.test(c));
-                case 'branch-1': return commandHistory.some(c => /git\s+checkout\s+-b\s+\S+/.test(c)) || (gitState.branchHeads && Object.keys(gitState.branchHeads).length > 1);
+                case 'branch-1': {
+                    const heads = gitState.branchHeads || {};
+                    const branchNames = Object.keys(heads);
+                    if (branchNames.length < 2) return false;
+                    const mainHead = heads.main;
+                    const curBranch = gitState.branch || 'main';
+                    if (curBranch !== 'main') return false;
+                    const otherBranch = branchNames.find(b => b !== 'main');
+                    if (!otherBranch || heads[otherBranch] === mainHead) return false;
+                    return true;
+                }
                 case 'branch-2': return commandHistory.some(c => /git\s+merge\s+(?!--squash)\S+/.test(c));
                 case 'branch-3': return commandHistory.some(c => /git\s+merge\s+--squash\s+\S+/.test(c));
                 case 'branch-4': return commandHistory.some(c => /git\s+rebase\s+\S+/.test(c));
@@ -1919,7 +1952,31 @@
             }
             const nodeByHash = {};
             nodes.forEach(n => { nodeByHash[n.hash] = n; });
+            // Fork-first order: process commits on forked branches right after the fork point so the graph shows feature branching from the older commit, then main continuing.
+            const sameBranchChild = {};
+            const otherBranchChildren = {};
             nodes.forEach(node => {
+                const branchName = branchNames[node.row];
+                if (node.parent && nodeByHash[node.parent]) {
+                    const parentNode = nodeByHash[node.parent];
+                    const parentBranch = branchNames[parentNode.row];
+                    if (parentBranch === branchName) {
+                        sameBranchChild[node.parent] = node;
+                    } else {
+                        (otherBranchChildren[node.parent] = otherBranchChildren[node.parent] || []).push(node);
+                    }
+                }
+            });
+            const replayOrder = [];
+            function visit(n) {
+                if (!n) return;
+                replayOrder.push(n);
+                (otherBranchChildren[n.hash] || []).forEach(visit);
+                visit(sameBranchChild[n.hash]);
+            }
+            nodes.filter(n => !n.parent || !nodeByHash[n.parent]).forEach(visit);
+
+            replayOrder.forEach(node => {
                 const branchName = branchNames[node.row];
                 const graphBranchName = sanitizeBranchNameForGraph(branchName);
                 const msg = (node.message || node.shortHash || '').slice(0, 40) || node.shortHash || '';
@@ -2384,7 +2441,7 @@
             const allLessonsComplete = completedLessons.size === lessons.length;
             const commandText = (currentLesson.codeTemplate || code || '').trim();
             const terminalLines = terminalLinesByLesson[currentLessonRaw.id] || [];
-            const hasTerminalGoal = !['intro-1', 'intro-2', 'vc-1', 'vc-2', 'gh-1', 'gh-2', 'branch-5', 'collab-1', 'collab-2'].includes(currentLessonRaw.id);
+            const hasTerminalGoal = !['intro-1', 'intro-2', 'vc-1', 'vc-2', 'gh-1', 'gh-2', 'branch-5', 'collab-1', 'collab-2', 'collab-3'].includes(currentLessonRaw.id);
 
             const mayShowCertificate = completedLessons.size === lessons.length && lessons.length > 0 && showCertificateView && hasStarted && studentName && refreshKey >= 0;
             if (mayShowCertificate) {

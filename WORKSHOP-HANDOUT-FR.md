@@ -78,7 +78,7 @@ Ce document résume les notions et commandes importantes à retenir pendant l’
 
 - Quand deux branches modifient la **même partie** du même fichier, Git ne peut pas fusionner automatiquement.
 - Le fichier est marqué avec des marqueurs de conflit : `<<<<<<<`, `=======`, `>>>>>>>`.
-- **Résoudre :** Ouvrir le fichier, choisir le contenu final (garder une version, combiner ou modifier), supprimer les marqueurs et la version non voulue, puis `git add` le fichier et `git commit`.
+- **Résoudre :** Ouvrir le fichier, choisir le contenu final (garder une version, combiner ou modifier), supprimer les marqueurs de conflit, les lignes HEAD et le nom de branche, et la version non voulue, puis `git add` le fichier et `git commit`.
 
 ---
 
@@ -101,7 +101,7 @@ Ce document résume les notions et commandes importantes à retenir pendant l’
 | `git pull` | Récupérer et fusionner les changements depuis le distant |
 | `git clone <URL>` | Télécharger une copie complète d’un dépôt (crée un nouveau dossier) |
 
-**Conseil :** Faire `git pull` avant `git push` pour éviter les rejets quand d’autres ont poussé.
+**Conseil :** Faire `git pull` avant `git push` pour éviter les rejets quand d’autres ont poussé. Après `git clone <URL>`, faire `cd <dossier-du-dépôt>` (ex. `cd repo`) pour entrer dans le répertoire du projet.
 
 ---
 
