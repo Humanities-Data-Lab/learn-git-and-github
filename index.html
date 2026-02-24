@@ -2374,15 +2374,20 @@
                 );
             }
 
-            const progressSection = (category, progress, categoryKey) => (
-                <div key={category} className="progress-circle-container">
-                    <div className={`progress-circle ${isSectionComplete(progress) ? 'completed' : progress.completed > 0 ? 'in-progress' : ''}`} onClick={() => jumpToSection(category)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToSection(category); } }} tabIndex="0" role="button" aria-label={t('ui.jumpToSection', { section: t(`categories.${categoryKey}`), completed: progress.completed, total: progress.total })}>
-                        {progress.completed}/{progress.total}
-                        {isSectionComplete(progress) && <span className="progress-star" role="img" aria-label={t('ui.completed')}>⭐</span>}
+            const progressSection = (category, progress, categoryKey) => {
+                const ratio = progress.total ? progress.completed / progress.total : 0;
+                return (
+                    <div key={category} className="progress-circle-container">
+                        <div className={`progress-circle ${isSectionComplete(progress) ? 'completed' : progress.completed > 0 ? 'in-progress' : ''}`} style={{ ['--progress']: ratio }} onClick={() => jumpToSection(category)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToSection(category); } }} tabIndex="0" role="button" aria-label={t('ui.jumpToSection', { section: t(`categories.${categoryKey}`), completed: progress.completed, total: progress.total })}>
+                            <span className="progress-circle-inner">
+                                {progress.completed}/{progress.total}
+                                {isSectionComplete(progress) && <span className="progress-star" role="img" aria-label={t('ui.completed')}>⭐</span>}
+                            </span>
+                        </div>
+                        <div className="progress-label">{t(`categories.${categoryKey}`)}</div>
                     </div>
-                    <div className="progress-label">{t(`categories.${categoryKey}`)}</div>
-                </div>
-            );
+                );
+            };
 
             return (
                 <>
