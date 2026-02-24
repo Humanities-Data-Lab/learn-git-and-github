@@ -1631,7 +1631,75 @@
                 return parts.length ? parts : ['\u00A0'];
             }
 
-        function Terminal({ lines, onSubmit, disabled, placeholder, inputRef }) {
+        function getTabCompletions(line, cwd, gitState) {
+            const trimmed = line.trimEnd();
+            const lastSpace = trimmed.lastIndexOf(' ');
+            const prefix = lastSpace === -1 ? '' : trimmed.slice(0, lastSpace + 1);
+            const partial = lastSpace === -1 ? trimmed : trimmed.slice(lastSpace + 1);
+            const tokens = prefix.trim().split(/\s+/).filter(Boolean);
+            const first = (tokens[0] || '').toLowerCase();
+            const second = (tokens[1] || '').toLowerCase();
+
+            const clonedDirs = gitState.clonedDirs || {};
+            const isClonedDir = cwd !== '' && cwd !== '..' && clonedDirs[cwd];
+            const workingDir = isClonedDir ? (clonedDirs[cwd].workingDir || {}) : (gitState.workingDir || {});
+            const fileNames = Object.keys(workingDir).sort();
+            const branchNames = Object.keys(gitState.branchHeads || {}).sort();
+            const dirNames = [];
+            if (!isClonedDir && (cwd === '' || cwd === '..')) {
+                if (gitState.inited) dirNames.push('.git');
+                Object.keys(clonedDirs).forEach(d => dirNames.push(d));
+            } else if (isClonedDir) {
+                if (clonedDirs[cwd].inited) dirNames.push('.git');
+            }
+            dirNames.sort();
+
+            const shellCommands = ['ls', 'pwd', 'cd', 'cat', 'echo', 'edit', 'touch', 'next', 'back', 'clear'];
+            const gitSubcommands = ['init', 'add', 'status', 'commit', 'log', 'branch', 'checkout', 'merge', 'remote', 'push', 'pull', 'clone', 'restore', 'switch', '--version', '--help'];
+
+            let candidates = [];
+            if (tokens.length === 0) {
+                candidates = [...shellCommands, 'git'];
+            } else if (first === 'git') {
+                if (tokens.length === 1) {
+                    candidates = gitSubcommands;
+                } else if (second === 'checkout' || second === 'switch' || second === 'merge' || second === 'branch') {
+                    if (second === 'branch' && (tokens.length === 2 || (tokens[2] !== '-d' && tokens[2] !== '-D'))) {
+                        candidates = branchNames;
+                    } else if (second === 'checkout' || second === 'switch' || second === 'merge') {
+                        candidates = branchNames;
+                    } else if (second === 'branch' && (tokens[2] === '-d' || tokens[2] === '-D')) {
+                        candidates = branchNames;
+                    }
+                } else if (second === 'add' || second === 'restore') {
+                    candidates = second === 'restore' ? ['--staged', ...fileNames] : fileNames;
+                } else {
+                    candidates = [];
+                }
+            } else if (first === 'cat' || first === 'edit' || first === 'touch') {
+                candidates = fileNames;
+            } else if (first === 'cd') {
+                candidates = dirNames;
+            } else if (first === 'echo' && />>?\s*$/.test(prefix)) {
+                candidates = fileNames;
+            } else if (first === 'ls' || first === 'pwd') {
+                candidates = [];
+            }
+
+            const completions = candidates.filter(c => c.toLowerCase().startsWith(partial.toLowerCase()));
+            return { prefix, partial, completions };
+        }
+
+        function commonPrefix(strings) {
+            if (strings.length === 0) return '';
+            if (strings.length === 1) return strings[0];
+            let i = 0;
+            const first = strings[0];
+            while (i < first.length && strings.every(s => s.length > i && s[i] === first[i])) i++;
+            return first.slice(0, i);
+        }
+
+        function Terminal({ lines, onSubmit, disabled, placeholder, inputRef, shellCwd, gitState }) {
             const [input, setInput] = useState('');
             const scrollRef = useRef(null);
             useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [lines]);
@@ -1641,6 +1709,22 @@
                 if (!cmd || disabled) return;
                 setInput('');
                 onSubmit(cmd);
+            };
+            const handleKeyDown = (e) => {
+                if (e.key !== 'Tab' || disabled) return;
+                e.preventDefault();
+                const cwd = shellCwd == null ? '' : shellCwd;
+                const state = gitState || { workingDir: {}, branchHeads: {}, clonedDirs: {} };
+                const { prefix, partial, completions } = getTabCompletions(input, cwd, state);
+                if (completions.length === 0) return;
+                if (completions.length === 1) {
+                    setInput(prefix + completions[0] + ' ');
+                    return;
+                }
+                const next = commonPrefix(completions);
+                if (next.length > partial.length) {
+                    setInput(prefix + next);
+                }
             };
             return (
                 <div className="terminal-container">
@@ -1668,6 +1752,7 @@
                             className="terminal-input"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             placeholder={placeholder}
                             disabled={disabled}
                             autoComplete="off"
@@ -2417,6 +2502,8 @@
                                 disabled={false}
                                 placeholder={hasTerminalGoal ? (t('ui.terminalNavHint') || 'git ... | next | back | clear') : (t('ui.terminalNavHint') || 'next | back | clear — or type next when done')}
                                 inputRef={terminalInputRef}
+                                shellCwd={shellCwd}
+                                gitState={gitState}
                             />
                             {editingFile && (
                                 <div className="file-editor-panel" role="region" aria-label={t('ui.editorLabel') || 'File editor'}>
