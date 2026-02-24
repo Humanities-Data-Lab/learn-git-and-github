@@ -2,6 +2,8 @@
 
 An interactive, bilingual (English / Français) module-based tutorial for **Git and GitHub**, assuming **zero prior knowledge** of version control. It follows the same module system as the parent project [Learn HTML, CSS & Accessible Web Design](../).
 
+**Live site:** [https://humanities-data-lab.github.io/learn-git-and-github/](https://humanities-data-lab.github.io/learn-git-and-github/)
+
 ## Who it’s for
 
 - Anyone new to version control, Git, or GitHub  
