@@ -131,7 +131,7 @@ body {
     text-align: center;
 }
 .progress-circle {
-    --progress: 0;
+    --progress-deg: 0deg;
     --progress-color: #d0d7de;
     width: 48px;
     height: 48px;
@@ -155,10 +155,9 @@ body {
     inset: 0;
     border-radius: 50%;
     background: conic-gradient(
-        from 0deg,
         var(--progress-color) 0deg,
-        var(--progress-color) calc(var(--progress) * 360deg),
-        #d0d7de calc(var(--progress) * 360deg),
+        var(--progress-color) var(--progress-deg),
+        #d0d7de var(--progress-deg),
         #d0d7de 360deg
     );
     z-index: 0;
