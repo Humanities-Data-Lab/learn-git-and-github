@@ -595,6 +595,7 @@ body {
     font-family: ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
     font-size: 14px;
     line-height: 1.5;
+    cursor: text;
 }
 
 .terminal-header {
@@ -665,6 +666,12 @@ body {
     background: #1a1a2e;
     border-top: 1px solid #0f3460;
     flex-shrink: 0;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.terminal-input-row:focus-within {
+    background: #16213e;
+    box-shadow: inset 0 0 0 1px #7fdbca;
 }
 
 .terminal-input {

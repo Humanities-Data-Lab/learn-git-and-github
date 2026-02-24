@@ -1819,8 +1819,11 @@
                     setInput(prefix + next);
                 }
             };
+            const focusInput = () => {
+                if (!disabled && inputRef?.current) inputRef.current.focus();
+            };
             return (
-                <div className="terminal-container">
+                <div className="terminal-container" onClick={focusInput}>
                     <div className="terminal-header">
                         <span className="terminal-dot red" aria-hidden="true" />
                         <span className="terminal-dot yellow" aria-hidden="true" />
