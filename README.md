@@ -16,7 +16,7 @@ An interactive, bilingual (English / Français) module-based tutorial for **Git 
 - **GitHub** – What GitHub is, creating a repo, `git push`, `git clone`, `git pull`  
 - **Collaboration** – Good practices for DH projects (branches, pull requests, README, licensing)
 
-Content is in **English** and **French** (via `translations.json`). Progress is stored in the URL hash so you can bookmark or share your place.
+Content is in **English** and **French** (via `translations.json`). Progress is stored in the URL hash so you can bookmark or share your place. **Terminal commands** you run in each lesson are saved per lesson in the URL, so when you complete the tutorial you can go back through any lesson and see your last commands there.
 
 ## How to run
 

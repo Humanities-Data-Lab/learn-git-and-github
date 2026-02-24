@@ -346,6 +346,8 @@
         function getDefaultAvatarUrl() { return buildCustomAvatarUrl(getDefaultAvatarOpts()); }
 
         const MAX_TERMINAL_LINES_PER_LESSON = 80;
+        // Encodes full progress into the URL hash so students can bookmark/resume. Includes
+        // terminalLinesByLesson (commands + output per lesson) so they can revisit their last commands.
         function encodeState(state) {
             try {
                 const tTrimmed = {};
@@ -1998,6 +2000,8 @@
                 }
             }, []);
 
+            // Persist progress (including per-lesson terminal commands) to URL on every change
+            // so students can bookmark and later revisit each lesson and see their last commands.
             useEffect(() => {
                 if (!hasStarted) return;
                 const currentId = lessons[currentLessonIndex]?.id;
