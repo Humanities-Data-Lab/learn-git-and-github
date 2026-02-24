@@ -68,6 +68,7 @@
       "congratulations": "Congratulations",
       "certificateShare": "Share this certificate with anyone by copying the URL:",
       "certificateShareDescription": "You can copy the URL above to share your certificate.",
+      "printCertificate": "Print Certificate",
       "emailCertificate": "Email Certificate",
       "emailCertificateSubject": "Check out my certificate",
       "emailCertificateBody": "I've completed the Git and GitHub tutorial! Check out my certificate:",
@@ -377,60 +378,197 @@
       "README": "A file (usually README.md) that explains a project: what it is, how to use it, and how to contribute. Often displayed on GitHub.",
       "untracked": "A file that Git is not yet tracking (not in the last snapshot and not staged). git status lists untracked files.",
       ".gitignore": "A file in the root of your repo that lists patterns (one per line). Git ignores matching files: they won't show as untracked and won't be added with git add .",
-      "amend": "To change the last commit. git commit --amend -m \"New message\" replaces the message; with staged changes, it folds them into that commit."
+      "amend": "To change the last commit. git commit --amend -m \"New message\" replaces the message; with staged changes, it folds them into that commit.",
+      "snapshot": "A point-in-time copy of your project. In Git, each commit is a snapshot of the tracked files.",
+      "main": "The default branch name in many Git repositories. The primary line of development; feature branches are often merged back into main.",
+      "working tree": "The directory containing your project files as they appear on disk. Changes you make exist in the working tree until you stage and commit them.",
+      "conflict markers": "The symbols Git inserts into a file during a merge conflict: <<<<<<<, =======, >>>>>>>. You remove them when resolving the conflict.",
+      "checkout": "To switch to another branch (e.g. git checkout main) or to restore a file. git checkout -b <name> creates and switches to a new branch.",
+      "upstream": "The remote branch that your current branch tracks. Setting it (e.g. with git push -u origin main) links your branch to the remote.",
+      "license": "A file or notice that states how others may use, share, or modify your project's code and data.",
+      "modified": "A file that has been changed since the last commit. git status lists modified files (and whether they are staged or not).",
+      "unstage": "To remove a file from the staging area so it will not be included in the next commit (e.g. git restore --staged <file>).",
+      "open source": "Software or projects whose source code (or data) is made available for use, modification, and sharing, often under a license.",
+      "issues": "On GitHub, a way to track tasks, bugs, and discussions for a repository. Others can open issues to suggest changes or report problems.",
+      "authentication": "The process of proving your identity to GitHub so you can push and pull. Common methods: SSH keys (recommended) or a personal access token over HTTPS.",
+      "SSH keys": "A secure way to authenticate with GitHub without typing a password each time. You generate a key pair on your computer and add the public key to your GitHub account.",
+      "personal access token": "A password-like credential for HTTPS that lets you push and pull from GitHub. You create it in GitHub settings and use it instead of your account password.",
+      "staging area": "The place where Git keeps the files you've added with git add, ready for the next commit. Also called the index. git status shows what is staged.",
+      "history": "The sequence of commits in a repository. git log shows the history; each commit points to its parent(s).",
+      "local": "On your own computer. A local repository is the copy on your machine; local commits are those not yet pushed to a remote.",
+      "tracked": "A file that Git is tracking—it was in the last commit or has been added with git add. Untracked files are not yet in the repository.",
+      "commit message": "The short description you give when committing (e.g. with -m \"Your message\"). Good messages help you and others understand the history later.",
+      "workflow": "The way you use Git day to day: edit files, git add, git commit, and (when sharing) git push or git pull.",
+      "resolve": "To fix a merge conflict by editing the file, choosing the final content, removing conflict markers, then staging and committing.",
+      "reproducibility": "The ability for others (or future you) to recreate or cite a specific state of a project. Version control supports reproducibility.",
+      "transparency": "Making the history of changes visible and traceable. Funders and publishers often expect version control for transparency.",
+      ".git": "The hidden folder inside your project where Git stores the repository (all commits, branches, and metadata). Created by git init.",
+      "feature branch": "A branch used to develop a single feature or change, often merged back into main when done. Keeps main stable.",
+      "diverged": "When two branches have different commits—e.g. you made commits on main while someone else made commits on another branch. Merging may create a merge commit.",
+      "discard": "To throw away uncommitted changes in a file (e.g. git restore <file>). The file returns to the last committed version. Use with care.",
+      "linear history": "A history where commits follow a single line, with no merge commits. Rebase can produce a linear history."
     },
     "cheatsheet": {
       "sections": [
         {
-          "title": "Setup",
-          "items": [
-            { "cmd": "git config user.name \"Name\"", "desc": "Set your name" },
-            { "cmd": "git config user.email \"email@example.com\"", "desc": "Set your email" },
-            { "cmd": "git init", "desc": "Create a new repository in current folder" }
+          "title": "1. Version control",
+          "paragraphs": [
+            "What it is: A way to save and track changes to your files over time. One project, one history of every change: who changed what, and when. You can go back to any earlier version.",
+            "Why it matters: Without it, you can lose work, overwrite others' changes, or forget what you changed. With it, you have a clear history and can collaborate safely.",
+            "For Digital Humanities: Editions, corpora, datasets, and websites often involve teams, years of iteration, and the need to cite or reproduce a specific state. Many funders and publishers expect or recommend version control for transparency and reproducibility."
           ]
         },
         {
-          "title": "Basic workflow",
-          "items": [
-            { "cmd": "git status", "desc": "See modified/staged/untracked files" },
-            { "cmd": "git add <file>", "desc": "Stage a file (or git add . for all)" },
-            { "cmd": "git commit -m \"message\"", "desc": "Create a snapshot with a message" },
-            { "cmd": "git log", "desc": "View commit history" }
+          "title": "2. Git basics",
+          "subsections": [
+            {
+              "title": "What is Git?",
+              "list": [
+                "Free, open-source tool for version control on your computer.",
+                "Runs locally: full history lives in a hidden folder (a repository) inside your project.",
+                "No internet needed to make commits—only when you share or back up (e.g. with GitHub)."
+              ]
+            },
+            {
+              "title": "Essential commands",
+              "items": [
+                { "cmd": "git init", "desc": "Turn the current folder into a Git repository" },
+                { "cmd": "git add <file> or git add .", "desc": "Stage files for the next commit" },
+                { "cmd": "git commit -m \"Your message\"", "desc": "Create a snapshot with a short message" },
+                { "cmd": "git status", "desc": "See modified, staged, and untracked files" },
+                { "cmd": "git log", "desc": "View commit history" },
+                { "cmd": "git log --oneline", "desc": "Compact one-line view of history" }
+              ]
+            },
+            {
+              "title": "Workflow",
+              "list": [
+                "Create or edit files.",
+                "git add the files you want to include.",
+                "git commit -m \"Clear, short message\".",
+                "Use git status often to avoid committing the wrong files."
+              ]
+            },
+            {
+              "title": ".gitignore",
+              "list": [
+                "A file that lists patterns (one per line). Git ignores matching files: they won't show as untracked and won't be added with git add .",
+                "Use it for: secrets, API keys, build outputs, local config, caches, editor backups.",
+                "Create with: edit .gitignore (in the tutorial) or any text editor. Commit .gitignore so the rules are shared."
+              ]
+            },
+            {
+              "title": "Fixing mistakes",
+              "items": [
+                { "cmd": "git restore --staged <file>", "desc": "Unstage a file (remove from the next commit)" },
+                { "cmd": "git restore <file>", "desc": "Discard uncommitted changes in that file (use with care)" },
+                { "cmd": "git commit --amend -m \"New message\"", "desc": "Replace the last commit's message (or add more staged changes into it)" },
+                { "cmd": "git reset --soft HEAD~1", "desc": "Undo last commit but keep changes staged" }
+              ]
+            }
           ]
         },
         {
-          "title": "Branches",
-          "items": [
-            { "cmd": "git branch", "desc": "List branches (* = current)" },
-            { "cmd": "git checkout -b <branch>", "desc": "Create and switch to a new branch" },
-            { "cmd": "git checkout <branch>", "desc": "Switch to an existing branch" },
-            { "cmd": "git merge <branch>", "desc": "Merge branch into current branch" },
-            { "cmd": "git merge --squash <branch>", "desc": "Merge as one staged change (no merge commit)" },
-            { "cmd": "git rebase <branch>", "desc": "Replay your commits on top of another branch" }
+          "title": "3. Branching",
+          "paragraphs": [
+            "Branch: A separate line of development. You can try changes or work on features without affecting the main line.",
+            "Why: Essential for trying ideas, working on features separately, and collaborating. In DH you might use a branch for a new edition variant or dataset update."
+          ],
+          "subsections": [
+            {
+              "title": "Commands",
+              "items": [
+                { "cmd": "git branch", "desc": "List branches (* = current)" },
+                { "cmd": "git checkout -b <name>", "desc": "Create and switch to a new branch" },
+                { "cmd": "git checkout <name>", "desc": "Switch to an existing branch" },
+                { "cmd": "git merge <branch>", "desc": "Merge that branch into the current branch" },
+                { "cmd": "git merge --squash <branch>", "desc": "Bring the other branch's changes as one set of staged changes; you then commit once (no merge commit)" },
+                { "cmd": "git rebase <branch>", "desc": "Move your commits so they sit on top of the other branch (linear history)" },
+                { "cmd": "git branch -d <name>", "desc": "Delete a merged branch (keeps the list tidy)" }
+              ]
+            },
+            {
+              "title": "Merge conflicts",
+              "list": [
+                "When two branches change the same part of the same file, Git cannot merge automatically.",
+                "The file is marked with conflict markers: <<<<<<<, =======, >>>>>>>.",
+                "Resolve: Open the file, choose the final content (keep one version, combine, or edit), remove the markers and the version you don't want, then git add the file and git commit."
+              ]
+            }
           ]
         },
         {
-          "title": "Remote (GitHub)",
-          "items": [
-            { "cmd": "git remote add origin <URL>", "desc": "Link local repo to a remote" },
-            { "cmd": "git push -u origin main", "desc": "Push commits to remote (first time)" },
-            { "cmd": "git push", "desc": "Push commits to remote" },
-            { "cmd": "git pull", "desc": "Fetch and merge from remote" },
-            { "cmd": "git clone <URL>", "desc": "Download a copy of a repository" }
+          "title": "4. GitHub",
+          "paragraphs": [
+            "What it is: A website that hosts Git repositories in the cloud. Backup, visible history, and tools for collaboration: others can clone, suggest changes (pull requests), and you can manage issues and documentation.",
+            "Relation: Git is local; GitHub is remote. Together they let you back up, share, and collaborate."
+          ],
+          "subsections": [
+            {
+              "title": "Creating a repo on GitHub",
+              "list": [
+                "On GitHub: New repository → choose a name (e.g. my-dh-project) → you get a URL to connect your local repo."
+              ]
+            },
+            {
+              "title": "Remote and push/pull",
+              "items": [
+                { "cmd": "git remote add origin <URL>", "desc": "Link your local repo to the remote (e.g. GitHub)" },
+                { "cmd": "git push -u origin main", "desc": "First push: send commits and set upstream" },
+                { "cmd": "git push", "desc": "Send your commits to the remote" },
+                { "cmd": "git pull", "desc": "Fetch and merge changes from the remote" },
+                { "cmd": "git clone <URL>", "desc": "Download a full copy of a repository (creates a new folder)" }
+              ]
+            },
+            {
+              "title": "Tip",
+              "paragraphs": ["Run git pull before git push to avoid rejections when others have pushed."]
+            }
           ]
         },
         {
-          "title": "Tips & tricks",
-          "items": [
-            { "cmd": "git log --oneline", "desc": "Compact one-line view of history" },
-            { "cmd": ".gitignore", "desc": "List files/folders to never track (e.g. node_modules/, .env)" },
-            { "cmd": "git reset --soft HEAD~1", "desc": "Undo last commit but keep your changes staged" },
-            { "cmd": "git remote -v", "desc": "Show remote URLs (origin, etc.)" },
-            { "cmd": "Pull before push", "desc": "Run git pull before git push to avoid rejections" },
-            { "cmd": "Branch per feature", "desc": "Use a new branch for each feature or fix, then merge" },
-            { "cmd": "Clear commit messages", "desc": "Write short, descriptive messages; future you will thank you" },
-            { "cmd": "README + license", "desc": "On GitHub, add a README and license so others know how to use and reuse" }
+          "title": "5. Collaboration and good practices",
+          "list": [
+            "Use branches for separate lines of work; use pull requests on GitHub to propose and review changes before merging.",
+            "Commit often with clear, short messages.",
+            "Push regularly so work is backed up.",
+            "Add a README (e.g. README.md) to explain the project and how to use or contribute.",
+            "Add a license so others know how they can reuse your data and code.",
+            "One branch per feature or fix, then merge when ready."
           ]
+        },
+        {
+          "title": "6. Command cheatsheet (quick reference)",
+          "subsections": [
+            { "title": "Setup", "code": "git config user.name \"Your Name\"\ngit config user.email \"your@email.com\"\ngit init" },
+            { "title": "Basic workflow", "code": "git status\ngit add <file>    # or git add .\ngit commit -m \"message\"\ngit log" },
+            { "title": "Branches", "code": "git branch\ngit checkout -b <branch>\ngit checkout <branch>\ngit merge <branch>\ngit merge --squash <branch>\ngit rebase <branch>\ngit branch -d <branch>" },
+            { "title": "Remote (GitHub)", "code": "git remote add origin <URL>\ngit push -u origin main\ngit push\ngit pull\ngit clone <URL>" },
+            { "title": "Useful", "code": "git log --oneline\ngit remote -v\ngit restore --staged <file>\ngit restore <file>\ngit commit --amend -m \"New message\"" }
+          ]
+        },
+        {
+          "title": "7. Key terms (glossary)",
+          "items": [
+            { "cmd": "Repository (repo)", "desc": "Folder managed by Git; contains project files and full commit history." },
+            { "cmd": "Commit", "desc": "A snapshot of the project at a point in time, with a message and unique ID." },
+            { "cmd": "Stage / staged", "desc": "Mark files as ready for the next commit with git add." },
+            { "cmd": "Remote / origin", "desc": "The version of the repo hosted elsewhere (e.g. GitHub); origin is the default name." },
+            { "cmd": "Push / Pull / Clone", "desc": "Push: send local commits to a remote. Pull: fetch and merge from remote. Clone: download a full copy of a repo." },
+            { "cmd": "Branch / Merge", "desc": "Branch: separate line of development. Merge: combine another branch into the current one." },
+            { "cmd": "Merge conflict", "desc": "Same part of same file changed in two branches; you resolve by editing the file and removing conflict markers." },
+            { "cmd": "Untracked / .gitignore", "desc": "Untracked: file Git is not yet tracking. .gitignore: file listing patterns Git should ignore." }
+          ]
+        },
+        {
+          "title": "8. Next steps (on your own computer)",
+          "list": [
+            "Install Git: https://git-scm.com/ (or your package manager).",
+            "Create a GitHub account: https://github.com",
+            "Set up authentication so you can push and pull: SSH keys (recommended), or Personal access token over HTTPS. See GitHub docs: \"Connecting to GitHub with SSH\" and \"Managing your personal access tokens.\"",
+            "Once Git is installed and authentication is set up, you can clone repos, push your work, and open pull requests from the command line or a GUI."
+          ],
+          "paragraphs": ["Tutorial: https://humanities-data-lab.github.io/learn-git-and-github/"]
         }
       ]
     }
@@ -504,6 +642,7 @@
       "congratulations": "Félicitations",
       "certificateShare": "Partagez ce certificat en copiant l'URL :",
       "certificateShareDescription": "Vous pouvez copier l'URL ci-dessus pour partager votre certificat.",
+      "printCertificate": "Imprimer le certificat",
       "emailCertificate": "Envoyer le certificat par courriel",
       "emailCertificateSubject": "Mon certificat Git et GitHub",
       "emailCertificateBody": "J'ai terminé le tutoriel Git et GitHub ! Voici mon certificat :",
@@ -815,60 +954,211 @@
       "README": "Fichier (souvent README.md) qui explique un projet : de quoi il s'agit, comment l'utiliser et contribuer. Souvent affiché sur GitHub.",
       "untracked": "Fichier que Git ne suit pas encore (pas dans la dernière photo ni en stage). git status les affiche.",
       ".gitignore": "Fichier à la racine du dépôt qui liste des motifs (un par ligne). Git ignore les fichiers correspondants : ils n'apparaissent pas comme non suivis et ne sont pas ajoutés avec git add .",
-      "amend": "Modifier le dernier commit. git commit --amend -m \"Nouveau message\" remplace le message ; avec des changements en stage, les intègre dans ce commit."
+      "amend": "Modifier le dernier commit. git commit --amend -m \"Nouveau message\" remplace le message ; avec des changements en stage, les intègre dans ce commit.",
+      "snapshot": "Copie du projet à un instant donné. Dans Git, chaque commit est une photo (snapshot) des fichiers suivis.",
+      "main": "Nom par défaut de la branche principale dans beaucoup de dépôts Git. Les branches de fonctionnalités sont souvent fusionnées dans main.",
+      "working tree": "Répertoire contenant les fichiers de votre projet tels qu'ils apparaissent sur le disque. Vos modifications sont dans l'arbre de travail jusqu'à ce que vous les mettiez en stage et committiez.",
+      "conflict markers": "Les symboles que Git insère dans un fichier lors d'un conflit de fusion : <<<<<<<, =======, >>>>>>>. On les supprime en résolvant le conflit.",
+      "checkout": "Passer sur une autre branche (ex. git checkout main) ou restaurer un fichier. git checkout -b <nom> crée et bascule sur une nouvelle branche.",
+      "upstream": "La branche distante que votre branche courante suit. La définir (ex. avec git push -u origin main) relie votre branche au distant.",
+      "license": "Fichier ou notice qui indique comment les autres peuvent utiliser, partager ou modifier le code et les données du projet.",
+      "modified": "Fichier qui a été modifié depuis le dernier commit. git status les affiche (et indique s'ils sont en stage ou non).",
+      "unstage": "Retirer un fichier du stage pour qu'il ne soit pas inclus dans le prochain commit (ex. git restore --staged <fichier>).",
+      "open source": "Logiciel ou projet dont le code source (ou les données) est mis à disposition pour utilisation, modification et partage, souvent sous une licence.",
+      "issues": "Sur GitHub, moyen de suivre les tâches, bugs et discussions d'un dépôt. Les autres peuvent ouvrir des issues pour proposer des changements ou signaler des problèmes.",
+      "authentication": "Le processus pour prouver votre identité à GitHub afin de pousser et tirer. Méthodes courantes : clés SSH (recommandé) ou jeton d'accès personnel en HTTPS.",
+      "SSH keys": "Moyen sécurisé de s'authentifier auprès de GitHub sans taper de mot de passe à chaque fois. Vous générez une paire de clés sur votre ordinateur et ajoutez la clé publique à votre compte GitHub.",
+      "personal access token": "Identifiant de type mot de passe pour HTTPS qui permet de pousser et tirer depuis GitHub. Vous le créez dans les paramètres GitHub et l'utilisez à la place du mot de passe du compte.",
+      "staging area": "L'endroit où Git garde les fichiers que vous avez ajoutés avec git add, prêts pour le prochain commit. Aussi appelé l'index. git status affiche ce qui est en stage.",
+      "history": "La séquence des commits dans un dépôt. git log affiche l'historique ; chaque commit pointe vers son (ses) parent(s).",
+      "local": "Sur votre propre ordinateur. Un dépôt local est la copie sur votre machine ; les commits locaux ne sont pas encore poussés vers un distant.",
+      "tracked": "Fichier que Git suit—il était dans le dernier commit ou a été ajouté avec git add. Les fichiers non suivis ne sont pas encore dans le dépôt.",
+      "commit message": "La courte description que vous donnez en committant (ex. avec -m \"Votre message\"). De bons messages aident à comprendre l'historique plus tard.",
+      "workflow": "La façon dont vous utilisez Git au quotidien : modifier des fichiers, git add, git commit, et (pour partager) git push ou git pull.",
+      "resolve": "Résoudre un conflit de fusion en éditant le fichier, en choisissant le contenu final, en supprimant les marqueurs de conflit, puis en mettant en stage et en committant.",
+      "reproducibility": "Capacité pour d'autres (ou vous plus tard) de recréer ou citer un état précis d'un projet. Le contrôle de version favorise la reproductibilité.",
+      "transparency": "Rendre l'historique des changements visible et traçable. Les financeurs et éditeurs attendent souvent le contrôle de version pour la transparence.",
+      ".git": "Le dossier caché à l'intérieur de votre projet où Git stocke le dépôt (tous les commits, branches et métadonnées). Créé par git init.",
+      "feature branch": "Branche utilisée pour développer une seule fonctionnalité ou modification, souvent fusionnée dans main une fois terminée. Garde main stable.",
+      "diverged": "Quand deux branches ont des commits différents—ex. vous avez commité sur main pendant qu'un autre a commité sur une autre branche. La fusion peut créer un commit de merge.",
+      "discard": "Annuler les changements non commités dans un fichier (ex. git restore <fichier>). Le fichier revient à la dernière version commitée. À utiliser avec précaution.",
+      "linear history": "Historique où les commits suivent une seule ligne, sans commits de merge. Le rebase peut produire un historique linéaire.",
+      "humanités numériques": "Recherche et enseignement qui combinent méthodes numériques et disciplines des humanités ; implique souvent textes, jeux de données et code qui bénéficient du contrôle de version.",
+      "conflit de fusion": "Quand deux branches modifient la même partie du même fichier, Git ne peut pas fusionner automatiquement. Le fichier est marqué avec des marqueurs de conflit (<<<<<<<, =======, >>>>>>>) ; vous éditez le fichier pour choisir le contenu final, supprimez les marqueurs, puis git add et git commit pour terminer la fusion.",
+      "marqueurs de conflit": "Les symboles que Git insère dans un fichier lors d'un conflit de fusion : <<<<<<<, =======, >>>>>>>. On les supprime en résolvant le conflit.",
+      "arbre de travail": "Répertoire contenant les fichiers de votre projet tels qu'ils apparaissent sur le disque. Vos modifications sont dans l'arbre de travail jusqu'à ce que vous les mettiez en stage et committiez.",
+      "branche principale": "Nom par défaut de la branche principale dans beaucoup de dépôts Git (souvent main). Les branches de fonctionnalités sont souvent fusionnées dans la branche principale.",
+      "clés SSH": "Moyen sécurisé de s'authentifier auprès de GitHub sans taper de mot de passe à chaque fois. Vous générez une paire de clés sur votre ordinateur et ajoutez la clé publique à votre compte GitHub.",
+      "jeton d'accès personnel": "Identifiant de type mot de passe pour HTTPS qui permet de pousser et tirer depuis GitHub. Vous le créez dans les paramètres GitHub et l'utilisez à la place du mot de passe du compte.",
+      "historique": "La séquence des commits dans un dépôt. git log affiche l'historique ; chaque commit pointe vers son (ses) parent(s).",
+      "reproductibilité": "Capacité pour d'autres (ou vous plus tard) de recréer ou citer un état précis d'un projet. Le contrôle de version favorise la reproductibilité.",
+      "transparence": "Rendre l'historique des changements visible et traçable. Les financeurs et éditeurs attendent souvent le contrôle de version pour la transparence.",
+      "résoudre": "Résoudre un conflit de fusion en éditant le fichier, en choisissant le contenu final, en supprimant les marqueurs de conflit, puis en mettant en stage et en committant.",
+      "branche de fonctionnalité": "Branche utilisée pour développer une seule fonctionnalité ou modification, souvent fusionnée dans main une fois terminée. Garde main stable.",
+      "historique linéaire": "Historique où les commits suivent une seule ligne, sans commits de merge. Le rebase peut produire un historique linéaire.",
+      "annuler": "Annuler les changements non commités dans un fichier (ex. git restore <fichier>). Le fichier revient à la dernière version commitée. À utiliser avec précaution."
     },
     "cheatsheet": {
       "sections": [
         {
-          "title": "Configuration",
-          "items": [
-            { "cmd": "git config user.name \"Nom\"", "desc": "Définir votre nom" },
-            { "cmd": "git config user.email \"email@exemple.com\"", "desc": "Définir votre courriel" },
-            { "cmd": "git init", "desc": "Créer un nouveau dépôt dans le dossier actuel" }
+          "title": "1. Contrôle de version",
+          "paragraphs": [
+            "Définition : Une façon de sauvegarder et de suivre l'évolution de vos fichiers dans le temps. Un seul projet, un historique de chaque modification : qui a changé quoi, et quand. Vous pouvez revenir à n'importe quelle version antérieure.",
+            "Pourquoi c'est important : Sans contrôle de version, il est facile de perdre du travail, d'écraser les changements d'un collègue ou d'oublier ce qu'on a modifié. Avec lui, vous avez un historique clair et pouvez collaborer en toute sécurité.",
+            "Pour les humanités numériques : Les éditions, corpus, jeux de données et sites web impliquent souvent des équipes, des itérations sur des années, et le besoin de citer ou reproduire un état précis du projet. Beaucoup de financeurs et d'éditeurs attendent ou recommandent le contrôle de version pour la transparence et la reproductibilité."
           ]
         },
         {
-          "title": "Workflow de base",
-          "items": [
-            { "cmd": "git status", "desc": "Voir les fichiers modifiés/en stage/non suivis" },
-            { "cmd": "git add <fichier>", "desc": "Mettre un fichier en stage (ou git add . pour tout)" },
-            { "cmd": "git commit -m \"message\"", "desc": "Créer une photo du projet avec un message" },
-            { "cmd": "git log", "desc": "Voir l'historique des commits" }
+          "title": "2. Bases de Git",
+          "subsections": [
+            {
+              "title": "Qu'est-ce que Git ?",
+              "list": [
+                "Outil gratuit et open source pour le contrôle de version sur votre ordinateur.",
+                "Fonctionne en local : tout l'historique est dans un dossier caché (un dépôt) à l'intérieur du projet.",
+                "Pas besoin d'internet pour faire des commits—seulement pour partager ou sauvegarder (ex. avec GitHub)."
+              ]
+            },
+            {
+              "title": "Commandes essentielles",
+              "items": [
+                { "cmd": "git init", "desc": "Transformer le dossier actuel en dépôt Git" },
+                { "cmd": "git add <fichier> ou git add .", "desc": "Mettre des fichiers en stage pour le prochain commit" },
+                { "cmd": "git commit -m \"Votre message\"", "desc": "Créer une photo du projet avec un message court" },
+                { "cmd": "git status", "desc": "Voir les fichiers modifiés, en stage et non suivis" },
+                { "cmd": "git log", "desc": "Voir l'historique des commits" },
+                { "cmd": "git log --oneline", "desc": "Vue compacte de l'historique (une ligne par commit)" }
+              ]
+            },
+            {
+              "title": "Workflow",
+              "list": [
+                "Créer ou modifier des fichiers.",
+                "git add les fichiers à inclure.",
+                "git commit -m \"Message clair et court\".",
+                "Utiliser git status souvent pour éviter de committer les mauvais fichiers."
+              ]
+            },
+            {
+              "title": ".gitignore",
+              "list": [
+                "Fichier qui liste des motifs (un par ligne). Git ignore les fichiers correspondants : ils n'apparaissent pas comme non suivis et ne sont pas ajoutés avec git add .",
+                "À utiliser pour : secrets, clés API, fichiers de build, config locale, caches, sauvegardes d'éditeur.",
+                "Créer avec : edit .gitignore (dans le tutoriel) ou n'importe quel éditeur. Commiter .gitignore pour partager les règles."
+              ]
+            },
+            {
+              "title": "Corriger les erreurs",
+              "items": [
+                { "cmd": "git restore --staged <fichier>", "desc": "Retirer un fichier du stage (l'enlever du prochain commit)" },
+                { "cmd": "git restore <fichier>", "desc": "Annuler les changements non commités dans ce fichier (à utiliser avec précaution)" },
+                { "cmd": "git commit --amend -m \"Nouveau message\"", "desc": "Remplacer le message du dernier commit (ou y intégrer des changements en stage)" },
+                { "cmd": "git reset --soft HEAD~1", "desc": "Annuler le dernier commit en gardant les changements en stage" }
+              ]
+            }
           ]
         },
         {
-          "title": "Branches",
-          "items": [
-            { "cmd": "git branch", "desc": "Lister les branches (* = courante)" },
-            { "cmd": "git checkout -b <branche>", "desc": "Créer et passer sur une nouvelle branche" },
-            { "cmd": "git checkout <branche>", "desc": "Passer sur une branche existante" },
-            { "cmd": "git merge <branche>", "desc": "Fusionner une branche dans la branche courante" },
-            { "cmd": "git merge --squash <branche>", "desc": "Fusionner en un seul changement en stage (sans commit de merge)" },
-            { "cmd": "git rebase <branche>", "desc": "Rejouer vos commits au-dessus d'une autre branche" }
+          "title": "3. Branches",
+          "paragraphs": [
+            "Branche : Ligne de développement séparée. Vous pouvez tester des changements ou travailler sur des fonctionnalités sans toucher à la ligne principale.",
+            "Pourquoi : Essentiel pour expérimenter, travailler sur des fonctionnalités à part et collaborer. En HN, une branche peut servir pour une variante d'édition ou une mise à jour de jeu de données."
+          ],
+          "subsections": [
+            {
+              "title": "Commandes",
+              "items": [
+                { "cmd": "git branch", "desc": "Lister les branches (* = courante)" },
+                { "cmd": "git checkout -b <nom>", "desc": "Créer et passer sur une nouvelle branche" },
+                { "cmd": "git checkout <nom>", "desc": "Passer sur une branche existante" },
+                { "cmd": "git merge <branche>", "desc": "Fusionner cette branche dans la branche courante" },
+                { "cmd": "git merge --squash <branche>", "desc": "Apporter les changements de l'autre branche en un seul ensemble en stage ; vous commitez une fois (pas de commit de merge)" },
+                { "cmd": "git rebase <branche>", "desc": "Déplacer vos commits pour qu'ils reposent sur l'autre branche (historique linéaire)" },
+                { "cmd": "git branch -d <nom>", "desc": "Supprimer une branche fusionnée (pour garder la liste lisible)" }
+              ]
+            },
+            {
+              "title": "Conflits de fusion",
+              "list": [
+                "Quand deux branches modifient la même partie du même fichier, Git ne peut pas fusionner automatiquement.",
+                "Le fichier est marqué avec des marqueurs de conflit : <<<<<<<, =======, >>>>>>>.",
+                "Résoudre : Ouvrir le fichier, choisir le contenu final (garder une version, combiner ou modifier), supprimer les marqueurs et la version non voulue, puis git add le fichier et git commit."
+              ]
+            }
           ]
         },
         {
-          "title": "Distant (GitHub)",
-          "items": [
-            { "cmd": "git remote add origin <URL>", "desc": "Lier le dépôt local à un distant" },
-            { "cmd": "git push -u origin main", "desc": "Pousser les commits vers le distant (première fois)" },
-            { "cmd": "git push", "desc": "Pousser les commits vers le distant" },
-            { "cmd": "git pull", "desc": "Récupérer et fusionner depuis le distant" },
-            { "cmd": "git clone <URL>", "desc": "Télécharger une copie d'un dépôt" }
+          "title": "4. GitHub",
+          "paragraphs": [
+            "Définition : Site qui héberge des dépôts Git dans le cloud. Sauvegarde, historique visible en ligne et outils pour collaborer : les autres peuvent cloner, proposer des changements (pull requests), et vous pouvez gérer les issues et la documentation.",
+            "Lien avec Git : Git est local ; GitHub est distant. Ensemble ils permettent de sauvegarder, partager et collaborer."
+          ],
+          "subsections": [
+            {
+              "title": "Créer un dépôt sur GitHub",
+              "list": [
+                "Sur GitHub : New repository → choisir un nom (ex. mon-projet-hn) → vous obtenez une URL pour connecter votre dépôt local."
+              ]
+            },
+            {
+              "title": "Distant, push et pull",
+              "items": [
+                { "cmd": "git remote add origin <URL>", "desc": "Lier votre dépôt local au distant (ex. GitHub)" },
+                { "cmd": "git push -u origin main", "desc": "Premier push : envoyer les commits et définir l'upstream" },
+                { "cmd": "git push", "desc": "Envoyer vos commits vers le distant" },
+                { "cmd": "git pull", "desc": "Récupérer et fusionner les changements depuis le distant" },
+                { "cmd": "git clone <URL>", "desc": "Télécharger une copie complète d'un dépôt (crée un nouveau dossier)" }
+              ]
+            },
+            {
+              "title": "Conseil",
+              "paragraphs": ["Faire git pull avant git push pour éviter les rejets quand d'autres ont poussé."]
+            }
           ]
         },
         {
-          "title": "Conseils et astuces",
-          "items": [
-            { "cmd": "git log --oneline", "desc": "Vue compacte de l'historique (une ligne par commit)" },
-            { "cmd": ".gitignore", "desc": "Lister les fichiers/dossiers à ne jamais suivre (ex. node_modules/, .env)" },
-            { "cmd": "git reset --soft HEAD~1", "desc": "Annuler le dernier commit en gardant les changements en stage" },
-            { "cmd": "git remote -v", "desc": "Afficher les URL des dépôts distants (origin, etc.)" },
-            { "cmd": "Pull avant push", "desc": "Faire git pull avant git push pour éviter les rejets" },
-            { "cmd": "Une branche par fonctionnalité", "desc": "Créer une branche pour chaque fonctionnalité ou correctif, puis fusionner" },
-            { "cmd": "Messages de commit clairs", "desc": "Écrire des messages courts et descriptifs ; votre vous futur vous remerciera" },
-            { "cmd": "README + licence", "desc": "Sur GitHub, ajouter un README et une licence pour que les autres sachent comment utiliser et réutiliser" }
+          "title": "5. Collaboration et bonnes pratiques",
+          "list": [
+            "Utiliser des branches pour des lignes de travail séparées ; utiliser les pull requests sur GitHub pour proposer et faire revue des changements avant de fusionner.",
+            "Committer souvent avec des messages clairs et courts.",
+            "Pousser régulièrement pour sauvegarder le travail.",
+            "Ajouter un README (ex. README.md) pour expliquer le projet et comment l'utiliser ou contribuer.",
+            "Ajouter une licence pour que les autres sachent comment réutiliser vos données et votre code.",
+            "Une branche par fonctionnalité ou correctif, puis fusionner quand c'est prêt."
           ]
+        },
+        {
+          "title": "6. Aide-mémoire des commandes",
+          "subsections": [
+            { "title": "Configuration", "code": "git config user.name \"Votre nom\"\ngit config user.email \"votre@email.com\"\ngit init" },
+            { "title": "Workflow de base", "code": "git status\ngit add <fichier>   # ou git add .\ngit commit -m \"message\"\ngit log" },
+            { "title": "Branches", "code": "git branch\ngit checkout -b <branche>\ngit checkout <branche>\ngit merge <branche>\ngit merge --squash <branche>\ngit rebase <branche>\ngit branch -d <branche>" },
+            { "title": "Distant (GitHub)", "code": "git remote add origin <URL>\ngit push -u origin main\ngit push\ngit pull\ngit clone <URL>" },
+            { "title": "Utile", "code": "git log --oneline\ngit remote -v\ngit restore --staged <fichier>\ngit restore <fichier>\ngit commit --amend -m \"Nouveau message\"" }
+          ]
+        },
+        {
+          "title": "7. Termes clés (glossaire)",
+          "items": [
+            { "cmd": "Dépôt (repository / repo)", "desc": "Dossier géré par Git ; contient les fichiers du projet et tout l'historique des commits." },
+            { "cmd": "Commit", "desc": "Photo du projet à un instant donné, avec un message et un identifiant unique." },
+            { "cmd": "Stage / staged", "desc": "Marquer des fichiers comme prêts pour le prochain commit avec git add." },
+            { "cmd": "Remote / origin", "desc": "Version du dépôt hébergée ailleurs (ex. GitHub) ; origin est le nom par défaut." },
+            { "cmd": "Push / Pull / Clone", "desc": "Push : envoyer les commits locaux vers un distant. Pull : récupérer et fusionner depuis le distant. Clone : télécharger une copie complète d'un dépôt." },
+            { "cmd": "Branche / Merge", "desc": "Branche : ligne de développement séparée. Merge : fusionner une autre branche dans la branche courante." },
+            { "cmd": "Conflit de fusion", "desc": "Même partie du même fichier modifiée dans deux branches ; on résout en éditant le fichier et en supprimant les marqueurs." },
+            { "cmd": "Untracked / .gitignore", "desc": "Untracked : fichier que Git ne suit pas encore. .gitignore : fichier listant les motifs que Git doit ignorer." }
+          ]
+        },
+        {
+          "title": "8. Prochaines étapes (sur votre ordinateur)",
+          "list": [
+            "Installer Git : https://git-scm.com/ (ou votre gestionnaire de paquets).",
+            "Créer un compte GitHub : https://github.com",
+            "Configurer l'authentification pour pouvoir pousser et tirer : clés SSH (recommandé), ou jeton d'accès personnel en HTTPS. Voir la doc GitHub : « Connecting to GitHub with SSH » et « Managing your personal access tokens ».",
+            "Une fois Git installé et l'authentification configurée, vous pourrez cloner des dépôts, pousser votre travail et ouvrir des pull requests en ligne de commande ou avec une interface graphique."
+          ],
+          "paragraphs": ["Tutoriel : https://humanities-data-lab.github.io/learn-git-and-github/"]
         }
       ]
     }
