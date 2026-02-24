@@ -381,15 +381,21 @@ body {
 .glossary-no-results { color: #57606a; margin: 0; }
 
 /* Cheatsheet popup */
-.cheatsheet-dialog { max-width: 580px; }
+.cheatsheet-dialog { max-width: 640px; max-height: 90vh; display: flex; flex-direction: column; }
 .cheatsheet-actions { display: flex; align-items: center; gap: 10px; }
-.cheatsheet-list-wrapper { padding: 16px 20px; }
-.cheatsheet-section { margin-bottom: 20px; }
+.cheatsheet-list-wrapper { padding: 16px 20px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+.cheatsheet-section { margin-bottom: 24px; }
 .cheatsheet-section:last-child { margin-bottom: 0; }
-.cheatsheet-section-title { margin: 0 0 10px 0; font-size: 1rem; font-weight: 600; color: #24292f; }
-.cheatsheet-list { margin: 0; padding: 0; list-style: none; }
+.cheatsheet-section-title { margin: 0 0 10px 0; font-size: 1.05rem; font-weight: 600; color: #24292f; }
+.cheatsheet-subsection { margin-top: 14px; }
+.cheatsheet-subsection-title { margin: 0 0 6px 0; font-size: 0.95rem; font-weight: 600; color: #24292f; }
+.cheatsheet-p { margin: 0 0 8px 0; font-size: 13px; color: #57606a; line-height: 1.5; }
+.cheatsheet-ul { margin: 0 0 10px 0; padding-left: 20px; font-size: 13px; color: #57606a; line-height: 1.5; }
+.cheatsheet-li { margin-bottom: 4px; }
+.cheatsheet-list { margin: 0 0 12px 0; padding: 0; list-style: none; }
 .cheatsheet-cmd { font-family: ui-monospace, 'SF Mono', Monaco, monospace; font-size: 13px; font-weight: 600; margin: 0 0 2px 0; color: #0969da; }
 .cheatsheet-desc { margin: 0 0 12px 0; padding-left: 0; font-size: 13px; color: #57606a; }
+.cheatsheet-code { margin: 0 0 12px 0; padding: 10px 12px; background: #f6f8fa; border-radius: 6px; font-family: ui-monospace, 'SF Mono', Monaco, monospace; font-size: 12px; overflow-x: auto; white-space: pre; color: #24292f; border: 1px solid #d0d7de; }
 
 @media print {
     body * { visibility: hidden; }
@@ -398,28 +404,94 @@ body {
         height: auto !important;
         min-height: 0 !important;
     }
-    /* Relax ancestors so printable content can flow across pages (no clipping) */
+    /* Show certificate when printing (certificate view or print-certificate window) */
+    .certificate,
+    .certificate * {
+        visibility: visible !important;
+    }
+    .certificate {
+        position: static !important;
+        display: block !important;
+        overflow: visible !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+    /* Show only the cheatsheet; make overlay flow so content can span multiple pages */
     .cheatsheet-overlay,
-    .cheatsheet-overlay .cheatsheet-dialog,
+    .cheatsheet-overlay * {
+        visibility: visible !important;
+    }
+    .cheatsheet-overlay {
+        position: static !important;
+        inset: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: transparent !important;
+        padding: 0 !important;
+        display: block !important;
+        box-shadow: none !important;
+    }
+    .cheatsheet-overlay .cheatsheet-dialog {
+        position: static !important;
+        max-width: none !important;
+        width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+    .cheatsheet-overlay .glossary-dialog-header {
+        display: block !important;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #d0d7de;
+    }
+    .cheatsheet-overlay .cheatsheet-actions {
+        display: none !important;
+    }
     .cheatsheet-overlay .cheatsheet-list-wrapper {
         overflow: visible !important;
         max-height: none !important;
         height: auto !important;
+        flex: none !important;
+        padding: 0 0 20px 0 !important;
     }
-    .cheatsheet-overlay .cheatsheet-dialog { display: block !important; }
-    .cheatsheet-overlay .cheatsheet-list-wrapper { flex: none !important; }
-    .cheatsheet-print-content,
-    .cheatsheet-print-content * { visibility: visible; }
     .cheatsheet-print-content {
-        position: static;
-        width: 100%;
-        padding: 20px;
-        background: #fff;
-        color: #24292f;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        background: #fff !important;
+        color: #24292f !important;
     }
-    .cheatsheet-print-content .cheatsheet-section-title { color: #24292f; }
-    .cheatsheet-print-content .cheatsheet-cmd { color: #24292f; }
-    .cheatsheet-print-content .cheatsheet-desc { color: #57606a; }
+    .cheatsheet-print-content .cheatsheet-section {
+        page-break-inside: avoid;
+    }
+    .cheatsheet-print-content .cheatsheet-section-title,
+    .cheatsheet-print-content .cheatsheet-subsection-title { color: #24292f; }
+    .cheatsheet-print-content .cheatsheet-cmd {
+        color: #24292f;
+        word-break: break-word;
+        max-width: 100%;
+    }
+    .cheatsheet-print-content .cheatsheet-desc,
+    .cheatsheet-print-content .cheatsheet-p,
+    .cheatsheet-print-content .cheatsheet-li { color: #57606a; }
+    /* Code blocks: wrap long lines so they don't get cut off */
+    .cheatsheet-print-content .cheatsheet-code {
+        background: #f6f8fa !important;
+        color: #24292f !important;
+        border: 1px solid #d0d7de !important;
+        overflow: visible !important;
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
 }
 
 /* Certificate view */
