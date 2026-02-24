@@ -130,11 +130,11 @@
       },
       "intro-2": {
         "title": "What we’ve simplified: edit command and Git simulation",
-        "description": "A few things in this tutorial are **simplified or custom** so you can learn without installing anything. **Editing files:** In a real terminal you’d open a text editor (e.g. **nano**, **vim**, or open the file in an app). Here we use a built-in **edit** command: type **edit filename** (e.g. **edit readme.txt**) in the terminal and an **editor panel opens below**—change the content and click **Save**. That’s only for this tutorial. **Git:** We simulate Git in the browser. Commands like **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push**, and **git pull** behave like real Git and teach the real workflow. But there is no real network: **git push** and **git pull** don’t talk to real servers—remotes and clones are simulated. So: terminal navigation and file commands are close to real; **edit** is tutorial-only; Git logic is real, but remotes are simulated.",
+        "description": "A few things in this tutorial are **simplified or custom** so you can learn without installing anything. **Editing files:** In a real terminal you’d open a text editor (e.g. **nano**, **vim**, or open the file in an app). Here we use a built-in **edit** command: type **edit filename** (e.g. **edit readme.txt**) in the terminal and an **editor panel opens below**—change the content and click **Save**. That’s only for this tutorial. **Git:** We simulate Git in the browser. Commands like **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push**, and **git pull** behave like real Git and teach the real workflow. But there is no real network: **git push** and **git pull** don’t talk to real servers—remotes and clones are simulated. You don't need to understand this right now—we'll cover remotes and clones in later lessons. So: terminal navigation and file commands are close to real; **edit** is tutorial-only; Git logic is real, but remotes are simulated.",
         "whyImportant": "Knowing what’s “real” vs “for this lesson” helps you know what to expect when you use Git and a terminal on your own machine. You’ll use a real editor and real GitHub; the concepts you learn here will still apply.",
         "whatToDo": [
           "Read the explanation above",
-          "When a lesson asks you to edit a file, remember: type **edit filename** in the terminal, then use the editor below and click Save",
+          "When a lesson asks you to edit a file, remember: type **edit** followed by the filename the lesson specifies (e.g. **edit readme.txt**) in the terminal, then use the editor below and click Save",
           "Type **next** when you’re ready to start the version control lessons"
         ]
       },
@@ -360,7 +360,9 @@
       "push": "To send your local commits to a remote repository (e.g. on GitHub).",
       "pull": "To fetch and merge changes from a remote repository into your current branch.",
       "clone": "To download a copy of a repository (including its history) from a remote server.",
+      "clones": "Copies of a repository (including its full history) downloaded from a remote server. You might clone once per machine or per working copy.",
       "remote": "A version of the repository hosted elsewhere (e.g. on GitHub), often named origin.",
+      "remotes": "Versions of the repository hosted elsewhere (e.g. on GitHub). A repo can have multiple remotes; the default is often named origin.",
       "origin": "The default name for the remote repository (usually on GitHub) that your local repo is linked to.",
       "Git": "A free, open-source tool for version control on your computer. It keeps the full history of your project in a repository and works locally; you only need the internet to share or back up (e.g. via GitHub).",
       "GitHub": "A web platform that hosts Git repositories and provides tools for collaboration, issues, and documentation.",
@@ -704,11 +706,11 @@
       },
       "intro-2": {
         "title": "Ce qu’on a simplifié : la commande edit et la simulation Git",
-        "description": "Quelques éléments de ce tutoriel sont **simplifiés ou spécifiques** pour que vous puissiez apprendre sans rien installer. **Modifier des fichiers :** Dans un vrai terminal vous ouvririez un éditeur de texte (**nano**, **vim**, ou le fichier dans une app). Ici nous utilisons une commande intégrée **edit** : tapez **edit nomfichier** (ex. **edit readme.txt**) dans le terminal et un **panneau d’édition s’ouvre en dessous**—modifiez le contenu et cliquez sur **Enregistrer**. C’est propre à ce tutoriel. **Git :** Nous simulons Git dans le navigateur. Les commandes **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push** et **git pull** se comportent comme en vrai et enseignent le vrai workflow. Mais il n’y a pas de vrai réseau : **git push** et **git pull** ne parlent pas à de vrais serveurs—les dépôts distants et les clones sont simulés. Donc : la navigation et les commandes fichiers sont proches du réel ; **edit** est propre au tutoriel ; la logique Git est réelle, mais les remotes sont simulés.",
+        "description": "Quelques éléments de ce tutoriel sont **simplifiés ou spécifiques** pour que vous puissiez apprendre sans rien installer. **Modifier des fichiers :** Dans un vrai terminal vous ouvririez un éditeur de texte (**nano**, **vim**, ou le fichier dans une app). Ici nous utilisons une commande intégrée **edit** : tapez **edit nomfichier** (ex. **edit readme.txt**) dans le terminal et un **panneau d’édition s’ouvre en dessous**—modifiez le contenu et cliquez sur **Enregistrer**. C’est propre à ce tutoriel. **Git :** Nous simulons Git dans le navigateur. Les commandes **git init**, **git add**, **git commit**, **git status**, **git branch**, **git merge**, **git remote**, **git push** et **git pull** se comportent comme en vrai et enseignent le vrai workflow. Mais il n’y a pas de vrai réseau : **git push** et **git pull** ne parlent pas à de vrais serveurs—les dépôts distants et les clones sont simulés. Vous n'avez pas besoin de comprendre cela pour l'instant—nous verrons les dépôts distants et les clones dans les leçons suivantes. Donc : la navigation et les commandes fichiers sont proches du réel ; **edit** est propre au tutoriel ; la logique Git est réelle, mais les remotes sont simulés.",
         "whyImportant": "Savoir ce qui est « réel » ou « pour cette leçon » vous aide à savoir à quoi vous attendre quand vous utiliserez Git et un terminal sur votre machine. Vous utiliserez un vrai éditeur et un vrai GitHub ; les notions apprises ici resteront valables.",
         "whatToDo": [
           "Lire l’explication ci-dessus",
-          "Quand une leçon vous demande d’éditer un fichier, rappelez-vous : tapez **edit nomfichier** dans le terminal, puis utilisez l’éditeur en dessous et cliquez sur Enregistrer",
+          "Quand une leçon vous demande d’éditer un fichier, rappelez-vous : tapez **edit** suivi du nom du fichier indiqué dans la leçon (ex. **edit readme.txt**) dans le terminal, puis utilisez l’éditeur en dessous et cliquez sur Enregistrer",
           "Tapez **next** quand vous êtes prêt à commencer les leçons sur le contrôle de version"
         ]
       },
@@ -935,7 +937,9 @@
       "push": "Envoyer vos commits locaux vers un dépôt distant (ex. sur GitHub).",
       "pull": "Récupérer et fusionner les changements d'un dépôt distant dans votre branche actuelle.",
       "clone": "Télécharger une copie d'un dépôt (avec son historique) depuis un serveur distant.",
+      "clones": "Copies d'un dépôt (avec tout son historique) téléchargées depuis un serveur distant. On peut cloner une fois par machine ou par copie de travail.",
       "remote": "Version du dépôt hébergée ailleurs (ex. sur GitHub), souvent nommée origin.",
+      "remotes": "Versions du dépôt hébergées ailleurs (ex. sur GitHub). Un dépôt peut avoir plusieurs remotes ; le défaut est souvent origin.",
       "origin": "Nom par défaut du dépôt distant (souvent sur GitHub) auquel votre dépôt local est relié.",
       "Git": "Outil gratuit et open source pour le contrôle de version sur votre ordinateur. Il conserve tout l'historique du projet dans un dépôt et fonctionne en local ; l'internet n'est nécessaire que pour partager ou sauvegarder (ex. via GitHub).",
       "GitHub": "Plateforme web qui héberge des dépôts Git et propose des outils de collaboration, issues et documentation.",
