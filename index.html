@@ -1361,6 +1361,31 @@
             return <>{parts}</>;
         }
 
+        function applyLinksAndGlossary(segment, keyPrefix, lang, glossaryMap, sortedTerms) {
+            const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+            const parts = [];
+            let lastEnd = 0;
+            let linkCounter = 0;
+            let match;
+            while ((match = linkRegex.exec(segment)) !== null) {
+                if (match.index > lastEnd) {
+                    const before = segment.substring(lastEnd, match.index);
+                    const node = applyGlossaryToPlainText(before, `${keyPrefix}-pre-${linkCounter}`, lang, glossaryMap, sortedTerms);
+                    if (node !== null && before) parts.push(<React.Fragment key={`${keyPrefix}-pre-${linkCounter}`}>{node}</React.Fragment>);
+                }
+                parts.push(<a key={`${keyPrefix}-link-${linkCounter}`} href={match[2]} target="_blank" rel="noopener noreferrer">{match[1]}</a>);
+                linkCounter++;
+                lastEnd = match.index + match[0].length;
+            }
+            if (lastEnd < segment.length) {
+                const after = segment.substring(lastEnd);
+                const node = applyGlossaryToPlainText(after, `${keyPrefix}-post`, lang, glossaryMap, sortedTerms);
+                if (node !== null && after) parts.push(<React.Fragment key={`${keyPrefix}-post`}>{node}</React.Fragment>);
+            }
+            if (parts.length === 0) return applyGlossaryToPlainText(segment, keyPrefix, lang, glossaryMap, sortedTerms);
+            return <>{parts}</>;
+        }
+
         function TextWithTooltips({ text }) {
             if (!text) return null;
             const lang = window.currentLanguage || 'en';
@@ -1377,7 +1402,7 @@
             const parts = [];
             for (let i = 0; i < segments.length; i++) {
                 if (i % 2 === 0) {
-                    const node = applyGlossaryToPlainText(segments[i], `t-${i}`, lang, glossaryMap, sortedTerms);
+                    const node = applyLinksAndGlossary(segments[i], `t-${i}`, lang, glossaryMap, sortedTerms);
                     if (node !== null && (segments[i] || i > 0)) parts.push(<React.Fragment key={`seg-${i}`}>{node}</React.Fragment>);
                 } else {
                     parts.push(<strong key={`seg-${i}`}>{segments[i]}</strong>);
