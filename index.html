@@ -1317,11 +1317,20 @@
                 const append = redirMatch[1] === '>>';
                 const filename = redirMatch[2].trim();
                 let content = cmd.slice(0, cmd.indexOf(redirMatch[0])).replace(/^\s*echo\s+/i, '').trim();
+                let addNewline = true;
+                if (content.toLowerCase().startsWith('-n ')) {
+                    content = content.slice(3).trim();
+                    addNewline = false;
+                } else if (content.toLowerCase() === '-n') {
+                    content = '';
+                    addNewline = false;
+                }
                 if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
                     content = content.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
                 }
+                const trailing = addNewline ? '\n' : '';
                 const existing = workingDir[filename] !== undefined ? workingDir[filename] : '';
-                workingDir[filename] = append ? existing + content + (existing && !existing.endsWith('\n') ? '\n' : '') : content;
+                workingDir[filename] = append ? existing + content + trailing : content + trailing;
                 return { output: '', newState: buildNewState(workingDir) };
             }
 
@@ -2093,6 +2102,7 @@
             const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
             const [showCertificateView, setShowCertificateView] = useState(false);
             const [urlCopied, setUrlCopied] = useState(false);
+            const [hintExpanded, setHintExpanded] = useState(false);
             const glossaryTriggerRef = useRef(null);
             const cheatsheetTriggerRef = useRef(null);
             const avatarTriggerRef = useRef(null);
